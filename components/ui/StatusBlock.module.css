@@ -1,0 +1,24 @@
+.block {
+  border-radius: 12px;
+  padding: 14px 18px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Visualstijl Power BI: nooit rood-groen — "done" uses petrol, not green. */
+.attention {
+  background: rgba(255, 66, 88, 0.1);
+  color: #ff4258;
+}
+
+.done {
+  background: rgba(38, 69, 73, 0.1);
+  color: var(--color-petrol);
+}
+
+.neutral {
+  background: var(--color-creme);
+  color: var(--color-petrol);
+}

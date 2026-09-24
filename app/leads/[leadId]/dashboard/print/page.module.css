@@ -1,0 +1,20 @@
+.wrap {
+  width: 1280px;
+}
+
+.note {
+  font-size: 14px;
+  opacity: 0.7;
+}
+
+@media print {
+  /* One PDF page, exactly the 1280×720 report canvas. Only loads on this route. */
+  @page {
+    size: 1280px 720px;
+    margin: 0;
+  }
+
+  .wrap {
+    width: auto;
+  }
+}

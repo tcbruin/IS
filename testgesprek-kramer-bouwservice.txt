@@ -1,0 +1,56 @@
+Transcript salesgesprek — Datavance x Kramer Bouwservice B.V.
+Datum: 12 september 2026
+Deelnemers: Sanne de Groot (Datavance), Lisa Kramer (Operationeel Manager, Kramer Bouwservice B.V.)
+Kanaal: Teams-call, 34 minuten
+
+---
+
+Sanne: Hoi Lisa, leuk dat het gelukt is vandaag. Voor de goede orde, ik neem het gesprek op zodat ik er straks niks van hoef te missen, is dat oké?
+
+Lisa: Ja hoor, prima.
+
+Sanne: Top. Vertel eens, wat maakte dat je contact hebt opgenomen?
+
+Lisa: Nou, we liepen al een tijdje rond met het gevoel dat we onze projectmarges niet goed in beeld hebben. We doen verbouwingen en kleinschalige nieuwbouw, meestal projecten van acht tot twaalf weken, met een man of vijf tot tien op een klus. En pas als een project helemaal is afgerond en alle facturen binnen zijn, weten we écht wat we eraan hebben overgehouden.
+
+Sanne: En hoe volgen jullie dat nu tijdens een project?
+
+Lisa: Elke ploegbaas houdt zijn eigen urenbriefje bij, in een Excelletje dat hij per week naar mij mailt. Ik plak die dan handmatig in een overzicht per project. Inkoopfacturen — hout, beton, installatiemateriaal — die komen los binnen via de boekhouding, en die koppel ik er ook met de hand aan. Dat kost me elke maandag zo'n drie, vier uur.
+
+Sanne: En als je dat overzicht dan hebt, wat doe je er dan mee?
+
+Lisa: Dan zie ik pas achteraf of een project quitte speelde of niet. Vorige maand hadden we een project in Bergen op Zoom waar we dachten dat het prima liep, en toen bleek achteraf dat we door onderschatte materiaalkosten bijna geen marge hadden overgehouden. Dat wisten we pas nadat het project al klaar was.
+
+Sanne: Dus eigenlijk stuur je nu blind tijdens de rit.
+
+Lisa: Precies. En dat is het frustrerende — als ik dat een maand eerder had geweten, hadden we nog kunnen bijsturen. Extra uren beperken, of het gesprek met de klant aangaan over meerwerk.
+
+Sanne: Hoeveel projecten lopen er ongeveer tegelijk?
+
+Lisa: Meestal een stuk of zes, zeven tegelijk, verspreid over Noord-Brabant en een stukje Zeeland.
+
+Sanne: En zijn er dingen die je al geprobeerd hebt om dit op te lossen?
+
+Lisa: We hebben even gekeken naar een module in ons ERP-pakket, maar dat vereist dat alle ploegbazen hun uren direct in dat systeem intypen, en dat gaat gewoon niet gebeuren. Die mannen staan op de steiger, niet achter een laptop. Het Excelletje werkt voor hén — het probleem zit hem in het samenvoegen aan mijn kant.
+
+Sanne: Helder. En even praktisch — wie kijkt er allemaal mee naar die cijfers, als je ze wél op tijd zou hebben?
+
+Lisa: In principe alleen ik en mijn broer Erik, hij is directeur. Wij bespreken elke maandagochtend de lopende projecten.
+
+Sanne: En wat zou het voor jullie schelen als je élke maandagochtend, voordat dat overleg begint, gewoon een actueel overzicht had van de marge per project, zonder dat jij daar zelf nog voor hoeft te knippen en plakken?
+
+Lisa: Dat zou enorm schelen. Dan kunnen we per project echt op tijd bijsturen in plaats van achteraf balen. En ik ben dan ook gewoon die vier uur per week kwijt aan iets anders.
+
+Sanne: Duidelijk. Nog één ding — hebben jullie een gevoel bij wat een "gezonde" marge is voor jullie type projecten, of verschilt dat nogal?
+
+Lisa: Het verschilt wel per type project, maar als we onder de vijftien procent zakken beginnen we ons zorgen te maken. Daarboven is het oké.
+
+Sanne: Helder, dat geeft me genoeg om mee te starten. Ik ga hiermee aan de slag en kom terug met een voorstel — en om het concreet te maken bouwen we ook een voorbeeld-dashboard, zodat je meteen ziet hoe zoiets er voor Kramer Bouwservice uit zou zien.
+
+Lisa: Klinkt goed, ik hoor het graag.
+
+Sanne: Top, ik stuur je deze week nog iets toe. Bedankt voor je tijd, Lisa!
+
+Lisa: Dankjewel, tot snel!
+
+--- einde transcript ---

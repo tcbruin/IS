@@ -1,0 +1,18 @@
+.wrap {
+  padding: 24px 0 48px;
+  background: #e8e6e3;
+  border-radius: 12px;
+}
+
+.actions {
+  width: 210mm;
+  margin: 0 auto 16px;
+}
+
+@media print {
+  .wrap {
+    padding: 0;
+    background: none;
+    border-radius: 0;
+  }
+}

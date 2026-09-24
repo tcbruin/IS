@@ -1,0 +1,33 @@
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 12px;
+}
+
+.tile {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 14px 16px;
+  border: 2px solid var(--color-row-line);
+  border-radius: 12px;
+  background: var(--color-wit);
+  color: var(--color-petrol);
+  text-decoration: none;
+  transition: border-color 0.15s ease;
+}
+
+.tile:hover {
+  border-color: var(--color-petrol);
+}
+
+.title {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 17px;
+}
+
+.detail {
+  font-size: 14px;
+  opacity: 0.7;
+}

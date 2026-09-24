@@ -1,0 +1,119 @@
+.panel {
+  display: block;
+  border-radius: 12px;
+  font-size: 16px;
+}
+
+.summary {
+  list-style: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: baseline;
+  gap: 10px;
+  padding: 6px 12px 6px 10px;
+  border-radius: 10px;
+  user-select: none;
+}
+
+.summary::-webkit-details-marker {
+  display: none;
+}
+
+.summary::before {
+  content: "▸";
+  font-size: 13px;
+  opacity: 0.6;
+  transition: transform 0.15s ease;
+}
+
+.panel[open] .summary::before {
+  transform: rotate(90deg);
+}
+
+.summary:hover {
+  background: var(--color-creme);
+}
+
+.summaryTitle {
+  font-weight: 700;
+}
+
+.summaryMeta {
+  font-size: 14px;
+  opacity: 0.6;
+}
+
+.body {
+  margin-top: 8px;
+  padding: 18px 22px;
+  background: var(--color-creme);
+  border-radius: 12px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px 36px;
+}
+
+.groupLabel {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  opacity: 0.65;
+  margin-bottom: 8px;
+}
+
+.inputList,
+.principleList {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.inputRow {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin-bottom: 6px;
+}
+
+.iconYes,
+.iconNo {
+  flex: none;
+  width: 16px;
+  font-weight: 700;
+}
+
+.iconYes {
+  color: var(--color-groen);
+}
+
+.iconNo {
+  opacity: 0.4;
+}
+
+.inputLabel {
+  font-weight: 700;
+}
+
+.detail {
+  opacity: 0.8;
+}
+
+.absent {
+  opacity: 0.55;
+  font-style: italic;
+}
+
+.link {
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.principleList {
+  padding-left: 18px;
+  list-style: disc;
+}
+
+.principleList li {
+  margin-bottom: 6px;
+}

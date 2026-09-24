@@ -1,0 +1,60 @@
+Transcript salesgesprek — Datavance x Verkerk Versdistributie B.V.
+Datum: 18 september 2026
+Deelnemers: Ruben (Datavance), Nienke Aalders (Operationeel Manager, Verkerk Versdistributie B.V.)
+Kanaal: op locatie, magazijn Barendrecht, 40 minuten
+
+---
+
+Ruben: Hoi Nienke, bedankt dat ik even mocht meelopen op de vloer. Zullen we hier gewoon aan deze tafel verder praten?
+
+Nienke: Ja hoor, prima. Koffie?
+
+Ruben: Lekker, dank je. Vertel eens, wat was voor jou de aanleiding om Datavance te bellen?
+
+Nienke: Het gaat eigenlijk om ons fust. Wij leveren groente en fruit aan horeca en kleinere supermarkten, en dat gaat in kratten — blauw fust, dat weer terug moet komen. Elke chauffeur levert af, en zou eigenlijk een bonnetje moeten laten tekenen met hoeveel kratten hij aflevert en hoeveel hij weer meeneemt terug.
+
+Ruben: En gebeurt dat ook zo?
+
+Nienke: In theorie wel. In de praktijk hebben we elf chauffeurs, en die zijn allemaal verschillend nauwkeurig. Sommigen vullen het keurig in, anderen krabbelen iets op een briefje dat halverwege de dag kwijtraakt. Aan het einde van de week worden die bonnetjes verzameld en typt iemand op kantoor dat over in een Excel per klant.
+
+Ruben: Wie doet dat overtypen?
+
+Nienke: Dat doe ik, samen met mijn collega Sven. Dat kost ons samen zo'n vijf uur per week, alleen al het overtypen. En dan hebben we nog niks opgelost, want de saldi kloppen vaak niet.
+
+Ruben: Wat bedoel je met "kloppen niet"?
+
+Nienke: Nou, aan het eind van elk kwartaal maken we de balans op: hoeveel fust hebben wij nog tegoed bij klanten. En dat verschilt структureel van wat de klant zelf denkt te hebben staan. Vorig kwartaal hadden we volgens onze Excel zo'n 1800 kratten openstaan bij klanten, verspreid over in totaal drieënnegentig klanten. Maar toen we bij onze grootste klant, een supermarktketen met zes filialen, gingen navragen, zeiden zij dat ze volgens hun eigen telling maar 950 kratten van ons hadden.
+
+Ruben: Dat is een groot verschil.
+
+Nienke: Enorm verschil, en dat soort discussies hebben we met meerdere klanten. Fust kost al snel acht tot tien euro per stuk om te vervangen, dus als wij structureel duizenden kratten "kwijt" zijn die ergens bij klanten staan maar niet worden teruggemeld, dan loopt dat in de tienduizenden euro's per jaar.
+
+Ruben: En hoe ga je daar nu mee om?
+
+Nienke: Eerlijk gezegd: schouderophalen. We hebben geen goed argument richting de klant, want onze eigen data is niet betrouwbaar genoeg om hard te maken. Dus uiteindelijk boeken we het grotendeels af als verlies.
+
+Ruben: Als je dit zou kunnen oplossen, wat zou dat je opleveren?
+
+Nienke: Ten eerste die vijf uur per week aan overtypen, die kunnen we goed gebruiken voor iets anders. Maar veel belangrijker is dat we per klant, per week, kunnen zien wat het actuele fustsaldo is, in plaats van pas achteraf per kwartaal te ontdekken dat het niet klopt. Dan kunnen we bijsturen voordat het uit de hand loopt, in plaats van achteraf een welles-nietesdiscussie voeren.
+
+Ruben: Helder. Even over de systemen — waar staat de rest van jullie data, facturatie en dergelijke?
+
+Nienke: Facturatie loopt via AFAS. Maar fust zelf staat nergens digitaal — dat is echt alleen die bonnetjes en de Excel die Sven en ik bijhouden.
+
+Ruben: En de chauffeurs, werken die met een scanner of app onderweg, of echt alleen op papier?
+
+Nienke: Alleen op papier. We hebben het weleens overwogen om iedereen een handscanner te geven, maar dat voelt als een enorme stap, en niet iedereen hier is even handig met techniek. Dat moet echt behapbaar blijven voor de mannen op de vloer.
+
+Ruben: Snap ik. En wie kijkt er mee als je wél een actueel overzicht zou hebben?
+
+Nienke: Ikzelf, Sven, en onze directeur Kees kijkt er ook naar bij het kwartaalgesprek met de grote klanten.
+
+Ruben: Top, dat is genoeg om mee te starten. Ik ga hiermee aan de slag en kom terug met een voorstel, en net als altijd bouwen we er een voorbeeld-dashboard bij zodat je meteen ziet hoe het fustoverzicht er voor Verkerk zou uitzien.
+
+Nienke: Fijn, ik ben benieuwd.
+
+Ruben: Dank je wel voor je tijd en de rondleiding, Nienke!
+
+Nienke: Graag gedaan, tot snel.
+
+--- einde transcript ---

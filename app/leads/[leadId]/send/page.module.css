@@ -1,0 +1,22 @@
+.sectionTitle {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 16px;
+}
+
+.number {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--color-creme);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+}
+
+.muted {
+  margin: 0;
+  opacity: 0.75;
+}

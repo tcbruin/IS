@@ -1,0 +1,106 @@
+.row {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.item {
+  flex: 1;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.item:not(:first-child)::before {
+  content: "";
+  position: absolute;
+  top: 15px;
+  left: -50%;
+  width: 100%;
+  height: 2px;
+  background: var(--color-creme);
+  z-index: 0;
+}
+
+.item.done + .item::before,
+.item.done + .item.active::before {
+  background: var(--color-lichtgroen);
+}
+
+.itemInner {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none;
+  color: inherit;
+}
+
+a.itemInner:hover .node {
+  filter: brightness(0.94);
+}
+
+a.itemInner:hover .label {
+  text-decoration: underline;
+}
+
+.node {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 2px solid var(--color-petrol);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 14px;
+  background: var(--color-creme);
+  color: var(--color-petrol);
+}
+
+.item.done .node {
+  background: var(--color-lichtgroen);
+  border-color: var(--color-lichtgroen);
+}
+
+.item.active .node {
+  background: var(--color-petrol);
+  border-color: var(--color-petrol);
+  color: var(--color-offwhite);
+}
+
+.item.future .node {
+  opacity: 0.55;
+}
+
+.item.viewed .node {
+  box-shadow: 0 0 0 3px var(--color-oranje);
+}
+
+.label {
+  font-size: 13px;
+  font-weight: 700;
+  margin-top: 6px;
+  color: var(--color-petrol);
+}
+
+.item.future .label {
+  opacity: 0.5;
+}
+
+/* Compact (lead list) variant: smaller nodes, no labels. */
+.compact .node {
+  width: 20px;
+  height: 20px;
+  font-size: 11px;
+  border-width: 1.6px;
+}
+
+.compact .item:not(:first-child)::before {
+  top: 10px;
+}

@@ -1,0 +1,10 @@
+Notities Ruben - gesprek Verkerk Versdistributie (18-09-2026)
+
+- AFAS alleen voor facturatie/boekhouding. Fust-tracking staat nergens digitaal, echt puur bonnetjes + Excel. Geen scanners, geen app - en dat moet ook niet de insteek worden, Nienke was daar expliciet huiverig voor ("niet iedereen hier is even handig met techniek"). Dus: oplossing moet werken zonder dat de chauffeurs iets nieuws hoeven te leren of een extra apparaat moeten bedienen.
+- Elf chauffeurs, wisselende nauwkeurigheid - zelfde patroon als bij andere klanten met een buitendienst/rijdend personeel. Data-kwaliteit aan de bron zal nooit perfect zijn, verwachting moet daarop worden afgestemd (net als bij Kramer Bouwservice).
+- Kwartaalcijfers vorig kwartaal: 1800 kratten volgens Verkerk, klant zegt 950. Verschil van 850 kratten x 8-10 euro = 6.800-8.500 euro alleen al bij die ene klant. 93 klanten totaal, dus dit is waarschijnlijk het topje van de ijsberg qua financiele impact.
+- Vijf uur per week (Nienke + Sven samen) aan overtypen van bonnetjes in Excel - dat is de harde tijdsbesparing voor de business case.
+- Belangrijk nuanceverschil met eerdere gesprekken: hier gaat het niet primair om omzet of marge-inzicht, maar om een fysieke voorraad/saldo-registratie (hoeveel fust staat waar). Metafoor die bij Nienke aansloeg: "een soort leen-administratie, net als een bibliotheek die niet bijhoudt wie welk boek nog heeft."
+- Kees (directeur) is de klant-facing gebruiker bij de kwartaalgesprekken met grote afnemers - dashboard moet ook standalone te delen zijn met hem, niet alleen voor Nienke/Sven intern.
+- Nienke gaf zelf niet expliciet een budget aan, maar leek algeheel kostenbewust ("dat moet behapbaar blijven") - waarschijnlijk gevoelig voor een te grote/dure eerste stap. Klein beginnen, uitbreidbaar houden.
+- Let op: geen woord gezegd over een deadline of piekmoment (in tegenstelling tot bijv. de maandagochtend-planning bij andere klanten) - navragen in de vervolgvragen of er wel een vast ritme is waarop dit overzicht relevant is (wekelijks? per levering?).

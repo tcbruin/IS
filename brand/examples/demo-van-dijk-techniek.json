@@ -1,0 +1,39 @@
+{
+  "companyName": "Van Dijk Techniek B.V.",
+  "content": {
+    "coverIntro": "Van Dijk Techniek groeit, en de sales-organisatie groeit mee - acht buitendienstmedewerkers, elk met een eigen regio en een eigen manier van pipeline bijhouden. Dit voorstel richt zich op een concreet, herkenbaar probleem: het maandagochtend-overzicht dat Marloes elke vrijdag vier uur kost om handmatig samen te stellen, en dat op maandag alweer verouderd is.",
+    "situation": "Elke rep houdt zijn eigen Excel-sheet bij met openstaande offertes, verwachte waarde en verwachte closing-datum. Elke vrijdagmiddag kopieert Marloes dit handmatig samen tot een overkoepelend overzicht - een klus van circa vier uur per week. Omdat er in het weekend niemand bijwerkt en er op maandag alweer nieuwe gesprekken zijn geweest, is het overzicht tijdens het wekelijkse directieoverleg op maandag om 9 uur vaak al achterhaald. Er is bovendien geen betrouwbaar zicht op waar deals daadwerkelijk vastlopen: verloren deals worden alleen zichtbaar als een rep dat handmatig aangeeft, en dat gebeurt niet altijd. Exact Online wordt uitsluitend gebruikt voor facturatie, niet als CRM.",
+    "goals": [
+      "Een actueel pipeline-overzicht hebben zonder handmatig kopieerwerk, elke maandagochtend klaar voor het directieoverleg",
+      "Zicht krijgen op openstaande waarde per fase, per rep en per regio",
+      "Beter kunnen bijsturen op onderpresterende regio's of reps ten opzichte van target",
+      "Dit bereiken zonder nu al een volledig CRM-traject te starten - de organisatie is daar nog niet aan toe"
+    ],
+    "approach": "We bouwen een Power BI-dashboard dat de bestaande Excel-sheets van de acht reps (aangeleverd via de al bestaande gedeelde SharePoint-map) automatisch samenvoegt tot een actueel pipeline-overzicht. Reps blijven werken zoals ze gewend zijn - er verandert niets aan hun sheet of werkwijze. Het dashboard toont openstaande pipeline per fase, omzet ten opzichte van target, en prestaties per regio en per rep, zodat Marloes elke maandag met actuele cijfers het overleg in kan zonder handwerk.",
+    "scopeDeliverables": [
+      "Koppeling die de acht rep-sheets vanuit de gedeelde SharePoint-map automatisch inleest",
+      "Power BI-dashboard met pipeline per fase, omzet vs. target, en een overzicht per regio en per rep",
+      "Wekelijkse automatische verversing, beschikbaar voor het maandagochtend-overleg",
+      "Korte instructie voor Marloes over hoe de reps hun sheet moeten aanleveren zodat de koppeling blijft werken"
+    ],
+    "timeline": {
+      "phases": [
+        {
+          "name": "Week 1: scoping en data-aansluiting",
+          "description": "De acht sheets inventariseren, kolommen afstemmen op een gezamenlijk format, en de koppeling met de SharePoint-map opzetten."
+        },
+        {
+          "name": "Week 2-3: dashboard bouwen",
+          "description": "Het Power BI-dashboard bouwen met pipeline per fase, omzet vs. target en de weergave per regio/rep, in de Datavance-huisstijl."
+        },
+        {
+          "name": "Week 4: testen en opleveren",
+          "description": "Een cyclus meedraaien met echte data van de reps, bijsturen op basis van feedback van Marloes, en opleveren voor het eerstvolgende maandagoverleg."
+        }
+      ]
+    },
+    "investment": "Dit traject wordt gescoped als één afgebakend probleem - het pipeline-overzicht - tegen een vaste prijs. De exacte investering bevestigen we na een kort scopegesprek waarin we de acht sheets samen doornemen.",
+    "nextSteps": "Akkoord op dit voorstel, gevolgd door een kort scopegesprek (circa 30 minuten) om de sheets en het gewenste format door te nemen. Daarna starten we direct in week 1."
+  },
+  "savedAt": "2026-09-18T10:05:00.000Z"
+}

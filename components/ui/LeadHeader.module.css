@@ -1,0 +1,107 @@
+.header {
+  display: block;
+  margin-bottom: 28px;
+}
+
+.topRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 6px;
+  min-height: 38px;
+}
+
+.backLink {
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.demoBadge {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: var(--color-creme);
+  color: var(--color-oranje-diep);
+}
+
+.company {
+  margin: 0;
+  font-size: 30px;
+}
+
+.meta {
+  margin: 2px 0 0;
+  font-size: 15px;
+  opacity: 0.7;
+}
+
+.steps {
+  margin-top: 22px;
+  max-width: 760px;
+}
+
+.trailRow {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-top: 18px;
+  padding-top: 12px;
+  border-top: 1px solid var(--color-row-line);
+}
+
+.trail {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 0;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-size: 15px;
+}
+
+.sub {
+  display: inline-flex;
+  align-items: baseline;
+}
+
+.sub:not(:last-child)::after {
+  content: "›";
+  margin: 0 12px;
+  opacity: 0.35;
+}
+
+.sub.done {
+  opacity: 0.65;
+}
+
+.sub.future {
+  opacity: 0.4;
+}
+
+.subViewed {
+  font-weight: 700;
+  opacity: 1;
+}
+
+.check {
+  margin-left: 5px;
+  color: var(--color-groen);
+  font-weight: 700;
+}
+
+.resume {
+  font-size: 15px;
+  font-weight: 700;
+}

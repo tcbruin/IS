@@ -1,0 +1,41 @@
+{
+  "companyName": "Kramer Bouwservice B.V",
+  "content": {
+    "coverIntro": "Kramer Bouwservice B.V. draait zes tot zeven verbouw- en nieuwbouwprojecten tegelijk, verspreid over Noord-Brabant en Zeeland. Dit voorstel richt zich op één concreet probleem: het marge-per-project-overzicht dat nu pas beschikbaar is als een project al is afgerond, waardoor bijsturen tijdens de rit onmogelijk is.",
+    "situation": "Elke ploegbaas houdt zijn uren bij op een eigen Excel-urenbriefje en mailt dat wekelijks naar Lisa. Lisa plakt die briefjes handmatig in een overzicht per project en koppelt daar met de hand de inkoopfacturen aan die via de boekhouding binnenkomen. Dat kost haar elke maandag drie tot vier uur. Het resultaat is een overzicht dat per definitie achterloopt: bij een project in Bergen op Zoom bleek pas ná afronding dat onderschatte materiaalkosten de marge vrijwel hadden weggevaagd. Een maand eerder hadden ze nog kunnen bijsturen op uren of meerwerk met de klant. Een ERP-module is geen optie: dat vereist dat ploegbazen hun uren direct in het systeem typen, en die staan op de steiger, niet achter een laptop.",
+    "goals": [
+      "Elke maandagochtend vóór het overleg met Erik een actueel marge-overzicht per project hebben, zonder handmatig knippen en plakken",
+      "Tijdens een project kunnen bijsturen op marge in plaats van achteraf constateren dat een project niet rendeerde",
+      "Projecten die onder de 15% marge zakken vroegtijdig signaleren",
+      "De drie tot vier uur per week die nu in het samenvoegen zit, vrijmaken voor ander werk"
+    ],
+    "approach": "We koppelen Exact Online - waar de verkoopfacturen, inkoopfacturen en urenregistratie al in zitten - aan een Power BI-dashboard dat per project automatisch de brutomarge op directe kosten berekent: materiaal plus uren. De ploegbazen blijven werken zoals ze gewend zijn; hun Excel-urenbriefjes blijven de bron voor uren op de werkvloer, en Lisa levert die wekelijks aan zoals nu, maar zonder dat ze zelf nog iets hoeft samen te voegen. Het dashboard toont per project de marge ten opzichte van de drempel, met een aparte drempel voor verbouwing en voor nieuwbouw, en markeert projecten die onder de grens zakken. Zo ziet Lisa elke maandagochtend in één oogopslag welke projecten aandacht nodig hebben, vóór het overleg met Erik begint.",
+    "scopeDeliverables": [
+      "Koppeling met Exact Online voor verkoopfacturen, inkoopfacturen en urenregistratie per project",
+      "Automatische verwerking van de wekelijkse Excel-urenbriefjes van de ploegbazen tot uren per project",
+      "Power BI-dashboard met marge per project op directe kosten (materiaal + uren), met aparte margedrempels voor verbouwing en nieuwbouw",
+      "Signaalmarkering voor projecten die onder de drempel zakken",
+      "Wekelijkse automatische verversing, klaar vóór het maandagochtend-overleg",
+      "Korte instructie voor Lisa over het wekelijks aanleveren van de urenbriefjes zodat de verwerking blijft werken"
+    ],
+    "timeline": {
+      "phases": [
+        {
+          "name": "Week 1: scoping en data-aansluiting",
+          "description": "Exact Online-koppeling opzetten voor verkoop, inkoop en uren, project- en kostenplaatscodering afstemmen, en het vaste format voor de urenbriefjes vastleggen."
+        },
+        {
+          "name": "Week 2-3: dashboard bouwen",
+          "description": "Het Power BI-dashboard bouwen met marge per project, de drempels voor verbouwing en nieuwbouw, en de signaalmarkering voor projecten onder de grens."
+        },
+        {
+          "name": "Week 4: testen en opleveren",
+          "description": "Een cyclus meedraaien met echte data van lopende projecten, bijsturen op basis van feedback van Lisa, en opleveren vóór het eerstvolgende maandagochtend-overleg."
+        }
+      ]
+    },
+    "investment": "Dit traject wordt gescoped als één afgebakend probleem - het marge-per-project-overzicht - tegen een vaste prijs. De exacte investering bevestigen we na een kort scopegesprek waarin we de Exact Online-inrichting en de urenbriefjes samen doornemen.",
+    "nextSteps": "Akkoord op dit voorstel, gevolgd door een kort scopegesprek (circa 30 minuten) met Lisa en Erik om de Exact Online-koppeling en het urenbriefje-format door te nemen. Daarna starten we direct in week 1."
+  },
+  "savedAt": "2026-09-23T14:58:04.982Z"
+}

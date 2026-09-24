@@ -1,0 +1,106 @@
+:root {
+  --color-petrol: #264549;
+  --color-groen: #629373;
+  --color-lichtgroen: #d8ebb9;
+  --color-creme: #faecd9;
+  --color-offwhite: #fffaf5;
+  --color-wit: #ffffff;
+  --color-rood: #ff415b;
+  --color-rood-bg: #fff0f2;
+  --color-oranje: #ff9100;
+  --color-oranje-diep: #fe6a22;
+  --color-row-line: #e6ddd1;
+
+  --font-heading: "Epilogue", -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-body: "Manrope", -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+
+  --radius-card: 18px;
+  --border-card: 2px solid var(--color-petrol);
+  --font-size-base: 19px;
+  --line-height-base: 1.7;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  background: var(--color-offwhite);
+  color: var(--color-petrol);
+  font-family: var(--font-body);
+  font-size: var(--font-size-base);
+  line-height: var(--line-height-base);
+  text-align: left;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  color: var(--color-petrol);
+  line-height: 1.3;
+}
+
+p {
+  max-width: 72ch;
+}
+
+a {
+  color: var(--color-groen);
+}
+
+button,
+input,
+textarea,
+select {
+  font-family: inherit;
+  font-size: inherit;
+}
+
+/* Vertical rhythm for a step screen's content. */
+.page-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Collapsed secondary content (transcript, notes) on a step screen. */
+.disclosure > summary {
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 16px;
+  padding: 6px 0;
+}
+
+.disclosure[open] > summary {
+  margin-bottom: 8px;
+}
+
+@media print {
+  * {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  @page {
+    size: A4;
+    margin: 2cm 2.2cm;
+  }
+  .no-print {
+    display: none !important;
+  }
+}
+
+@media (max-width: 640px) {
+  body {
+    font-size: 17px;
+  }
+}

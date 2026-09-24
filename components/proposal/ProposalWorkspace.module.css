@@ -1,0 +1,160 @@
+.disclosures {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 20px;
+  align-items: flex-start;
+}
+
+.messages {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.messages:empty {
+  display: none;
+}
+
+.toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 25;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  padding: 10px 0;
+  background: var(--color-offwhite);
+  border-bottom: 1px solid var(--color-row-line);
+}
+
+.toolbarStatus {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.versionLabel {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 17px;
+  line-height: 1.3;
+}
+
+.meta {
+  font-size: 14px;
+  opacity: 0.7;
+}
+
+.unsaved {
+  color: var(--color-oranje-diep);
+  font-weight: 700;
+}
+
+.hint {
+  font-size: 13px;
+  opacity: 0.55;
+}
+
+.toolbarActions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.tb {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 14px;
+  padding: 8px 14px;
+  border-radius: 10px;
+  border: 1.5px solid var(--color-petrol);
+  background: transparent;
+  color: var(--color-petrol);
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.tb:hover:not(:disabled) {
+  background: var(--color-creme);
+}
+
+.tb:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.tbPrimary {
+  background: var(--color-petrol);
+  color: var(--color-offwhite);
+}
+
+.tbPrimary:hover:not(:disabled) {
+  background: var(--color-oranje-diep);
+  border-color: var(--color-oranje-diep);
+}
+
+.tbLink {
+  border: 0;
+  background: none;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--color-petrol);
+  opacity: 0.7;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.inlineAction {
+  border: 0;
+  background: none;
+  padding: 0;
+  font: inherit;
+  font-weight: 700;
+  color: var(--color-groen);
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+/* Word's grey desk behind the pages. */
+.desk {
+  position: relative;
+  background: #e8e6e3;
+  border-radius: 12px;
+  padding: 32px 16px 56px;
+  overflow-x: auto;
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding-top: 120px;
+  background: rgba(232, 230, 227, 0.55);
+  border-radius: 12px;
+}
+
+.overlayCard {
+  position: sticky;
+  top: 120px;
+  background: var(--color-petrol);
+  color: var(--color-offwhite);
+  font-weight: 700;
+  padding: 14px 22px;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(38, 69, 73, 0.25);
+}
+
+@media print {
+  .desk {
+    background: none;
+    padding: 0;
+    border-radius: 0;
+    overflow: visible;
+  }
+}

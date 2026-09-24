@@ -1,0 +1,15 @@
+.page {
+  /* 1280px dashboard canvas + this container's own 20px side padding (box-sizing: border-box
+     eats padding out of max-width, so the budget must include it). */
+  max-width: 1320px;
+  margin: 32px auto 0;
+  padding: 0 20px;
+}
+
+@media print {
+  .page {
+    margin: 0;
+    padding: 0;
+    max-width: none;
+  }
+}

@@ -1,0 +1,168 @@
+<title>Gesprek naar Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Epilogue:wght@700;800&family=Manrope:wght@500;700&display=swap">
+<style>
+  :root{
+    --petrol:#1d3437;
+    --petrol-deep:#152628;
+    --offwhite:#FFFAF5;
+    --lichtgroen:#D8EBB9;
+    --groen:#7bbd8f;
+    --oranje:#FF9100;
+    --oranje-diep:#FE6A22;
+    color-scheme: dark;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--petrol-deep);
+    color:var(--offwhite);
+    font-family:"Manrope",-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    min-height:100dvh;
+    display:flex;
+    align-items:center;
+    padding:clamp(20px,4vw,56px) clamp(20px,4vw,56px);
+  }
+  h1,h2{
+    font-family:"Epilogue",-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    font-weight:800;
+    text-wrap:balance;
+    margin:0;
+  }
+
+  .slide{
+    width:100%;
+    max-width:1400px;
+    margin:0 auto;
+  }
+
+  .wordmark{
+    display:inline-flex;align-items:center;gap:10px;
+    font-family:"Epilogue",sans-serif;font-weight:800;font-size:clamp(15px,1.6vw,19px);
+    color:var(--offwhite);
+  }
+  .wordmark i{width:10px;height:10px;border-radius:50%;background:var(--oranje);display:inline-block;}
+
+  .slide h1{
+    font-size:clamp(26px,4.2vw,46px);
+    line-height:1.12;
+    margin-top:clamp(14px,2.4vw,26px);
+    max-width:20ch;
+  }
+  .slide h1 em{
+    font-style:normal;
+    color:var(--oranje);
+  }
+
+  .flow{
+    display:flex;
+    align-items:stretch;
+    gap:0;
+    margin-top:clamp(32px,5vw,64px);
+    flex-wrap:wrap;
+  }
+
+  .step{
+    flex:1 1 200px;
+    display:flex;
+    flex-direction:column;
+    gap:14px;
+    padding-right:clamp(14px,2vw,28px);
+  }
+
+  .step .n{
+    font-family:"Epilogue",sans-serif;
+    font-weight:800;
+    font-size:clamp(15px,1.6vw,18px);
+    color:var(--oranje);
+    letter-spacing:.04em;
+  }
+  .step h2{
+    font-size:clamp(21px,2.6vw,30px);
+    line-height:1.15;
+  }
+  .step p{
+    margin:0;
+    font-size:clamp(14px,1.35vw,17px);
+    line-height:1.5;
+    color:rgba(255,250,245,.72);
+    max-width:22ch;
+  }
+
+  .arrow{
+    flex:0 0 auto;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:var(--oranje);
+    font-size:clamp(26px,3vw,40px);
+    font-weight:800;
+    padding:0 clamp(2px,1vw,10px);
+    align-self:center;
+  }
+  @media (max-width:760px){
+    .arrow{
+      transform:rotate(90deg);
+      align-self:flex-start;
+      margin:2px 0 2px 6px;
+    }
+    .step{padding-right:0;}
+  }
+
+  .legend{
+    display:flex;
+    flex-wrap:wrap;
+    gap:24px;
+    margin-top:clamp(30px,5vw,54px);
+    padding-top:20px;
+    border-top:1px solid rgba(255,250,245,.18);
+  }
+  .legend span{
+    display:inline-flex;align-items:center;gap:9px;
+    font-size:clamp(13px,1.2vw,15px);
+    color:rgba(255,250,245,.78);
+  }
+  .dot{width:12px;height:12px;border-radius:50%;flex:none;}
+  .dot.ai{background:var(--oranje);}
+  .dot.human{background:var(--lichtgroen);}
+</style>
+
+<div class="slide">
+  <span class="wordmark"><i></i>Datavance</span>
+  <h1>Van salesgesprek naar <em>voorstel &amp; dashboard</em> — automatisch</h1>
+
+  <div class="flow">
+    <div class="step">
+      <span class="n">01</span>
+      <h2>Gesprek in</h2>
+      <p>Transcript van het salesgesprek</p>
+    </div>
+    <div class="arrow">→</div>
+
+    <div class="step">
+      <span class="n">02</span>
+      <h2>AI schrijft voorstel</h2>
+      <p>Jij geeft feedback, AI verbetert</p>
+    </div>
+    <div class="arrow">→</div>
+
+    <div class="step">
+      <span class="n">03</span>
+      <h2>Jij keurt goed</h2>
+      <p>Voorstel wordt definitief</p>
+    </div>
+    <div class="arrow">→</div>
+
+    <div class="step">
+      <span class="n">04</span>
+      <h2>AI bouwt dashboard</h2>
+      <p>Klaar om te versturen</p>
+    </div>
+  </div>
+
+  <div class="legend">
+    <span><i class="dot ai"></i>AI genereert</span>
+    <span><i class="dot human"></i>Mens beslist</span>
+  </div>
+</div>

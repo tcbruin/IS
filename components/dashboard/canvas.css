@@ -1,0 +1,423 @@
+/*
+ * Power BI-style report canvas (brand/visualstijl-powerbi.md): fixed 1280×720, exact chrome.
+ * ONE stylesheet for the live page, the print view AND the offline HTML export (which inlines
+ * this file), so they can't drift apart. Everything is prefixed dv- and scoped under
+ * .dv-canvas. Own type size, so body styles never leak in and change the fit.
+ */
+
+.dv-wrap {
+  overflow-x: auto;
+}
+
+.dv-canvas {
+  position: relative;
+  width: 1280px;
+  height: 720px;
+  overflow: hidden;
+  background: #fffaf4;
+  color: #264549;
+  font-family: var(--font-body), Manrope, "Segoe UI", Arial, sans-serif;
+  font-size: 14px;
+  line-height: 1.35;
+  text-align: left;
+}
+
+.dv-canvas *,
+.dv-canvas *::before,
+.dv-canvas *::after {
+  box-sizing: border-box;
+}
+
+/* --- Chrome --- */
+
+.dv-header {
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 60px;
+  background: #264549;
+}
+
+.dv-logo {
+  position: absolute;
+  left: 25px;
+  top: 10px;
+  width: 40px;
+  height: 40px;
+}
+
+.dv-divider {
+  position: absolute;
+  left: 78px;
+  top: 12px;
+  width: 1px;
+  height: 36px;
+  background: rgba(255, 250, 245, 0.3);
+}
+
+.dv-titles {
+  position: absolute;
+  left: 92px;
+  top: 0;
+  height: 60px;
+  right: 260px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1px;
+}
+
+/* Honesty label, in the spot of the reference's orange "Exact Globe +" line. */
+.dv-eyebrow {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #ff5713;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.dv-title {
+  margin: 0;
+  font-family: var(--font-heading), Epilogue, "Segoe UI", Arial, sans-serif;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 1.2;
+  color: #fffaf5;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.dv-meta {
+  position: absolute;
+  right: 25px;
+  top: 0;
+  height: 60px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-end;
+  gap: 2px;
+  color: #fffaf5;
+}
+
+.dv-meta-label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  opacity: 0.7;
+}
+
+.dv-meta-value {
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.dv-footer {
+  position: absolute;
+  left: 0;
+  top: 712px;
+  width: 1280px;
+  height: 8px;
+  background: #ff5d00;
+}
+
+/* --- Filter bar: IS the white strip under the header (60–136px) --- */
+
+.dv-filterbar {
+  position: absolute;
+  top: 60px;
+  left: 0;
+  width: 1280px;
+  height: 76px;
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  padding: 0 25px;
+  background: #ffffff;
+  z-index: 1;
+}
+
+.dv-reset {
+  flex: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1.6px solid #264549;
+  background: none;
+  color: #264549;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.dv-reset:hover {
+  background: #faecd9;
+}
+
+.dv-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.dv-field select {
+  border: 1.6px solid #e6ddd1;
+  border-radius: 8px;
+  padding: 5px 8px;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  color: #264549;
+  background: #ffffff;
+  min-width: 150px;
+  max-width: 230px;
+  cursor: pointer;
+}
+
+.dv-period {
+  display: flex;
+  gap: 6px;
+}
+
+.dv-period select {
+  min-width: 0;
+  width: 96px;
+}
+
+.dv-icons {
+  margin-left: auto;
+  display: flex;
+  gap: 8px;
+}
+
+.dv-icon {
+  width: 30px;
+  height: 30px;
+  border-radius: 6px;
+  border: 1.6px solid #e6ddd1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #264549;
+}
+
+/* --- Content: absolutely positioned slots (see layoutSlots in lib/dashboardEngine.js) --- */
+
+.dv-content {
+  position: absolute;
+  inset: 0;
+}
+
+.dv-kpis {
+  position: absolute;
+  display: flex;
+  gap: 20px;
+}
+
+.dv-kpi {
+  flex: 1 1 0;
+  min-width: 0;
+  height: 100%;
+  background: #ffffff;
+  border: 1px solid rgba(38, 69, 73, 0.15);
+  border-top: 3px solid #264549;
+  padding: 10px 16px 10px;
+  overflow: hidden;
+}
+
+.dv-kpi-label {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  opacity: 0.8;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.dv-kpi-value {
+  margin-top: 2px;
+  font-family: var(--font-heading), Epilogue, "Segoe UI", Arial, sans-serif;
+  font-weight: 600;
+  font-size: 40px;
+  line-height: 1.1;
+  white-space: nowrap;
+}
+
+.dv-kpi-note {
+  font-size: 12px;
+  font-weight: 600;
+  opacity: 0.65;
+  white-space: nowrap;
+}
+
+.dv-kpi-delta {
+  font-size: 12px;
+  font-weight: 700;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Scoped exception to the petrol/rood rule, as in the reference (see lib/theme.ts). */
+.dv-tone-positive {
+  color: #629373;
+}
+
+.dv-tone-negative {
+  color: #ff4258;
+}
+
+.dv-tone-neutral {
+  opacity: 0.7;
+}
+
+.dv-card {
+  position: absolute;
+  background: #ffffff;
+  border: 1px solid rgba(38, 69, 73, 0.1);
+  padding: 14px 16px;
+  overflow: hidden;
+}
+
+.dv-card-title {
+  height: 34px;
+  font-family: var(--font-heading), Epilogue, "Segoe UI", Arial, sans-serif;
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 26px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* --- Table: fixed row heights so the row budget in the engine always fits --- */
+
+.dv-table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+  font-size: 13px;
+}
+
+.dv-table th,
+.dv-table td {
+  padding: 0 8px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.dv-table th:first-child,
+.dv-table td:first-child {
+  width: 38%;
+  padding-left: 4px;
+}
+
+.dv-table thead tr {
+  height: 30px;
+  border-bottom: 2px solid #264549;
+}
+
+.dv-table th {
+  font-weight: 700;
+  font-size: 12px;
+  text-align: left;
+  vertical-align: bottom;
+  padding-bottom: 5px;
+}
+
+.dv-table tbody tr {
+  height: 28px;
+}
+
+.dv-table tbody tr:nth-child(even) {
+  background: #fffaf4;
+}
+
+.dv-table tfoot tr {
+  height: 30px;
+  background: #264549;
+  color: #ffffff;
+  font-weight: 700;
+}
+
+.dv-num {
+  text-align: right !important;
+  font-variant-numeric: tabular-nums;
+}
+
+.dv-flag {
+  width: 76px;
+  text-align: center !important;
+}
+
+.dv-more {
+  font-weight: 600;
+  opacity: 0.7;
+}
+
+.dv-pass,
+.dv-fail {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+  font-weight: 700;
+  font-size: 12px;
+}
+
+.dv-pass {
+  background: rgba(98, 147, 115, 0.15);
+  color: #629373;
+}
+
+.dv-fail {
+  background: rgba(255, 66, 88, 0.12);
+  color: #ff4258;
+}
+
+/* --- Chart (SVG from renderChartSvg) --- */
+
+.dv-chart {
+  display: block;
+  overflow: visible;
+}
+
+.dv-svg-legend {
+  font-size: 12px;
+  font-weight: 600;
+  fill: #264549;
+}
+
+.dv-svg-axis {
+  font-size: 11.5px;
+  font-weight: 600;
+  fill: rgba(38, 69, 73, 0.6);
+}
+
+.dv-svg-grid {
+  stroke: rgba(38, 69, 73, 0.1);
+  stroke-width: 1;
+}
+
+.dv-svg-axisline {
+  stroke: rgba(38, 69, 73, 0.25);
+  stroke-width: 1;
+}
+
+.dv-svg-pill {
+  font-size: 11px;
+  font-weight: 700;
+  fill: #ffffff;
+}

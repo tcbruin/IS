@@ -1,0 +1,36 @@
+.card {
+  display: flex;
+  gap: 22px;
+  align-items: flex-start;
+}
+
+.pulse {
+  flex: none;
+  width: 14px;
+  height: 14px;
+  margin-top: 10px;
+  border-radius: 50%;
+  background: var(--color-oranje);
+  animation: pulse 1.4s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 0.35;
+    transform: scale(0.85);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.1);
+  }
+}
+
+.title {
+  margin: 0 0 6px;
+}
+
+.description {
+  margin: 0 0 16px;
+  opacity: 0.8;
+}

@@ -1,0 +1,17 @@
+.card {
+  background: var(--color-wit);
+  border: var(--border-card);
+  border-radius: var(--radius-card);
+  padding: 24px;
+}
+
+.dark {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.4);
+  color: var(--color-offwhite);
+}
+
+.creme {
+  background: var(--color-creme);
+  border-color: var(--color-creme);
+}
