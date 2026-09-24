@@ -1,0 +1,270 @@
+.page {
+  max-width: 1120px;
+  margin: 32px auto 64px;
+  padding: 0 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.back {
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.title {
+  margin: 0;
+  font-size: 32px;
+}
+
+.subtitle {
+  margin: 4px 0 0;
+  font-size: 16px;
+  opacity: 0.75;
+}
+
+.headerActions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.toggle,
+.csv {
+  border: 1.5px solid var(--color-petrol);
+  border-radius: 10px;
+  padding: 7px 12px;
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--color-petrol);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.toggle:hover,
+.csv:hover {
+  background: var(--color-creme);
+}
+
+.empty {
+  margin: 0;
+  opacity: 0.8;
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.h2 {
+  margin: 8px 0 0;
+  font-size: 22px;
+}
+
+.note {
+  margin: 0;
+  font-size: 15px;
+  opacity: 0.7;
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 12px;
+}
+
+.stat {
+  background: var(--color-wit);
+  border: 1px solid rgba(38, 69, 73, 0.15);
+  border-top: 3px solid var(--color-petrol);
+  padding: 12px 14px;
+}
+
+.statLabel {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  opacity: 0.75;
+}
+
+.statValue {
+  font-family: var(--font-heading);
+  font-weight: 600;
+  font-size: 30px;
+  line-height: 1.2;
+  margin-top: 2px;
+}
+
+.statSub {
+  font-size: 13px;
+  opacity: 0.75;
+}
+
+.good {
+  color: var(--color-groen);
+}
+
+.bad {
+  color: var(--color-rood);
+}
+
+.chart {
+  background: var(--color-wit);
+  border: 1px solid rgba(38, 69, 73, 0.15);
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.chartTitle {
+  font-family: var(--font-heading);
+  font-weight: 600;
+  font-size: 17px;
+  margin-bottom: 4px;
+}
+
+.barRow {
+  display: grid;
+  grid-template-columns: 220px 1fr 80px;
+  align-items: center;
+  gap: 12px;
+  font-size: 14px;
+}
+
+.barLabel {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-weight: 600;
+}
+
+.barTrack {
+  position: relative;
+  height: 16px;
+  background: #fffaf4;
+}
+
+.bar,
+.barRed {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  background: var(--color-petrol);
+}
+
+.barRed {
+  background: #ff4258;
+}
+
+.baseline {
+  position: absolute;
+  top: -4px;
+  bottom: -4px;
+  width: 2px;
+  background: #ff5713;
+}
+
+.barValue {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.legend {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  opacity: 0.75;
+  margin-top: 4px;
+}
+
+.legendBar {
+  display: inline-block;
+  width: 14px;
+  height: 10px;
+  background: var(--color-petrol);
+}
+
+.legendLine {
+  display: inline-block;
+  width: 2px;
+  height: 14px;
+  margin-left: 12px;
+  background: #ff5713;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--color-wit);
+  font-size: 14px;
+}
+
+.table caption {
+  text-align: left;
+  font-family: var(--font-heading);
+  font-weight: 600;
+  font-size: 17px;
+  padding: 4px 0 8px;
+}
+
+.table th {
+  text-align: left;
+  font-size: 12px;
+  padding: 8px 10px;
+  border-bottom: 2px solid var(--color-petrol);
+}
+
+.table td {
+  padding: 7px 10px;
+  border-bottom: 1px solid var(--color-row-line);
+}
+
+.table tbody tr:nth-child(even) {
+  background: #fffaf4;
+}
+
+.num {
+  text-align: right !important;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.noteCell {
+  max-width: 280px;
+  font-size: 13px;
+  opacity: 0.8;
+}
+
+.tag,
+.tagDone {
+  margin-left: 8px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  padding: 1px 6px;
+  border-radius: 999px;
+}
+
+.tag {
+  background: var(--color-creme);
+  color: var(--color-oranje-diep);
+}
+
+.tagDone {
+  background: var(--color-lichtgroen);
+  color: var(--color-petrol);
+}

@@ -1,0 +1,28 @@
+{
+  "answers": [
+    {
+      "questionId": "hoofdmaat",
+      "answer": "De verwachte omzet uit de pipeline."
+    },
+    {
+      "questionId": "vergelijking",
+      "answer": "Vorige maand."
+    },
+    {
+      "questionId": "uitsplitsing",
+      "answer": "Allebei: regio om te zien of een gebied achterblijft, rep om gericht te coachen."
+    },
+    {
+      "questionId": "fase-indeling",
+      "answer": "Geen concreet antwoord — schat dit zelf in op basis van het transcript en de notities."
+    },
+    {
+      "questionId": "datakwaliteit",
+      "answer": "Nee, niet in deze eerste versie."
+    },
+    {
+      "questionId": "extra-info",
+      "answer": "Op dit moment staat er ergens rond de 480.000 euro aan openstaande pipeline, verdeeld over zo'n 44 offertes."
+    }
+  ]
+}

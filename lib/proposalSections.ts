@@ -25,16 +25,23 @@ export function composeSectionFeedback(comments: Partial<Record<ProposalSectionK
     .join("\n\n");
 }
 
-/** Inverse of composeSectionFeedback: which sections a feedback string comments on (for
- * telemetry). Any paragraph without a known "Label:" prefix counts as "algemeen". */
-export function parseSectionFeedback(feedback: string | null | undefined): string[] {
-  if (!feedback?.trim()) return [];
-  const found = new Set<string>();
+/** Inverse of composeSectionFeedback: the per-section comments inside a feedback string. Any
+ * paragraph without a known "Label:" prefix is collected under "algemeen". */
+export function splitSectionFeedback(feedback: string | null | undefined): Record<string, string> {
+  const out: Record<string, string> = {};
+  if (!feedback?.trim()) return out;
   for (const chunk of feedback.split(/\n\s*\n/)) {
     const text = chunk.trim();
     if (!text) continue;
     const section = PROPOSAL_SECTIONS.find(({ label }) => text.startsWith(`${label}:`));
-    found.add(section ? section.key : "algemeen");
+    const key = section ? section.key : "algemeen";
+    const body = section ? text.slice(section.label.length + 1).trim() : text;
+    out[key] = out[key] ? `${out[key]}\n\n${body}` : body;
   }
-  return [...found];
+  return out;
+}
+
+/** Which sections a feedback string comments on (for telemetry). */
+export function parseSectionFeedback(feedback: string | null | undefined): string[] {
+  return Object.keys(splitSectionFeedback(feedback));
 }

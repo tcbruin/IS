@@ -21,7 +21,6 @@ import {
 import { Card } from "@/components/ui/Card";
 import { LinkButton } from "@/components/ui/Button";
 import { GenerateButton } from "@/components/ui/GenerateButton";
-import { StatusBlock } from "@/components/ui/StatusBlock";
 import { AIContextPanel } from "@/components/ui/AIContextPanel";
 import { AutoGenerateCard } from "@/components/ui/AutoGenerateCard";
 import { StepActions } from "@/components/ui/StepActions";
@@ -116,32 +115,45 @@ export default async function DashboardPage({
       <StepIntro title="PoC dashboard">
         Klik gerust door de filters — de klant krijgt precies deze interactieve versie mee.
       </StepIntro>
-      <div style={{ display: "flex", flexWrap: "wrap", gap: "4px 20px" }}>
+      <div style={{ display: "flex", flexWrap: "wrap", gap: "4px 20px", alignItems: "flex-start" }}>
         {contextPanel}
-        {record.spec.anchors.length > 0 && (
+        {(record.spec.anchors.length > 0 || record.warnings.length > 0) && (
           <details className="disclosure no-print">
-            <summary>Cijfers uit het gesprek ({record.spec.anchors.length})</summary>
+            <summary>
+              Cijfers uit het gesprek · {record.spec.anchors.length} gebruikt
+              {record.warnings.length > 0 && `, ${record.warnings.length} ${record.warnings.length === 1 ? "opmerking" : "opmerkingen"}`}
+            </summary>
             <Card>
-              <ul style={{ margin: 0, paddingLeft: 20, fontSize: 16 }}>
-                {record.spec.anchors.map((a, i) => (
-                  <li key={i}>
-                    <strong>
-                      {a.kind === "count"
-                        ? `Aantal ${record.spec.model.entity.plural.toLowerCase()}`
-                        : a.kind === "threshold"
-                          ? `Norm voor ${units[a.measure ?? ""] ?? a.measure}`
-                          : `Niveau van ${units[a.measure ?? ""] ?? a.measure}`}
-                      :
-                    </strong>{" "}
-                    {a.value.toLocaleString("nl-NL")} — &ldquo;{a.quote}&rdquo;
-                  </li>
-                ))}
-              </ul>
+              {record.spec.anchors.length > 0 ? (
+                <ul style={{ margin: 0, paddingLeft: 20, fontSize: 16 }}>
+                  {record.spec.anchors.map((a, i) => (
+                    <li key={i}>
+                      <strong>
+                        {a.kind === "count"
+                          ? `Aantal ${record.spec.model.entity.plural.toLowerCase()}`
+                          : a.kind === "threshold"
+                            ? `Norm voor ${units[a.measure ?? ""] ?? a.measure}`
+                            : `Niveau van ${units[a.measure ?? ""] ?? a.measure}`}
+                        :
+                      </strong>{" "}
+                      {a.value.toLocaleString("nl-NL")} — &ldquo;{a.quote}&rdquo;
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <p style={{ margin: 0, fontSize: 16 }}>Geen cijfers uit het gesprek gebruikt; alles is illustratief.</p>
+              )}
+              {record.warnings.length > 0 && (
+                <ul style={{ margin: "12px 0 0", paddingLeft: 20, fontSize: 15, opacity: 0.75 }}>
+                  {record.warnings.map((w, i) => (
+                    <li key={i}>{w}</li>
+                  ))}
+                </ul>
+              )}
             </Card>
           </details>
         )}
       </div>
-      {record.warnings.length > 0 && <StatusBlock tone="attention">{record.warnings.join(" ")}</StatusBlock>}
       <DashboardView record={record} companyName={lead.companyName} />
       <StepActions back={back}>
         {regenerate}

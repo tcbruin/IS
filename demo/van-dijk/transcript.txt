@@ -1,0 +1,33 @@
+Ruben (Datavance): Leuk dat we even kunnen sparren, Marloes. Vertel eens, wat speelt er bij jullie op het gebied van sales-overzicht?
+
+Marloes (Van Dijk Techniek): Ja, dus wij zijn groothandel in industriele onderdelen, we hebben een man of acht buitendienst die elk hun eigen regio bedienen. Elke rep houdt zijn eigen pipeline bij in een Excel-sheetje - openstaande offertes, verwachte waarde, verwachte closing-datum, dat soort dingen.
+
+Ruben: Oke, en hoe komt dat bij jou samen?
+
+Marloes: Nou, dat is precies het probleem. Elke vrijdagmiddag stuur ik iedereen een reminder om hun sheet bij te werken, en dan ga ik handmatig alles kopieren naar een overkoepelend Excel-bestand. Dat kost me elke week zo'n vier uur. En dan is het op maandag eigenlijk alweer verouderd, want er is in het weekend niemand die het bijwerkt en maandagochtend zijn er alweer nieuwe gesprekken geweest.
+
+Ruben: Vier uur per week, dat is fors. En wat gaat er mis als het niet lukt om het op tijd te doen?
+
+Marloes: Dan heb ik simpelweg geen actueel beeld voor het maandoverleg met de directie. Ik krijg dan de vraag "waar staan we ten opzichte van target" en dan moet ik eigenlijk zeggen "ik weet het niet precies, laat me het checken". Dat is niet handig.
+
+Ruben: Helder. En heb je uberhaupt inzicht in waar deals vastlopen? Dus in welke fase het meeste verloren gaat?
+
+Marloes: Nee, eigenlijk niet. Ik zie pas dat een deal verloren is als een rep dat handmatig aangeeft in zijn sheetje, en soms vergeten ze dat gewoon. Dus het echte win rate cijfer, daar durf ik niet voor mijn hand in het vuur te steken.
+
+Ruben: En qua systemen, gebruiken jullie iets naast Excel?
+
+Marloes: We hebben Exact Online, maar dat gebruiken we puur voor facturatie en de boekhouding. Daar zit geen CRM-functionaliteit in die we gebruiken. Sommige reps noteren dingen ook gewoon in hun mail of op papier tijdens een klantbezoek.
+
+Ruben: Als je zou mogen dromen, wat wil je dan elke maandag klaar hebben liggen zonder dat jij daar nog handwerk voor hoeft te doen?
+
+Marloes: Gewoon een overzicht - hoeveel staat er open per fase, wat is de verwachte omzet, hoe lopen we ten opzichte van target, en het liefst ook per rep en per regio zodat ik kan zien wie er misschien een duwtje in de rug nodig heeft.
+
+Ruben: En dat maandoverleg met de directie, hoe belangrijk is dat precies?
+
+Marloes: Heel belangrijk. Dat is het moment waarop we bijsturen. Als ik daar met verouderde cijfers zit, sturen we eigenlijk blind.
+
+Ruben: Helder verhaal. Even puur om te scopen - als we nu een keuze moeten maken tussen bijvoorbeeld een volledig CRM-traject optuigen, of eerst beginnen met puur het inzichtelijk maken van wat er al is - wat zou voor jullie het meest waardevol zijn om als eerste stap te doen?
+
+Marloes: Ik denk echt het tweede. Een heel CRM-traject, daar is mijn team nog niet aan toe, dat voelt als een grote stap. Ik wil eerst gewoon inzicht in wat we al hebben, zonder dat de reps hun manier van werken meteen moeten omgooien.
+
+Ruben: Duidelijk. Dan pak ik dat mee als scope: een dashboard dat de bestaande sheets samenbrengt tot een actueel pipeline-overzicht, zonder dat we nu al een heel CRM gaan bouwen.

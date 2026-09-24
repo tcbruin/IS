@@ -1,0 +1,8 @@
+Notities Ruben - gesprek Van Dijk Techniek (18-09-2026)
+
+- Exact Online alleen voor facturatie/boekhouding, geen CRM-gebruik. Geen ander systeem waar deal-data al samenkomt.
+- 8 buitendienst reps, elk eigen regio (Noord, Zuid, Randstad, Oost, West + 4 kleinere gebieden die soms overlappen).
+- Omzet vorig jaar ca. 4,2 mln, target dit jaar 4,8 mln.
+- Marloes is duidelijk terughoudend voor een groot CRM-traject nu - wil eerst bewijs zien dat een lichtgewicht aanpak werkt voordat ze intern voor iets groters pleit.
+- Directie-overleg is elke maandag 9:00 - dat is het harde moment waarop dit moet werken, dus bij PoC/demo rekening houden met "maandagochtend-proof" verhaal.
+- Reps zijn wisselend gedisciplineerd in het bijhouden van hun sheet - sommige zeer nauwkeurig, andere rommelig. Realistisch verwachten dat data kwaliteit in het begin niet perfect is.

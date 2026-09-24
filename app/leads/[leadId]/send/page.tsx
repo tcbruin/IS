@@ -8,6 +8,9 @@ import { StepActions } from "@/components/ui/StepActions";
 import { StepIntro } from "@/components/ui/StepIntro";
 import { AttachmentLinks } from "@/components/send/AttachmentLinks";
 import { CoverEmailPanel } from "@/components/send/CoverEmailPanel";
+import { RetroCard } from "@/components/telemetry/RetroCard";
+import { readEvents } from "@/lib/telemetry";
+import { getSettings } from "@/lib/settings";
 import styles from "./page.module.css";
 
 export default async function SendPage({ params }: { params: Promise<{ leadId: string }> }) {
@@ -18,7 +21,13 @@ export default async function SendPage({ params }: { params: Promise<{ leadId: s
     redirect(`/leads/${leadId}`);
   }
 
-  const coverEmail = await getCoverEmail(leadId);
+  const [coverEmail, events, settings] = await Promise.all([getCoverEmail(leadId), readEvents(leadId), getSettings()]);
+  const ratings: Record<string, number> = {};
+  let ownEstimate: number | null = null;
+  for (const e of events) {
+    if (e.type === "rating") ratings[e.artifact] = e.score;
+    if (e.type === "baseline_estimate") ownEstimate = e.minutes;
+  }
   const sentAt = lead.stateHistory.findLast((h) => h.state === "sent")?.at;
   const isSent = lead.state === "sent";
 
@@ -55,6 +64,15 @@ export default async function SendPage({ params }: { params: Promise<{ leadId: s
             De app verstuurt zelf niets — markeer als verzonden zodra jij het naar de klant hebt gemaild.
           </p>
         )}
+      </Card>
+
+      <Card variant={isSent ? "creme" : "light"}>
+        <RetroCard
+          leadId={leadId}
+          initialRatings={ratings}
+          initialEstimate={ownEstimate}
+          defaultEstimate={settings.baselineMinutesPerLead}
+        />
       </Card>
 
       <StepActions back={{ href: `/leads/${leadId}/dashboard`, label: "Dashboard" }}>

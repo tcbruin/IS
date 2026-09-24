@@ -48,7 +48,15 @@ export default async function HomePage() {
 
       <div className={styles.headerRow}>
         <h2>Leads</h2>
-        <LinkButton href="/leads/new">+ Nieuwe lead</LinkButton>
+        <div className={styles.headerLinks}>
+          <Link href="/demo" className={styles.quietLink}>
+            Demo
+          </Link>
+          <Link href="/evaluatie" className={styles.quietLink}>
+            Evaluatie
+          </Link>
+          <LinkButton href="/leads/new">+ Nieuwe lead</LinkButton>
+        </div>
       </div>
 
       {realLeads.length === 0 ? (

@@ -1,0 +1,29 @@
+{
+  "questions": [
+    {
+      "id": "belangrijkste-maat",
+      "text": "Welke maat is voor Lisa het belangrijkst: marge per project of marge per ploegbaas?",
+      "hint": "Bepaalt de hoofdvisual van het dashboard."
+    },
+    {
+      "id": "vergelijkingsbasis",
+      "text": "Waarmee vergelijkt Lisa de marge: de vaste 15%-drempel of de vorige week?",
+      "hint": "Bepaalt of het dashboard een trendlijn nodig heeft."
+    },
+    {
+      "id": "drempel-per-type",
+      "text": "Geldt de 15%-drempel voor alle projecten of verschilt die per projecttype?",
+      "hint": "Bepaalt of één vaste drempel in het dashboard volstaat."
+    },
+    {
+      "id": "urenbriefje-velden",
+      "text": "Welke velden staan in het Excel-urenbriefje dat de ploegbazen mailen?",
+      "hint": "Nodig om de normalisatiestap concreet te maken."
+    },
+    {
+      "id": "bergen-op-zoom",
+      "text": "Kunnen we het project Bergen op Zoom als rekenvoorbeeld in het dashboard gebruiken?",
+      "hint": "Maakt het voorstel herkenbaar en concreet voor Lisa."
+    }
+  ]
+}

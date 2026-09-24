@@ -9,6 +9,7 @@ import {
   listProposalVersions,
 } from "@/lib/leadStore";
 import { getProposalExamples } from "@/lib/exampleLibrary";
+import { getDemoFeedback } from "@/lib/demo";
 import { isStateAtLeast } from "@/lib/workflow";
 import { formatDocumentDate } from "@/lib/proposalLayout";
 import {
@@ -86,6 +87,7 @@ export default async function ProposalPage({
     Number.isInteger(requested) && requested >= 1 && requested <= current.latestVersion ? requested : defaultVersion;
   const version = await getProposalVersion(leadId, activeVersion);
   const mode = activeVersion !== defaultVersion ? "old" : finalized ? "final" : "edit";
+  const demoFeedback = lead.demo ? await getDemoFeedback(lead.demo.scenarioId) : null;
 
   return (
     <ProposalWorkspace
@@ -98,6 +100,7 @@ export default async function ProposalPage({
       isSent={lead.state === "sent"}
       dateLabel={formatDocumentDate(version.createdAt)}
       contextPanel={contextPanel}
+      demoFeedback={demoFeedback}
       historyPanel={
         <VersionHistoryPanel
           leadId={leadId}

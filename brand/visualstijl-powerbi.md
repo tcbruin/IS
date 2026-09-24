@@ -50,9 +50,10 @@ schaalbare/responsive pagina. Dit is de letterlijke, pixel-exacte specificatie:
   zo groot/compact gemaakt dat ze binnen de 592px canvas-achtergrond passen. Geen enkele
   pagina scrollt, precies zoals een echte, statische Power BI-pagina nooit scrollt.
 - **Geen overbodige tekst.** Geen subtitel, geen verhalend paragraaf, geen los statusblokje.
-  Elke pixel is een visual, een filter of een cijfer — nooit proza. (Zie `dashboardContentSchema`
-  in `lib/validation.ts`: de AI genereert bewust geen `subtitle`/`narrative`/`statusHighlight`
-  meer — dat veld bestaat niet, juist om te voorkomen dat er weer losse tekst bijkomt.)
+  Elke pixel is een visual, een filter of een cijfer — nooit proza. (Zie `lib/dashboardSpec.ts`:
+  de AI kan alleen titels en labels schrijven, zonder cijfers.) Eén uitzondering hoort bij de
+  chrome: het oranje regeltje boven de titel, "Illustratieve voorbeelddata · {klant}" — op de
+  plek van "Exact Globe +" in de referentie.
 - **De witte balk (60–120px) IS de filterbalk** — geen aparte witte kaart eronder. Reset-icoon,
   dropdowns/periode-velden en de decoratieve filter/…-iconen staan direct in die ene witte
   strook, net als in de screenshots hieronder.
@@ -78,14 +79,23 @@ laten zien dat de content **per pagina verschilt**, terwijl de canvas-chrome
    ouderdomsanalyse per bucket, factuurgeschiedenis), met een simpele toggle
    (Crediteur/Debiteur) in de filterbalk.
 
-**Consequentie voor toekomstig werk:** dit bevestigt dat de layout per pagina moet kunnen
-wisselen (soms 1 tabel, soms KPI+grafiek, soms KPI+meerdere tabellen) — precies wat al eerder
-is afgesproken, maar hier nu met concrete voorbeelden. Een generiek "layout-per-pagina"-systeem
-is nog niet gebouwd; dit project bouwt vooralsnog alleen patroon 1.
+**Wat er gebouwd is:** twee indelingen, gekozen door de AI per dashboard (`layout` in
+`lib/dashboardSpec.ts`, geometrie in `layoutSlots` in `lib/dashboardEngine.js`):
 
-**Nog open — begroting/budget ontbreekt.** Alle vier de referentiepagina's leunen zwaar op een
-vergelijking met **Begroting** (budget/target-cijfers). Dit project heeft daarvoor geen bron:
-`lib/sampleData` bevat geen budget, en het is een expliciete projectregel om nooit cijfers te
-verzinnen. Zolang er geen echte budgetbron is, blijft de KPI-vergelijking "vs. vorige periode"
-(zie `computeMetricComparison` in `lib/sampleData/index.ts`) de vervanging — dit is een bewust
-verschil met de referentiescreenshots, geen fout.
+- `overview` = patroon 1: KPI-rij (max 3) + een brede visual (~2/3) + een smalle (~1/3).
+- `openItems` = patroon 4: max 2 KPI's met een tabel eronder links, 1–2 visuals rechts.
+
+Rij- en kolombudgetten volgen uit de vaste vakken, zodat alles altijd past. Patronen 2 en 3
+(één grote tabel/matrix) zijn nog niet gebouwd.
+
+**Data: illustratief, per klant ontworpen.** De AI ontwerpt per klant een klein datamodel
+(entiteit, dimensies, periodes, maten, afgeleide maten) voor het ene probleem; de engine
+genereert daar deterministische voorbeelddata bij en rekent elk getal zelf uit. Cijfers die
+letterlijk in het gesprek genoemd zijn (bijv. 93 klanten, 1800 kratten, een norm van 15%)
+dienen als anker — alleen na controle dat het citaat echt in transcript/notities/antwoorden
+staat (`applyDashboardGuardrails` in `lib/guardrails.ts`).
+
+**Begroting/norm.** De referentiepagina's vergelijken met **Begroting**. Een norm wordt alleen
+getoond als de klant die zelf noemde (threshold-anker); anders vergelijkt het dashboard met het
+gemiddelde of met de vorige periode. KPI-vergelijkingen zijn altijd "t.o.v. vorige periode van
+gelijke lengte" — een bewust verschil met de referentiescreenshots, geen fout.

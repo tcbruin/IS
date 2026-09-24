@@ -17,6 +17,7 @@ export function QuestionForm({
   redirectTo,
   back,
   extraActions,
+  demoFill,
 }: {
   questions: Question[];
   submitUrl: string;
@@ -28,6 +29,8 @@ export function QuestionForm({
   back?: { href: string; label: string };
   /** Secondary actions rendered in the action bar next to the submit button. */
   extraActions?: ReactNode;
+  /** Demo leads only: recorded answers (matched by question id) and the scenario briefing. */
+  demoFill?: { answers: Answer[] | null; briefing: string };
 }) {
   const router = useRouter();
   const [values, setValues] = useState<Record<string, string>>(() =>
@@ -77,6 +80,28 @@ export function QuestionForm({
     }
   }
 
+  /** Replay demos get the exact recorded answers (same question ids). In a live demo the ids
+   * differ, so unmatched questions are delegated to the AI and the briefing goes in extra-info. */
+  function fillDemo() {
+    if (!demoFill) return;
+    const recorded = new Map((demoFill.answers ?? []).map((a) => [a.questionId, a.answer]));
+    const nextValues = { ...values };
+    const nextFlags = { ...estimateFlags };
+    for (const q of questions) {
+      const answer = recorded.get(q.id);
+      if (q.id === EXTRA_INFO_QUESTION.id) {
+        nextValues[q.id] = answer || demoFill.briefing;
+      } else if (answer && answer !== AI_ESTIMATE_SENTINEL) {
+        nextValues[q.id] = answer;
+        nextFlags[q.id] = false;
+      } else {
+        nextFlags[q.id] = true;
+      }
+    }
+    setValues(nextValues);
+    setEstimateFlags(nextFlags);
+  }
+
   let number = 0;
   return (
     <form onSubmit={handleSubmit}>
@@ -119,6 +144,11 @@ export function QuestionForm({
       </Card>
       {error && <p className={styles.error}>{error}</p>}
       <StepActions back={back}>
+        {demoFill && (
+          <Button type="button" variant="secondary" onClick={fillDemo}>
+            Vul demo-antwoorden in
+          </Button>
+        )}
         {extraActions}
         <Button type="submit" disabled={submitting}>
           {submitting ? "Bezig..." : submitLabel}

@@ -1,0 +1,165 @@
+{
+  "title": "Fustsaldo per klant",
+  "layout": "overview",
+  "model": {
+    "entity": {
+      "singular": "Klant",
+      "plural": "Klanten",
+      "count": 93,
+      "names": [
+        "Horeca De Gouden Lepel",
+        "Supermarkt Van Dijk",
+        "Brasserie Het Anker",
+        "Supermarkt De Waard",
+        "Restaurant Zilte Zon",
+        "Supermarkt Hofstede",
+        "Eetcafé De Brug",
+        "Supermarkt Meerzicht",
+        "Hotel Duinzicht",
+        "Supermarkt Van Loon",
+        "Cafetaria De Hoek",
+        "Supermarkt Bergzicht"
+      ],
+      "sizeSpread": "skewed"
+    },
+    "dimensions": [
+      {
+        "key": "klanttype",
+        "label": "Klanttype",
+        "values": [
+          "Horeca",
+          "Supermarkt"
+        ]
+      }
+    ],
+    "period": {
+      "grain": "week",
+      "count": 16
+    },
+    "measures": [
+      {
+        "key": "afgeleverd",
+        "label": "Afgeleverd fust",
+        "unit": "count",
+        "higherIsBetter": true,
+        "typical": 60,
+        "spread": "high",
+        "trend": "flat"
+      },
+      {
+        "key": "retour",
+        "label": "Retour fust",
+        "unit": "count",
+        "higherIsBetter": true,
+        "spread": "high",
+        "trend": "flat",
+        "relativeTo": {
+          "measure": "afgeleverd",
+          "min": 0.55,
+          "max": 0.95
+        }
+      },
+      {
+        "key": "bonnetjes_ontbreekt",
+        "label": "Ontbrekende bonnetjes",
+        "unit": "count",
+        "higherIsBetter": false,
+        "typical": 2,
+        "spread": "medium",
+        "trend": "flat"
+      }
+    ],
+    "derived": [
+      {
+        "key": "fustsaldo",
+        "label": "Fustsaldo",
+        "unit": "count",
+        "higherIsBetter": false,
+        "op": "balance",
+        "a": "afgeleverd",
+        "b": "retour"
+      },
+      {
+        "key": "fustwaarde",
+        "label": "Vervangingswaarde fust",
+        "unit": "euro",
+        "higherIsBetter": false,
+        "op": "multiply",
+        "a": "fustsaldo",
+        "factor": 9
+      }
+    ]
+  },
+  "anchors": [
+    {
+      "kind": "count",
+      "value": 93,
+      "quote": "verspreid over in totaal drieënnegentig klanten"
+    },
+    {
+      "kind": "level",
+      "measure": "fustsaldo",
+      "value": 1800,
+      "quote": "zo'n 1800 kratten openstaan bij klanten"
+    }
+  ],
+  "kpis": [
+    {
+      "measure": "fustsaldo",
+      "label": "Fustsaldo open bij klanten",
+      "show": "value"
+    },
+    {
+      "measure": "fustwaarde",
+      "label": "Vervangingswaarde open fust",
+      "show": "value"
+    },
+    {
+      "measure": "fustsaldo",
+      "label": "Klanten met stijgend saldo",
+      "show": "flagCount",
+      "flag": "vsPrevious"
+    }
+  ],
+  "visuals": [
+    {
+      "type": "chart",
+      "title": "Afgeleverd en retour fust per week",
+      "x": "period",
+      "series": [
+        {
+          "measure": "afgeleverd",
+          "style": "bar"
+        },
+        {
+          "measure": "retour",
+          "style": "bar"
+        },
+        {
+          "measure": "fustsaldo",
+          "style": "line"
+        }
+      ]
+    },
+    {
+      "type": "table",
+      "title": "Fustsaldo per klant",
+      "rows": "entity",
+      "columns": [
+        "fustsaldo",
+        "fustwaarde",
+        "bonnetjes_ontbreekt"
+      ],
+      "flag": {
+        "measure": "fustsaldo",
+        "rule": "vsPrevious"
+      },
+      "sortBy": "fustsaldo",
+      "sortDir": "desc"
+    }
+  ],
+  "filters": [
+    "klanttype",
+    "entity"
+  ]
+}

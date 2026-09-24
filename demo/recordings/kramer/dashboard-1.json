@@ -1,0 +1,185 @@
+{
+  "title": "Marge per project tijdens de rit",
+  "layout": "overview",
+  "model": {
+    "entity": {
+      "singular": "Project",
+      "plural": "Projecten",
+      "count": 7,
+      "names": [
+        "Verbouwing Lindenlaan",
+        "Nieuwbouw De Akker",
+        "Renovatie Molenstraat",
+        "Uitbouw Vlierhof",
+        "Verbouwing Zeedijk",
+        "Nieuwbouw Parkzicht",
+        "Renovatie Kerkplein"
+      ],
+      "sizeSpread": "skewed"
+    },
+    "dimensions": [
+      {
+        "key": "projecttype",
+        "label": "Projecttype",
+        "values": [
+          "Verbouwing",
+          "Kleinschalige nieuwbouw"
+        ]
+      },
+      {
+        "key": "ploegbaas",
+        "label": "Ploegbaas",
+        "values": [
+          "Ploegbaas A",
+          "Ploegbaas B",
+          "Ploegbaas C",
+          "Ploegbaas D"
+        ]
+      }
+    ],
+    "period": {
+      "grain": "week",
+      "count": 16
+    },
+    "measures": [
+      {
+        "key": "opbrengst",
+        "label": "Opbrengst",
+        "unit": "euro",
+        "higherIsBetter": true,
+        "typical": 42000,
+        "spread": "medium",
+        "trend": "flat"
+      },
+      {
+        "key": "uren",
+        "label": "Geboekte uren",
+        "unit": "hours",
+        "higherIsBetter": false,
+        "typical": 320,
+        "spread": "medium",
+        "trend": "flat"
+      },
+      {
+        "key": "inkoop",
+        "label": "Inkoopfacturen",
+        "unit": "euro",
+        "higherIsBetter": false,
+        "spread": "medium",
+        "trend": "flat",
+        "relativeTo": {
+          "measure": "opbrengst",
+          "min": 0.3,
+          "max": 0.62
+        }
+      }
+    ],
+    "derived": [
+      {
+        "key": "loonkosten",
+        "label": "Loonkosten",
+        "unit": "euro",
+        "higherIsBetter": false,
+        "op": "multiply",
+        "a": "uren",
+        "factor": 52
+      },
+      {
+        "key": "kosten",
+        "label": "Totale kosten",
+        "unit": "euro",
+        "higherIsBetter": false,
+        "op": "add",
+        "a": "loonkosten",
+        "b": "inkoop"
+      },
+      {
+        "key": "marge_eur",
+        "label": "Marge",
+        "unit": "euro",
+        "higherIsBetter": true,
+        "op": "subtract",
+        "a": "opbrengst",
+        "b": "kosten"
+      },
+      {
+        "key": "marge_pct",
+        "label": "Marge %",
+        "unit": "percent",
+        "higherIsBetter": true,
+        "op": "divide",
+        "a": "marge_eur",
+        "b": "opbrengst"
+      }
+    ]
+  },
+  "anchors": [
+    {
+      "kind": "count",
+      "value": 7,
+      "quote": "Meestal een stuk of zes, zeven tegelijk"
+    },
+    {
+      "kind": "threshold",
+      "measure": "marge_pct",
+      "value": 15,
+      "quote": "als we onder de vijftien procent zakken"
+    }
+  ],
+  "kpis": [
+    {
+      "measure": "marge_pct",
+      "label": "Marge %",
+      "show": "value"
+    },
+    {
+      "measure": "marge_eur",
+      "label": "Marge",
+      "show": "value"
+    },
+    {
+      "measure": "marge_pct",
+      "label": "Projecten onder norm",
+      "show": "flagCount",
+      "flag": "threshold"
+    }
+  ],
+  "visuals": [
+    {
+      "type": "chart",
+      "title": "Marge per project per week",
+      "x": "period",
+      "series": [
+        {
+          "measure": "marge_eur",
+          "style": "bar"
+        },
+        {
+          "measure": "marge_pct",
+          "style": "line"
+        }
+      ]
+    },
+    {
+      "type": "table",
+      "title": "Marge per project",
+      "rows": "entity",
+      "columns": [
+        "marge_pct",
+        "marge_eur",
+        "opbrengst",
+        "kosten"
+      ],
+      "flag": {
+        "measure": "marge_pct",
+        "rule": "threshold"
+      },
+      "sortBy": "marge_pct",
+      "sortDir": "asc"
+    }
+  ],
+  "filters": [
+    "projecttype",
+    "entity"
+  ]
+}

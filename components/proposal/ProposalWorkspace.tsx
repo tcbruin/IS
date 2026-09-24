@@ -64,6 +64,7 @@ export function ProposalWorkspace({
   dateLabel,
   contextPanel,
   historyPanel,
+  demoFeedback,
 }: {
   leadId: string;
   companyName: string;
@@ -73,6 +74,8 @@ export function ProposalWorkspace({
   dateLabel: string;
   contextPanel: ReactNode;
   historyPanel: ReactNode;
+  /** Demo leads only: the margin comments recorded in the demo run. */
+  demoFeedback?: Record<string, string> | null;
 }) {
   const router = useRouter();
   const [doc, setDoc] = useState(() => toEditorDoc(version.content));
@@ -356,6 +359,22 @@ export function ProposalWorkspace({
               >
                 Opslaan
               </button>
+              {demoFeedback && commentCount === 0 && (
+                <button
+                  type="button"
+                  className={styles.tb}
+                  onClick={() =>
+                    setComments(
+                      Object.fromEntries(
+                        Object.entries(demoFeedback).filter(([key]) => PROPOSAL_SECTIONS.some((s) => s.key === key)),
+                      ),
+                    )
+                  }
+                  disabled={busy}
+                >
+                  Demo-opmerkingen invullen
+                </button>
+              )}
               <button
                 type="button"
                 className={styles.tb}

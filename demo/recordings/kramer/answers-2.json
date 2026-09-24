@@ -1,0 +1,28 @@
+{
+  "answers": [
+    {
+      "questionId": "belangrijkste-maat",
+      "answer": "Marge per project."
+    },
+    {
+      "questionId": "vergelijkingsbasis",
+      "answer": "De vaste drempel van vijftien procent."
+    },
+    {
+      "questionId": "drempel-per-type",
+      "answer": "Voor alle projecten dezelfde grens als start."
+    },
+    {
+      "questionId": "urenbriefje-velden",
+      "answer": "Geen concreet antwoord — schat dit zelf in op basis van het transcript en de notities."
+    },
+    {
+      "questionId": "bergen-op-zoom",
+      "answer": "Nee, gebruik fictieve projectnamen."
+    },
+    {
+      "questionId": "extra-info",
+      "answer": ""
+    }
+  ]
+}

@@ -16,6 +16,7 @@ import { StepActions } from "@/components/ui/StepActions";
 import { StepIntro } from "@/components/ui/StepIntro";
 import { QuestionForm } from "@/components/questions/QuestionForm";
 import { AnswersSummary } from "@/components/questions/AnswersSummary";
+import { getDemoAnswers, getScenario } from "@/lib/demo";
 
 export default async function DashboardQuestionsPage({
   params,
@@ -69,6 +70,12 @@ export default async function DashboardQuestionsPage({
   const questions = await getQuestions(leadId, 2);
 
   if (lead.state === "questions2_generated") {
+    const demoFill = lead.demo
+      ? {
+          answers: await getDemoAnswers(lead.demo.scenarioId, 2),
+          briefing: (await getScenario(lead.demo.scenarioId))?.briefing ?? "",
+        }
+      : undefined;
     return (
       <div className="page-stack">
         <StepIntro title="Dashboardvragen">
@@ -81,6 +88,7 @@ export default async function DashboardQuestionsPage({
           submitLabel="Opslaan en dashboard maken →"
           redirectTo={`/leads/${leadId}/dashboard`}
           back={backToProposal}
+          demoFill={demoFill}
         />
       </div>
     );

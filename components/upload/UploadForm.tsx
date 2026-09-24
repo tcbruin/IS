@@ -14,6 +14,8 @@ export function UploadForm() {
   const [file, setFile] = useState<File | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
+  // Time spent on the intake form counts as active time in the evaluation.
+  const [openedAt] = useState(() => Date.now());
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -30,6 +32,7 @@ export function UploadForm() {
       formData.set("sourceSystem", sourceSystem);
       formData.set("notes", notes);
       formData.set("file", file);
+      formData.set("intakeSeconds", String(Math.round((Date.now() - openedAt) / 1000)));
       const res = await fetch("/api/leads", { method: "POST", body: formData });
       if (!res.ok) {
         const body = await res.json().catch(() => ({}));

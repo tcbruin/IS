@@ -1,0 +1,39 @@
+{
+  "coverIntro": "Van Dijk Techniek is groothandel in industriële onderdelen met acht buitendienstmedewerkers, elk met een eigen regio. Dit voorstel richt zich op één concreet probleem: Marloes heeft elke maandag geen actueel pipeline-overzicht, omdat ze de acht losse Excel-sheets van de reps wekelijks handmatig moet samenvoegen.",
+  "situation": "Elke rep houdt zijn eigen pipeline bij in een Excel-sheet: openstaande offertes, verwachte waarde en verwachte closing-datum. Elke vrijdagmiddag stuurt Marloes iedereen een reminder, en vervolgens kopieert ze alle acht sheets handmatig naar één overkoepelend Excel-bestand. Dat kost haar elke week ongeveer vier uur. Maandagochtend is dat overzicht alweer verouderd: in het weekend is er niets bijgewerkt en staan er alweer nieuwe gesprekken in de agenda. Het harde moment is het directie-overleg op maandag 9:00, waar de vraag 'waar staan we ten opzichte van target' op tafel komt. Zonder actueel overzicht moet Marloes toegeven dat ze het niet precies weet. Exact Online gebruiken ze alleen voor facturatie en boekhouding; daar zit geen CRM-functionaliteit in die ze benutten. Sommige reps noteren dingen in hun mail of op papier. De sheets zijn qua opzet grotendeels vergelijkbaar, maar de fase-indeling loopt niet bij iedereen gelijk en de discipline in het bijhouden verschilt per rep.",
+  "goals": [
+    "Elke maandagochtend vóór 9:00 een actueel pipeline-overzicht hebben zonder handmatig samenvoegen",
+    "In het directie-overleg direct antwoord kunnen geven op 'waar staan we ten opzichte van target'",
+    "Openstaande omzet per fase zien, plus de verwachte omzet en de stand ten opzichte van het target van 4,8 miljoen",
+    "Per rep en per regio kunnen zien wie een duwtje in de rug nodig heeft",
+    "De vier uur per week die nu in het samenvoegen zit, vrijmaken",
+    "Reps blijven werken zoals ze gewend zijn; geen groot CRM-traject nu"
+  ],
+  "approach": "We koppelen de bestaande Excel-sheets van de acht reps aan een dashboard dat de pipeline automatisch samenbrengt. De reps blijven hun eigen sheet invullen zoals nu; Marloes hoeft niets meer te kopiëren. De sheets worden wekelijks digitaal aangeleverd en automatisch uitgelezen tot één pipeline-overzicht, met een normalisatiestap die de onderling verschillende kolommen en fase-indelingen gelijktrekt tot één vaste fasering. Het dashboard toont openstaande omzet per fase, verwachte omzet, de stand ten opzichte van het target van 4,8 miljoen, en een uitsplitsing per rep en per regio. De verversing staat zo ingericht dat het overzicht maandagochtend vóór 9:00 klaarstaat voor het directie-overleg. Waar de datakwaliteit in het begin nog wisselt tussen reps, maken we dat zichtbaar in het dashboard in plaats van er een verborgen aanname van te maken.",
+  "scopeDeliverables": [
+    "Inlezing van de acht Excel-sheets van de buitendienst reps tot één pipeline-dataset",
+    "Normalisatiestap die de verschillende kolommen en fase-indelingen van de reps gelijktrekt tot één vaste fasering",
+    "Dashboard met openstaande omzet per fase, verwachte omzet en de stand ten opzichte van het target van 4,8 miljoen",
+    "Uitsplitsing per rep en per regio",
+    "Wekelijkse automatische verversing, klaar vóór het directie-overleg op maandag 9:00",
+    "Korte instructie voor Marloes en de reps over het wekelijks aanleveren van de sheets zodat de verwerking blijft werken"
+  ],
+  "timeline": {
+    "phases": [
+      {
+        "name": "Week 1: scoping en data-aansluiting",
+        "description": "De acht Excel-sheets inventariseren, de vaste fase-indeling vastleggen en de normalisatiestap opzetten zodat alle sheets consistent worden ingelezen."
+      },
+      {
+        "name": "Week 2-3: dashboard bouwen",
+        "description": "Het dashboard bouwen met openstaande omzet per fase, verwachte omzet, de stand ten opzichte van het target van 4,8 miljoen, en de uitsplitsing per rep en per regio."
+      },
+      {
+        "name": "Week 4: testen en opleveren",
+        "description": "Een volledige weekcyclus meedraaien met de echte sheets van de reps, bijsturen op basis van feedback van Marloes, en opleveren vóór het eerstvolgende directie-overleg op maandag 9:00."
+      }
+    ]
+  },
+  "investment": "Dit traject wordt gescoped als één afgebakend probleem - het wekelijkse pipeline-overzicht - tegen een vaste prijs. De exacte investering bevestigen we na een kort scopegesprek waarin we de opzet van de acht sheets, de gewenste fase-indeling en de target-uitwerking samen doornemen.",
+  "nextSteps": "Akkoord op dit voorstel, gevolgd door een kort scopegesprek (circa 30 minuten) met Marloes om de sheet-opzet, de fase-indeling en de target-weergave door te nemen. Daarna starten we direct in week 1."
+}

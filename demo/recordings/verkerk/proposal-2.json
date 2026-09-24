@@ -1,0 +1,39 @@
+{
+  "coverIntro": "Verkerk Versdistributie B.V. levert groente en fruit aan horeca en kleinere supermarkten, in blauw fust dat na levering weer terug moet komen. Dit voorstel richt zich op één concreet probleem: Nienke en Sven hebben geen actueel fustsaldo per klant, waardoor fust structureel zoekraakt en pas per kwartaal blijkt dat de cijfers niet kloppen.",
+  "situation": "Elke chauffeur levert af en zou op een bonnetje moeten noteren hoeveel kratten hij aflevert en hoeveel hij weer meeneemt. In de praktijk vullen de elf chauffeurs dat wisselend nauwkeurig in: sommigen netjes, anderen op een briefje dat halverwege de dag kwijtraakt. Aan het einde van de week verzamelt Nienke de bonnetjes en typt ze samen met Sven over in een Excel per klant. Dat kost hen samen zo'n vijf uur per week, alleen al aan overtypen. De saldi kloppen daarna vaak nog niet. Vorig kwartaal stond volgens de Excel zo'n 1.800 kratten open bij klanten, verspreid over 93 klanten. Bij de grootste klant, een supermarktketen met zes filialen, zei de klant zelf maar 950 kratten te hebben. Dat verschil van 850 kratten betekent bij 8 tot 10 euro per krat al snel 6.800 tot 8.500 euro aan vervangingswaarde bij één klant. Omdat Verkerks eigen data niet betrouwbaar genoeg is om iets hard te maken, wordt het verschil grotendeels afgeboekt als verlies. Fust staat nergens digitaal; facturatie loopt via AFAS, maar de fustadministratie is puur bonnetjes plus Excel.",
+  "goals": [
+    "Per klant, per week het actuele fustsaldo kunnen zien in plaats van pas per kwartaal te ontdekken dat het niet klopt",
+    "Bijsturen voordat een fustsaldo uit de hand loopt, in plaats van achteraf een welles-nietesdiscussie met de klant",
+    "Minder afboekingen op kwijtgeraakt fust doordat het saldo onderbouwd is",
+    "De vijf uur per week die Nienke en Sven nu aan overtypen besteden, vrijmaken voor ander werk",
+    "Bij het kwartaalgesprek met grote klanten een onderbouwd fustoverzicht kunnen delen met directeur Kees"
+  ],
+  "approach": "We koppelen AFAS voor de klant- en leveringsgegevens en lezen de wekelijkse fust-Excel van Nienke en Sven in als bron voor de bonnetjes. De chauffeurs blijven gewoon met papieren bonnetjes werken: geen scanners, geen app, geen extra apparaat op de vloer. De bonnetjes worden op vrijdag overgetypt zoals nu, en die Excel lezen we wekelijks automatisch in. Het dashboard rekent per klant het fustsaldo uit: afgeleverd fust minus retour ontvangen fust, opgeteld over de weken. Zo ziet Nienke elke week per klant hoeveel kratten er openstaan, in plaats van pas per kwartaal. Omdat de bonnetjes aan de bron niet altijd volledig zijn, markeert het overzicht per klant en per week de regels waar de invoer ontbreekt of afwijkt, zodat Nienke en Sven gericht kunnen bijwerken in plaats van alles te controleren. Het dashboard is intern voor Nienke en Sven, met een export die Kees kan gebruiken in het kwartaalgesprek met grote afnemers.",
+  "scopeDeliverables": [
+    "Koppeling met AFAS voor klant- en leveringsgegevens",
+    "Wekelijkse inlezing van de fust-Excel met bonnetjes, inclusief normalisatiestap zodat verschillen in invoer tussen chauffeurs geen probleem vormen",
+    "Fustsaldo per klant per week: afgeleverd minus retour",
+    "Signaalmarkering per klant en per week waar bonnetjes ontbreken of afwijken, zodat gericht bijwerken mogelijk is",
+    "Wekelijkse verversing, klaar na het overtypen van de bonnetjes op vrijdag",
+    "Export van het fustoverzicht per klant voor het kwartaalgesprek met Kees",
+    "Korte instructie voor Nienke en Sven over het wekelijks aanleveren van de fust-Excel zodat de inlezing blijft werken"
+  ],
+  "timeline": {
+    "phases": [
+      {
+        "name": "Week 1: scoping en data-aansluiting",
+        "description": "AFAS-koppeling opzetten voor klant- en leveringsgegevens, het vaste format van de fust-Excel vastleggen, en de berekening van het fustsaldo per klant afstemmen."
+      },
+      {
+        "name": "Week 2-3: dashboard bouwen",
+        "description": "Het fustsaldo-dashboard bouwen met saldo per klant per week, de signaalmarkering voor ontbrekende of afwijkende bonnetjes, en de export voor het kwartaalgesprek."
+      },
+      {
+        "name": "Week 4: testen en opleveren",
+        "description": "Een weekcyclus meedraaien met echte bonnetjes en AFAS-gegevens, bijsturen op basis van feedback van Nienke en Sven, en opleveren na de eerstvolgende vrijdagse invoer."
+      }
+    ]
+  },
+  "investment": "Dit traject wordt gescoped als één afgebakend probleem - het actuele fustsaldo per klant - tegen een vaste prijs. De exacte investering bevestigen we na een kort scopegesprek waarin we de AFAS-inrichting, het format van de fust-Excel en de gewenste signaalmarkering samen doornemen.",
+  "nextSteps": "Akkoord op dit voorstel, gevolgd door een kort scopegesprek (circa 30 minuten) met Nienke en Sven om de AFAS-koppeling en het Excel-format door te nemen. Daarna starten we direct in week 1. Concreet eerste stap: samen één week bonnetjes doorlopen om het format en de knelpunten in de invoer vast te leggen."
+}

@@ -1,0 +1,34 @@
+{
+  "questions": [
+    {
+      "id": "scope",
+      "text": "Welk probleem kiezen we als scope: het wekelijkse samenvoegen of het ontbrekende win rate-inzicht?",
+      "hint": "Het voorstel draait om één probleem."
+    },
+    {
+      "id": "uren-bewijs",
+      "text": "Hoe hard is de vier uur per week: is dat gemeten of een schatting van Marloes?",
+      "hint": "Bepaalt de tijdswinst-belofte in het voorstel."
+    },
+    {
+      "id": "formaat-sheets",
+      "text": "Zijn de acht Excel-sheets qua kolommen en opbouw min of meer identiek?",
+      "hint": "Bepaalt of samenvoegen zonder handwerk kan."
+    },
+    {
+      "id": "definitie-fases",
+      "text": "Hanteren de reps allemaal dezelfde fase-indeling in hun sheet?",
+      "hint": "Nodig voor een betrouwbaar pipeline-per-fase beeld."
+    },
+    {
+      "id": "eigenaar-sheets",
+      "text": "Wie is eigenaar van de Excel-sheets: Marloes of elke rep zelf?",
+      "hint": "Bepaalt afspraken over aanleveren en datakwaliteit."
+    },
+    {
+      "id": "doel-dashboard",
+      "text": "Moet het dashboard het maandagoverleg ondersteunen of ook de rep per regio aansturen?",
+      "hint": "Bepaalt welke weergaven en KPI's prioriteit krijgen."
+    }
+  ]
+}

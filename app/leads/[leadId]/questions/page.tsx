@@ -10,6 +10,7 @@ import { QuestionForm } from "@/components/questions/QuestionForm";
 import { AnswersSummary } from "@/components/questions/AnswersSummary";
 import { IntakeStep } from "@/components/questions/IntakeStep";
 import { QUESTIONS1_PRINCIPLES, notesInput, sourceSystemInput, transcriptInput } from "@/lib/aiContext";
+import { getDemoAnswers, getScenario } from "@/lib/demo";
 
 export default async function QuestionsPage({
   params,
@@ -57,6 +58,12 @@ export default async function QuestionsPage({
 
   // 1.2 Vragen beantwoorden (first time)
   if (lead.state === "questions1_generated") {
+    const demoFill = lead.demo
+      ? {
+          answers: await getDemoAnswers(lead.demo.scenarioId, 1),
+          briefing: (await getScenario(lead.demo.scenarioId))?.briefing ?? "",
+        }
+      : undefined;
     return (
       <div className="page-stack">
         <StepIntro title="Vragen beantwoorden">
@@ -68,6 +75,7 @@ export default async function QuestionsPage({
           submitUrl={`/api/leads/${leadId}/answers`}
           submitLabel="Opslaan en voorstel maken →"
           redirectTo={`/leads/${leadId}/proposal`}
+          demoFill={demoFill}
         />
       </div>
     );

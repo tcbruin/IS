@@ -46,7 +46,8 @@ export const derivedMeasureSchema = z.object({
   label: label(40),
   unit: z.enum(["euro", "count", "hours", "percent"]),
   higherIsBetter: z.boolean().default(true),
-  /** add/subtract/divide use a and b; multiply = a × factor; balance = running total of a. */
+  /** add/subtract/divide use a and b; multiply = a × factor; balance = running total of a,
+   * or of a − b when b is given (e.g. delivered − returned crates). */
   op: z.enum(["add", "subtract", "divide", "multiply", "balance"]),
   a: key,
   b: key.optional(),
@@ -170,6 +171,10 @@ function checkSemantics(spec: DashboardSpec, ctx: z.RefinementCtx) {
       issue(`${d.op} combineert alleen maten van hetzelfde soort (${d.a}: ${ka}, ${d.b}: ${kb}).`, path);
     }
     if (d.op === "balance" && ka && ka !== "flow") issue("balance werkt alleen op een stroommaat.", path);
+    if (d.op === "balance" && d.b !== undefined) {
+      if (!ok(d.b)) issue(`balance: "b" moet een eerdere maat zijn: ${available.join(", ")}.`, path);
+      else if (kb !== "flow") issue("balance: \"b\" moet ook een stroommaat zijn.", path);
+    }
     if (d.op === "divide" && (ka === "ratio" || kb === "ratio")) issue("divide mag geen verhouding als invoer hebben.", path);
     if (d.unit === "percent" && d.op !== "divide") issue("Eenheid percent kan alleen bij divide.", path);
     if ((ka === "ratio") && d.op !== "divide") issue("Een verhouding kun je niet verder optellen of vermenigvuldigen.", path);
@@ -279,18 +284,71 @@ export function normalizeSpec(input: DashboardSpec): { spec: DashboardSpec; warn
  * A spec that can't be built fails the generation — there is deliberately no generic fallback
  * dashboard, because a generic one is exactly the misleading output this design replaces.
  */
-export function dryRunDashboard(spec: DashboardSpec, seed: string, generatedAt: string): string[] {
-  const ds = generateDataset(spec, seed, generatedAt);
+export function dryRunDashboard(
+  input: DashboardSpec,
+  seed: string,
+  generatedAt: string,
+): { spec: DashboardSpec; warnings: string[] } {
+  let spec = input;
+  let ds = generateDataset(spec, seed, generatedAt);
+  const warnings: string[] = [];
+
+  // A norm is a per-row yardstick. A quoted number far outside the range of per-row values
+  // (e.g. a total someone reported, used as a per-customer norm — 950 crates when customers
+  // hold 5–180) is dropped; its flags then compare with the average instead. A real norm that
+  // the illustrative rows merely don't reach (15% margin, rows at −5…14%) is kept.
+  const flat = (key: string) => (ds.series as Record<string, number[][]>)[key];
+  const unusable = spec.anchors.filter((a) => {
+    if (a.kind !== "threshold" || !a.measure) return false;
+    const def = [...spec.model.measures, ...spec.model.derived].find((m) => m.key === a.measure);
+    let perRow: number[];
+    const T = ds.periods.length;
+    if (def && "op" in def && def.op === "divide") {
+      const num = flat(def.a);
+      const den = def.b ? flat(def.b) : undefined;
+      if (!num || !den) return false;
+      perRow = num.map((row, e) => {
+        const n = row.reduce((x, y) => x + y, 0);
+        const d = den[e].reduce((x, y) => x + y, 0);
+        return d ? (def.unit === "percent" ? (n / d) * 100 : n / d) : NaN;
+      });
+    } else {
+      const s = flat(a.measure);
+      if (!s) return false;
+      perRow = s.map((row) => row[T - 1]);
+    }
+    const valid = perRow.filter(Number.isFinite);
+    if (!valid.length) return false;
+    const lo = Math.min(...valid);
+    const hi = Math.max(...valid);
+    const width = Math.max(hi - lo, Math.abs(hi) * 0.1, 1e-9);
+    return a.value < lo - width || a.value > hi + width;
+  });
+  if (unusable.length) {
+    for (const a of unusable) {
+      warnings.push(`"${a.quote}" is niet als norm gebruikt: het ligt ver buiten de waarden per rij; er wordt met het gemiddelde vergeleken.`);
+    }
+    const dropIdx = new Set(unusable.map((a) => spec.anchors.indexOf(a)));
+    spec = structuredClone(spec);
+    spec.anchors = spec.anchors.filter((_, i) => !dropIdx.has(i));
+    const dropped = new Set(unusable.map((a) => a.measure));
+    for (const k of spec.kpis) if (k.flag === "threshold" && dropped.has(k.measure)) k.flag = "vsAverage";
+    for (const v of spec.visuals) {
+      if (v.type === "table" && v.flag?.rule === "threshold" && dropped.has(v.flag.measure)) v.flag.rule = "vsAverage";
+    }
+    ds = generateDataset(spec, seed, generatedAt);
+  }
+
   buildView(spec, ds, defaultFilters(ds));
   const series = ds.series as Record<string, number[][]>;
   for (const rows of Object.values(series)) {
     for (const row of rows) for (const v of row) if (!Number.isFinite(v)) throw new Error("Niet-eindige waarde in voorbeelddata.");
   }
-  const warnings = [...ds.warnings];
+  warnings.push(...ds.warnings);
   for (const d of spec.model.derived) {
     if (d.op !== "subtract") continue;
     const total = series[d.key].flat().reduce((a, b) => a + b, 0);
     if (total < 0) warnings.push(`Let op: "${d.label}" is in de voorbeelddata over de hele periode negatief.`);
   }
-  return warnings;
+  return { spec, warnings };
 }

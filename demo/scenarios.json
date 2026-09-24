@@ -1,0 +1,33 @@
+{
+  "scenarios": [
+    {
+      "id": "verkerk",
+      "companyName": "Verkerk Versdistributie B.V.",
+      "leadName": "Nienke Aalders",
+      "sourceSystem": "AFAS (facturatie) + Excel met fustbonnetjes",
+      "pitch": "Groothandel in groente en fruit: niemand weet hoeveel kratten (fust) er écht bij klanten staan — 1800 volgens eigen Excel, de grootste klant zegt 950.",
+      "transcriptFile": "verkerk/transcript.txt",
+      "notesFile": "verkerk/notes.txt",
+      "briefing": "Scope is het actuele fustsaldo per klant per week. Chauffeurs blijven met papieren bonnetjes werken, Sven en Nienke tikken ze over in Excel. Kwartaalafstemming met klanten moet eenvoudiger."
+    },
+    {
+      "id": "kramer",
+      "companyName": "Kramer Bouwservice B.V.",
+      "leadName": "Lisa Kramer",
+      "sourceSystem": "Exact Online",
+      "pitch": "Bouwbedrijf met zes à zeven lopende projecten: marge per project is pas bekend als het project al klaar is. Norm: onder vijftien procent begint het zorgen te baren.",
+      "transcriptFile": "kramer/transcript.txt",
+      "briefing": "Scope is een wekelijks marge-overzicht per project, klaar vóór het maandagoverleg met Erik. Uren komen uit de Excel-urenbriefjes van de ploegbazen, inkoopfacturen uit Exact Online. Norm: vijftien procent marge."
+    },
+    {
+      "id": "van-dijk",
+      "companyName": "Van Dijk Techniek B.V.",
+      "leadName": "Marloes Bakker",
+      "sourceSystem": "Excel-sheets per sales rep (Exact Online alleen voor facturatie)",
+      "pitch": "Groothandel met een man of acht buitendienst: elke rep een eigen Excel-pipeline, samenvoegen kost Marloes elke week vier uur en is maandag alweer verouderd.",
+      "transcriptFile": "van-dijk/transcript.txt",
+      "notesFile": "van-dijk/notes.txt",
+      "briefing": "Scope is een actueel pipeline-overzicht per rep en regio voor het maandoverleg met de directie, zonder CRM-traject. De reps blijven hun eigen Excel-sheets gebruiken."
+    }
+  ]
+}

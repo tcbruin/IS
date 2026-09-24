@@ -1,0 +1,32 @@
+{
+  "answers": [
+    {
+      "questionId": "scope",
+      "answer": "Marge-inzicht tijdens projecten."
+    },
+    {
+      "questionId": "uren-per-week",
+      "answer": "Drie tot vier uur, elke maandag."
+    },
+    {
+      "questionId": "exact-export",
+      "answer": "Geen concreet antwoord — schat dit zelf in op basis van het transcript en de notities."
+    },
+    {
+      "questionId": "urenbriefje-formaat",
+      "answer": "Excel, elke ploegbaas mailt wekelijks zijn eigen sheet."
+    },
+    {
+      "questionId": "marge-definitie",
+      "answer": "Eén grens van vijftien procent voor alle projecten is prima als start."
+    },
+    {
+      "questionId": "bijsturen-actie",
+      "answer": "Meerwerk bespreken met de klant of uren beperken."
+    },
+    {
+      "questionId": "extra-info",
+      "answer": ""
+    }
+  ]
+}

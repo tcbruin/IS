@@ -146,7 +146,13 @@ export function applyDashboardGuardrails(
     return true;
   });
 
+  // Only one number can be "how many rows": keep the first count anchor.
   const count = spec.anchors.find((a) => a.kind === "count");
+  spec.anchors = spec.anchors.filter((a) => {
+    if (a.kind !== "count" || a === count) return true;
+    warnings.push(`Cijfer uit "${a.quote}" niet gebruikt: er is al een aantal ${spec.model.entity.plural.toLowerCase()} (${count?.value}).`);
+    return false;
+  });
   if (count) spec.model.entity.count = Math.round(count.value);
 
   const hasThreshold = (m: string) => spec.anchors.some((a) => a.kind === "threshold" && a.measure === m);

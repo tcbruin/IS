@@ -1,0 +1,28 @@
+{
+  "answers": [
+    {
+      "questionId": "belangrijkste-getal",
+      "answer": "Het fustsaldo per klant."
+    },
+    {
+      "questionId": "vergelijking",
+      "answer": "De vorige week; een norm is er niet."
+    },
+    {
+      "questionId": "uitsplitsing",
+      "answer": "Per klant, met onderscheid horeca en supermarkt."
+    },
+    {
+      "questionId": "signaal-drempel",
+      "answer": "Geen concreet antwoord — schat dit zelf in op basis van het transcript en de notities."
+    },
+    {
+      "questionId": "kwartaalgesprek",
+      "answer": "Hetzelfde beeld, gefilterd op die ene klant."
+    },
+    {
+      "questionId": "extra-info",
+      "answer": ""
+    }
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "questions": [
+    {
+      "id": "scope",
+      "text": "Welk probleem kiezen we als scope: marge-inzicht tijdens projecten of de urenbriefjes-verwerking?",
+      "hint": "Het voorstel draait om één probleem."
+    },
+    {
+      "id": "uren-per-week",
+      "text": "Hoeveel uur per week kost het samenvoegen van urenbriefjes en inkoopfacturen nu echt?",
+      "hint": "Bewijst de tijdswinst in het voorstel."
+    },
+    {
+      "id": "exact-export",
+      "text": "Kunnen we de inkoopfacturen uit Exact Online exporteren via API of standaard export?",
+      "hint": "Bepaalt de technische aanpak van het dashboard."
+    },
+    {
+      "id": "urenbriefje-formaat",
+      "text": "In welk formaat komen de urenbriefjes binnen: Excel, PDF of papier?",
+      "hint": "Bepaalt of we ze kunnen automatiseren."
+    },
+    {
+      "id": "marge-definitie",
+      "text": "Is de 15%-marge de grens voor alle projecttypen of verschilt dat per type?",
+      "hint": "Nodig voor de KPI-definitie in het dashboard."
+    },
+    {
+      "id": "bijsturen-actie",
+      "text": "Welke concrete actie onderneemt Lisa als een project onder de 15% marge zakt?",
+      "hint": "Maakt het resultaat meetbaar en actiegericht."
+    }
+  ]
+}
