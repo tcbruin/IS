@@ -26,7 +26,7 @@ export async function GET(
   try {
     const { leadId } = await params;
     const [lead, current] = await Promise.all([getLead(leadId), getProposalCurrent(leadId)]);
-    if (current.latestVersion === 0) throw new NotFoundError("Er is nog geen voorstel.");
+    if (current.latestVersion === 0) throw new NotFoundError("There is no proposal yet.");
 
     const requested = new URL(request.url).searchParams.get("version") ?? "final";
     const versionNumber =
@@ -46,9 +46,9 @@ export async function GET(
       ...(await loadAssets()),
     });
 
-    const suffix = isFinal ? "" : `-concept-v${version.version}`;
-    const asciiName = `voorstel-datavance-${slugify(lead.companyName, "klant")}${suffix}.docx`;
-    const prettyName = `Voorstel ${lead.companyName} - Datavance${isFinal ? "" : ` (concept v${version.version})`}.docx`;
+    const suffix = isFinal ? "" : `-draft-v${version.version}`;
+    const asciiName = `proposal-datavance-${slugify(lead.companyName, "client")}${suffix}.docx`;
+    const prettyName = `Proposal ${lead.companyName} - Datavance${isFinal ? "" : ` (draft v${version.version})`}.docx`;
 
     return new NextResponse(new Uint8Array(buffer), {
       status: 200,

@@ -48,19 +48,19 @@ export default async function DashboardQuestionsPage({
       principles={QUESTIONS2_PRINCIPLES}
     />
   );
-  const backToProposal = { href: `/leads/${leadId}/proposal`, label: "Voorstel" };
+  const backToProposal = { href: `/leads/${leadId}/proposal`, label: "Proposal" };
 
   if (lead.state === "proposal_finalized") {
     return (
       <div className="page-stack">
-        <StepIntro title="Dashboardvragen" />
+        <StepIntro title="Dashboard questions" />
         {contextPanel}
         <AutoGenerateCard
-          title="De AI bereidt het dashboard voor"
-          description="Op basis van het definitieve voorstel stelt de AI een paar korte vragen om het dashboard op dit probleem af te stemmen."
+          title="The AI prepares the dashboard"
+          description="Based on the final proposal, the AI asks a few short questions to tailor the dashboard to this problem."
           url={`/api/leads/${leadId}/dashboard-questions`}
-          label="Vragen genereren"
-          busyLabel="Voorstel wordt geanalyseerd..."
+          label="Generate questions"
+          busyLabel="Analyzing proposal..."
         />
         <StepActions back={backToProposal} />
       </div>
@@ -78,14 +78,14 @@ export default async function DashboardQuestionsPage({
       : undefined;
     return (
       <div className="page-stack">
-        <StepIntro title="Dashboardvragen">
-          Kort is prima. Weet je iets niet, laat de AI het dan inschatten.
+        <StepIntro title="Dashboard questions">
+          Short answers are fine. If you don't know something, let the AI estimate it.
         </StepIntro>
         {contextPanel}
         <QuestionForm
           questions={questions}
           submitUrl={`/api/leads/${leadId}/dashboard-answers`}
-          submitLabel="Opslaan en dashboard maken →"
+          submitLabel="Save and build dashboard →"
           redirectTo={`/leads/${leadId}/dashboard`}
           back={backToProposal}
           demoFill={demoFill}
@@ -102,19 +102,19 @@ export default async function DashboardQuestionsPage({
     const hasLaterWork = lead.state !== "questions2_answered";
     return (
       <div className="page-stack">
-        <StepIntro title="Dashboardantwoorden aanpassen" />
+        <StepIntro title="Edit dashboard answers" />
         {hasLaterWork && (
           <StatusBlock tone="attention">
-            Na opslaan bouwt de AI het dashboard opnieuw op basis van je nieuwe antwoorden.
+            After saving, the AI rebuilds the dashboard based on your new answers.
           </StatusBlock>
         )}
         <QuestionForm
           questions={questions}
           submitUrl={`/api/leads/${leadId}/dashboard-answers`}
           initialAnswers={answers}
-          submitLabel="Opslaan en dashboard opnieuw maken →"
+          submitLabel="Save and rebuild dashboard →"
           redirectTo={`/leads/${leadId}/dashboard`}
-          back={{ href: `/leads/${leadId}/dashboard-questions`, label: "Annuleren" }}
+          back={{ href: `/leads/${leadId}/dashboard-questions`, label: "Cancel" }}
         />
       </div>
     );
@@ -122,14 +122,14 @@ export default async function DashboardQuestionsPage({
 
   return (
     <div className="page-stack">
-      <StepIntro title="Je dashboardantwoorden" />
+      <StepIntro title="Your dashboard answers" />
       {contextPanel}
       <AnswersSummary questions={questions} answers={answers} />
       <StepActions back={backToProposal}>
         <LinkButton href={`/leads/${leadId}/dashboard-questions?edit=1`} variant="secondary">
-          Antwoorden aanpassen
+          Edit answers
         </LinkButton>
-        <LinkButton href={`/leads/${leadId}/dashboard`}>Verder naar dashboard &rarr;</LinkButton>
+        <LinkButton href={`/leads/${leadId}/dashboard`}>Continue to dashboard &rarr;</LinkButton>
       </StepActions>
     </div>
   );

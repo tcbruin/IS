@@ -7,7 +7,7 @@ import type { LLMStep } from "./telemetryEvents";
 /**
  * Demo mode for presentations. Scenarios (demo/scenarios.json) are ready-made leads with a
  * transcript and notes. A completed live run of a scenario can be saved as a recording
- * (demo/recordings/<scenario>/); a "snel" demo lead then gets those AI answers back instantly
+ * (demo/recordings/<scenario>/); a "replay" demo lead then gets those AI answers back instantly
  * instead of calling the API, so a live presentation never depends on API speed or wifi.
  */
 
@@ -45,7 +45,7 @@ export async function readScenarioFile(file: string): Promise<string> {
 
 /** Scenario ids come from scenarios.json only, so they are safe as folder names. */
 async function recordingDir(scenarioId: string): Promise<string> {
-  if (!(await getScenario(scenarioId))) throw new Error(`Onbekend demoscenario: ${scenarioId}`);
+  if (!(await getScenario(scenarioId))) throw new Error(`Unknown demo scenario: ${scenarioId}`);
   return path.join(RECORDINGS_DIR, scenarioId);
 }
 

@@ -17,13 +17,13 @@ const manrope = Manrope({
 });
 
 export const metadata: Metadata = {
-  title: "Datavance — Voorstel & PoC Dashboard Generator",
-  description: "Van salesgesprek naar voorstel en proof-of-concept dashboard.",
+  title: "Datavance — Proposal & PoC Dashboard Generator",
+  description: "From sales call to proposal and proof-of-concept dashboard.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="nl">
+    <html lang="en">
       <body className={`${epilogue.variable} ${manrope.variable}`}>{children}</body>
     </html>
   );

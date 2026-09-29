@@ -19,6 +19,6 @@ export async function parseTranscript(ext: string, buffer: Buffer): Promise<stri
     case ".vtt":
       return parseSrtVtt(buffer);
     default:
-      throw new Error(`Niet-ondersteunde bestandsextensie: ${ext}`);
+      throw new Error(`Unsupported file extension: ${ext}`);
   }
 }

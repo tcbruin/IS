@@ -4,7 +4,7 @@ import type { TelemetryEvent } from "./telemetryEvents";
 import { llmCostUsd } from "./llmPricing";
 
 /**
- * Pure calculations behind /evaluatie and its CSV export: per-lead metrics from the event log,
+ * Pure calculations behind /evaluation and its CSV export: per-lead metrics from the event log,
  * and aggregates across leads compared with the manual baseline. No I/O here, so the page and
  * the export can never compute different numbers.
  */
@@ -40,7 +40,7 @@ export type FailureEntry = {
   leadId: string;
   company: string;
   at: string;
-  source: "handmatig" | "automatisch";
+  source: "manual" | "automatic";
   step: string;
   category: string;
   severity: string;
@@ -91,17 +91,17 @@ export function leadMetrics(lead: Lead, events: TelemetryEvent[], settings: Sett
   const failures: FailureEntry[] = [];
   const base = { leadId: lead.id, company: lead.companyName };
   for (const f of ofType(events, "failure_report")) {
-    failures.push({ ...base, at: f.at, source: "handmatig", step: f.step, category: f.category, severity: f.severity, note: f.note ?? "" });
+    failures.push({ ...base, at: f.at, source: "manual", step: f.step, category: f.category, severity: f.severity, note: f.note ?? "" });
   }
   for (const c of llm) {
-    if (!c.ok) failures.push({ ...base, at: c.at, source: "automatisch", step: c.step, category: "AI-aanroep mislukt", severity: "groot", note: c.error ?? "" });
-    else if (c.attempts > 1) failures.push({ ...base, at: c.at, source: "automatisch", step: c.step, category: "Ongeldig AI-antwoord, opnieuw geprobeerd", severity: "klein", note: `${c.attempts} pogingen` });
+    if (!c.ok) failures.push({ ...base, at: c.at, source: "automatic", step: c.step, category: "AI call failed", severity: "major", note: c.error ?? "" });
+    else if (c.attempts > 1) failures.push({ ...base, at: c.at, source: "automatic", step: c.step, category: "Invalid AI response, retried", severity: "minor", note: `${c.attempts} attempts` });
   }
   for (const v of versions) {
-    if (v.source === "ai" && v.warnings > 0) failures.push({ ...base, at: v.at, source: "automatisch", step: "voorstel", category: "Guardrail: bedrag in investering", severity: "klein", note: `v${v.version}` });
+    if (v.source === "ai" && v.warnings > 0) failures.push({ ...base, at: v.at, source: "automatic", step: "proposal", category: "Guardrail: amount in investment", severity: "minor", note: `v${v.version}` });
   }
   for (const d of ofType(events, "dashboard_generated")) {
-    if (d.warnings > 0) failures.push({ ...base, at: d.at, source: "automatisch", step: "dashboard", category: "Guardrail: cijfer uit gesprek niet gebruikt", severity: "klein", note: `${d.warnings} opmerking(en)` });
+    if (d.warnings > 0) failures.push({ ...base, at: d.at, source: "automatic", step: "dashboard", category: "Guardrail: figure from the call not used", severity: "minor", note: `${d.warnings} note(s)` });
   }
 
   return {
@@ -180,7 +180,7 @@ export function summarize(leads: LeadMetrics[], allEvents: TelemetryEvent[], set
 
   const byVersion = new Map<string, { answered: number; estimated: number; blank: number; leads: number; avgChars: number[] }>();
   for (const l of leads) {
-    const key = l.q1PromptVersion ?? "onbekend";
+    const key = l.q1PromptVersion ?? "unknown";
     const entry = byVersion.get(key) ?? { answered: 0, estimated: 0, blank: 0, leads: 0, avgChars: [] };
     entry.answered += l.answered;
     entry.estimated += l.estimated;
@@ -201,7 +201,7 @@ export function summarize(leads: LeadMetrics[], allEvents: TelemetryEvent[], set
   return {
     leadCount: leads.length,
     completedCount: completed.length,
-    timeBasis: completed.length ? "afgeronde leads" : "alle leads (nog geen afgeronde)",
+    timeBasis: completed.length ? "completed leads" : "all leads (none completed yet)",
     medianActiveMinutes: medianActive,
     medianThroughputMinutes: median(timeBase.map((l) => l.throughputMinutes)),
     medianAiWaitMinutes: median(timeBase.map((l) => l.aiWaitMinutes)),
@@ -237,7 +237,7 @@ export function summarize(leads: LeadMetrics[], allEvents: TelemetryEvent[], set
   };
 }
 
-// ---- CSV (Dutch Excel: semicolon separator, decimal comma, UTF-8 BOM) ----
+// ---- CSV (Dutch-locale Excel: semicolon separator, decimal comma, UTF-8 BOM) ----
 
 function csvCell(v: unknown): string {
   if (v === null || v === undefined) return "";

@@ -25,7 +25,7 @@ type Mode = "edit" | "old" | "final";
 type Status = "idle" | "saving" | "ai" | "finalizing" | "reopening";
 
 const FIELD_LABELS: Record<string, string> = {
-  coverIntro: "Introductie",
+  coverIntro: "Introduction",
   ...Object.fromEntries(PROPOSAL_SECTIONS.map((s) => [s.key, s.label])),
 };
 
@@ -38,10 +38,10 @@ function describeIssues(content: ProposalContent): { sections: Set<string>; mess
     const field = String(issue.path[0]);
     sections.add(field);
     if (field === "timeline" && typeof issue.path[2] === "number") {
-      const part = issue.path[3] === "name" ? "naam" : "beschrijving";
-      messages.push(`Tijdlijn: fase ${issue.path[2] + 1} heeft nog geen ${part}.`);
+      const part = issue.path[3] === "name" ? "name" : "description";
+      messages.push(`Timeline: phase ${issue.path[2] + 1} has no ${part} yet.`);
     } else {
-      messages.push(`${FIELD_LABELS[field] ?? field} is nog leeg.`);
+      messages.push(`${FIELD_LABELS[field] ?? field} is still empty.`);
     }
   }
   return { sections, messages: [...new Set(messages)] };
@@ -161,7 +161,7 @@ export function ProposalWorkspace({
           setConflict(body.latestVersion);
           return null;
         }
-        if (!res.ok) throw new Error(body.error ?? "Opslaan mislukt.");
+        if (!res.ok) throw new Error(body.error ?? "Could not save.");
         const saved = body as ProposalVersion;
         setConflict(null);
         setBaseline(json(saved.content));
@@ -171,7 +171,7 @@ export function ProposalWorkspace({
         router.refresh();
         return saved.version;
       } catch (err) {
-        setError(err instanceof Error ? err.message : "Opslaan mislukt.");
+        setError(err instanceof Error ? err.message : "Could not save.");
         return null;
       } finally {
         setStatus("idle");
@@ -194,19 +194,19 @@ export function ProposalWorkspace({
       });
       if (!res.ok) {
         const body = await res.json().catch(() => ({}));
-        throw new Error(body.error ?? "De AI kon geen nieuwe versie maken.");
+        throw new Error(body.error ?? "The AI could not create a new version.");
       }
       setComments({});
       router.refresh();
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Er ging iets mis.");
+      setError(err instanceof Error ? err.message : "Something went wrong.");
     } finally {
       setStatus("idle");
     }
   }
 
   async function finalize() {
-    if (commentCount > 0 && !window.confirm("Er staan nog opmerkingen voor de AI die je niet hebt verstuurd. Toch definitief maken?")) {
+    if (commentCount > 0 && !window.confirm("You have comments for the AI that you haven't sent. Finalize anyway?")) {
       return;
     }
     const v = await save();
@@ -220,32 +220,32 @@ export function ProposalWorkspace({
       });
       if (!res.ok) {
         const body = await res.json().catch(() => ({}));
-        throw new Error(body.error ?? "Definitief maken mislukt.");
+        throw new Error(body.error ?? "Could not finalize.");
       }
       setComments({});
       router.push(`/leads/${leadId}/dashboard-questions`);
       router.refresh();
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Er ging iets mis.");
+      setError(err instanceof Error ? err.message : "Something went wrong.");
       setStatus("idle");
     }
   }
 
   async function reopen() {
     const message = isSent
-      ? "Dit is al gemarkeerd als verzonden. Heropenen zet de lead terug naar het bewerken van het voorstel; de status 'Verzonden' vervalt tot je opnieuw afrondt. Doorgaan?"
-      : "Het voorstel heropenen om het te bewerken? Het dashboard moet daarna opnieuw doorlopen worden.";
+      ? "This is already marked as sent. Reopening takes the lead back to editing the proposal; the 'Sent' status is cleared until you finish again. Continue?"
+      : "Reopen the proposal for editing? You will need to go through the dashboard step again afterwards.";
     if (!window.confirm(message)) return;
     setStatus("reopening");
     try {
       const res = await fetch(`/api/leads/${leadId}/proposal/reopen`, { method: "POST" });
       if (!res.ok) {
         const body = await res.json().catch(() => ({}));
-        throw new Error(body.error ?? "Heropenen mislukt.");
+        throw new Error(body.error ?? "Could not reopen.");
       }
       router.refresh();
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Er ging iets mis.");
+      setError(err instanceof Error ? err.message : "Something went wrong.");
     } finally {
       setStatus("idle");
     }
@@ -277,9 +277,9 @@ export function ProposalWorkspace({
 
   const onStats = useCallback((s: { pageCount: number }) => setPageCount(s.pageCount), []);
   const words = countWords(content);
-  const sourceLabel = version.source === "manual" ? "handmatig bewerkt" : version.feedback ? "AI, met feedback" : "AI-concept";
+  const sourceLabel = version.source === "manual" ? "edited manually" : version.feedback ? "AI, with feedback" : "AI draft";
   const saveState =
-    status === "saving" ? "Opslaan…" : dirty ? "Niet-opgeslagen wijzigingen" : "Opgeslagen";
+    status === "saving" ? "Saving…" : dirty ? "Unsaved changes" : "Saved";
 
   return (
     <div className="page-stack">
@@ -291,17 +291,17 @@ export function ProposalWorkspace({
       <div className={["no-print", styles.messages].join(" ")}>
       {mode === "old" && (
         <StatusBlock tone="neutral">
-          Je bekijkt v{version.version}, een oudere versie.{" "}
-          <Link href={`/leads/${leadId}/proposal`}>Naar de laatste versie</Link>
+          You are viewing v{version.version}, an older version.{" "}
+          <Link href={`/leads/${leadId}/proposal`}>Go to the latest version</Link>
         </StatusBlock>
       )}
-      {mode === "final" && <StatusBlock tone="done">Dit voorstel is definitief (v{version.version}).</StatusBlock>}
+      {mode === "final" && <StatusBlock tone="done">This proposal is final (v{version.version}).</StatusBlock>}
       {version.warnings.length > 0 && <StatusBlock tone="attention">{version.warnings.join(" ")}</StatusBlock>}
       {conflict !== null && (
         <StatusBlock tone="attention">
-          Er is intussen een nieuwere versie (v{conflict}).{" "}
+          A newer version exists (v{conflict}).{" "}
           <button type="button" className={styles.inlineAction} onClick={() => void save(true)}>
-            Mijn wijzigingen toch opslaan
+            Save my changes anyway
           </button>{" "}
           ·{" "}
           <button
@@ -312,7 +312,7 @@ export function ProposalWorkspace({
               router.refresh();
             }}
           >
-            Nieuwste versie laden
+            Load latest version
           </button>
         </StatusBlock>
       )}
@@ -325,10 +325,10 @@ export function ProposalWorkspace({
       <div className={["no-print", styles.toolbar].join(" ")}>
         <div className={styles.toolbarStatus}>
           <span className={styles.versionLabel}>
-            {mode === "final" ? "Definitief" : mode === "old" ? "Oudere versie" : "Concept"} · v{version.version}
+            {mode === "final" ? "Final" : mode === "old" ? "Older version" : "Draft"} · v{version.version}
           </span>
           <span className={styles.meta}>
-            {sourceLabel} · {pageCount} {pageCount === 1 ? "pagina" : "pagina's"} · {words} woorden
+            {sourceLabel} · {pageCount} {pageCount === 1 ? "page" : "pages"} · {words} words
             {mode === "edit" && (
               <>
                 {" · "}
@@ -338,7 +338,7 @@ export function ProposalWorkspace({
           </span>
           {mode === "edit" && (
             <span className={styles.hint}>
-              Klik in de tekst om te typen · Enter = nieuwe alinea · opmerkingen voor de AI zet je in de kantlijn
+              Click the text to type · Enter = new paragraph · add comments for the AI in the margin
             </span>
           )}
         </div>
@@ -347,7 +347,7 @@ export function ProposalWorkspace({
             <>
               {dirty && (
                 <button type="button" className={styles.tbLink} onClick={discard} disabled={busy}>
-                  Verwerpen
+                  Discard
                 </button>
               )}
               <button
@@ -357,7 +357,7 @@ export function ProposalWorkspace({
                 disabled={!dirty || busy}
                 title="Ctrl+S"
               >
-                Opslaan
+                Save
               </button>
               {demoFeedback && commentCount === 0 && (
                 <button
@@ -372,7 +372,7 @@ export function ProposalWorkspace({
                   }
                   disabled={busy}
                 >
-                  Demo-opmerkingen invullen
+                  Fill in demo comments
                 </button>
               )}
               <button
@@ -380,9 +380,9 @@ export function ProposalWorkspace({
                 className={styles.tb}
                 onClick={() => void askAI()}
                 disabled={commentCount === 0 || busy}
-                title={commentCount === 0 ? "Zet eerst een opmerking in de kantlijn (hover een kop)" : undefined}
+                title={commentCount === 0 ? "Add a comment in the margin first (hover over a heading)" : undefined}
               >
-                Vraag AI om aanpassing{commentCount > 0 ? ` (${commentCount})` : ""}
+                Ask AI to revise{commentCount > 0 ? ` (${commentCount})` : ""}
               </button>
             </>
           )}
@@ -390,11 +390,11 @@ export function ProposalWorkspace({
             Word ↓
           </button>
           <button type="button" className={styles.tb} onClick={() => window.print()} disabled={busy}>
-            Afdrukken / PDF
+            Print / PDF
           </button>
           {mode === "final" && (
             <button type="button" className={styles.tb} onClick={() => void reopen()} disabled={busy}>
-              {status === "reopening" ? "Bezig…" : "Heropenen"}
+              {status === "reopening" ? "Working…" : "Reopen"}
             </button>
           )}
         </div>
@@ -404,7 +404,7 @@ export function ProposalWorkspace({
         {status === "ai" && (
           <div className={["no-print", styles.overlay].join(" ")}>
             <div className={styles.overlayCard}>
-              De AI verwerkt je opmerkingen… {elapsed > 0 ? `${elapsed} s` : ""}
+              The AI is processing your comments… {elapsed > 0 ? `${elapsed} s` : ""}
             </div>
           </div>
         )}
@@ -422,19 +422,19 @@ export function ProposalWorkspace({
         />
       </div>
 
-      <StepActions back={{ href: `/leads/${leadId}/questions`, label: "Vragen" }}>
+      <StepActions back={{ href: `/leads/${leadId}/questions`, label: "Questions" }}>
         {mode === "edit" && (
           <Button onClick={() => void finalize()} disabled={busy}>
-            {status === "finalizing" ? "Bezig…" : "Definitief maken →"}
+            {status === "finalizing" ? "Working…" : "Finalize proposal →"}
           </Button>
         )}
         {mode === "old" && (
           <LinkButton href={`/leads/${leadId}/proposal`} variant="secondary">
-            Naar laatste versie
+            Go to latest version
           </LinkButton>
         )}
         {mode === "final" && (
-          <LinkButton href={`/leads/${leadId}/dashboard-questions`}>Verder naar dashboard &rarr;</LinkButton>
+          <LinkButton href={`/leads/${leadId}/dashboard-questions`}>Continue to dashboard &rarr;</LinkButton>
         )}
       </StepActions>
     </div>

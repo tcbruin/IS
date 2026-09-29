@@ -33,19 +33,19 @@ export default async function QuestionsPage({
   const wordCount = transcript.split(/\s+/).filter(Boolean).length;
   const transcriptDisclosure = (
     <details className="disclosure">
-      <summary>Transcript bekijken (±{wordCount.toLocaleString("nl-NL")} woorden)</summary>
+      <summary>View transcript (±{wordCount.toLocaleString("en-GB")} words)</summary>
       <Card>
         <p style={{ whiteSpace: "pre-wrap", margin: 0, fontSize: 16 }}>{transcript}</p>
       </Card>
     </details>
   );
 
-  // 1.1 Transcript & notities
+  // 1.1 Transcript & notes
   if (lead.state === "transcript_uploaded") {
     return (
       <div className="page-stack">
-        <StepIntro title="Transcript & notities">
-          Vul je eigen notities aan waar nodig. Daarna stelt de AI een paar korte vragen.
+        <StepIntro title="Transcript & notes">
+          Add your own notes where needed. The AI will then ask a few short questions.
         </StepIntro>
         {contextPanel}
         {transcriptDisclosure}
@@ -56,7 +56,7 @@ export default async function QuestionsPage({
 
   const questions = await getQuestions(leadId, 1);
 
-  // 1.2 Vragen beantwoorden (first time)
+  // 1.2 Answer questions (first time)
   if (lead.state === "questions1_generated") {
     const demoFill = lead.demo
       ? {
@@ -66,14 +66,14 @@ export default async function QuestionsPage({
       : undefined;
     return (
       <div className="page-stack">
-        <StepIntro title="Vragen beantwoorden">
-          Kort is prima. Weet je iets niet, laat de AI het dan inschatten.
+        <StepIntro title="Answer questions">
+          Short answers are fine. If you don't know something, let the AI estimate it.
         </StepIntro>
         {contextPanel}
         <QuestionForm
           questions={questions}
           submitUrl={`/api/leads/${leadId}/answers`}
-          submitLabel="Opslaan en voorstel maken →"
+          submitLabel="Save and create proposal →"
           redirectTo={`/leads/${leadId}/proposal`}
           demoFill={demoFill}
         />
@@ -90,21 +90,21 @@ export default async function QuestionsPage({
     const hasLaterWork = lead.state !== "questions1_answered";
     return (
       <div className="page-stack">
-        <StepIntro title="Antwoorden aanpassen" />
+        <StepIntro title="Edit answers" />
         {hasLaterWork && (
           <StatusBlock tone="attention">
-            Na opslaan maakt de AI het voorstel opnieuw op basis van je nieuwe antwoorden. Het
-            huidige voorstel{lead.state !== "proposal_generated" ? " en dashboard" : ""} moet je
-            daarna opnieuw doorlopen.
+            After saving, the AI regenerates the proposal based on your new answers. You will
+            then need to review the current proposal{lead.state !== "proposal_generated" ? " and dashboard" : ""}{" "}
+            again.
           </StatusBlock>
         )}
         <QuestionForm
           questions={questions}
           submitUrl={`/api/leads/${leadId}/answers`}
           initialAnswers={answers}
-          submitLabel="Opslaan en voorstel opnieuw maken →"
+          submitLabel="Save and regenerate proposal →"
           redirectTo={`/leads/${leadId}/proposal`}
-          back={{ href: `/leads/${leadId}/questions`, label: "Annuleren" }}
+          back={{ href: `/leads/${leadId}/questions`, label: "Cancel" }}
         />
       </div>
     );
@@ -112,21 +112,21 @@ export default async function QuestionsPage({
 
   return (
     <div className="page-stack">
-      <StepIntro title="Je antwoorden" />
+      <StepIntro title="Your answers" />
       {contextPanel}
       <AnswersSummary questions={questions} answers={answers} />
       {transcriptDisclosure}
       <details className="disclosure">
-        <summary>Notities van de consultant</summary>
+        <summary>Consultant notes</summary>
         <Card variant="creme">
           <NotesEditor leadId={leadId} initialNotes={notes ?? ""} />
         </Card>
       </details>
       <StepActions>
         <LinkButton href={`/leads/${leadId}/questions?edit=1`} variant="secondary">
-          Antwoorden aanpassen
+          Edit answers
         </LinkButton>
-        <LinkButton href={`/leads/${leadId}/proposal`}>Verder naar voorstel &rarr;</LinkButton>
+        <LinkButton href={`/leads/${leadId}/proposal`}>Continue to proposal &rarr;</LinkButton>
       </StepActions>
     </div>
   );

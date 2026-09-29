@@ -1,41 +1,41 @@
 {
   "companyName": "Estimate Test B.V.",
   "content": {
-    "coverIntro": "Kramer Bouwservice B.V. draait zes tot zeven verbouw- en nieuwbouwprojecten tegelijk, verspreid over Noord-Brabant en Zeeland. Dit voorstel richt zich op één concreet probleem: Lisa mist tijdens het project actueel marge-inzicht per project, waardoor bijsturing pas achteraf mogelijk is.",
-    "situation": "Elke ploegbaas houdt zijn uren bij op een eigen Excel-urenbriefje en mailt dat wekelijks naar Lisa. Lisa plakt die briefjes handmatig in een overzicht per project en koppelt daar met de hand de inkoopfacturen aan die via de boekhouding binnenkomen. Dat kost haar elke maandag drie uur, inclusief het opzoeken en controleren van facturen. Het resultaat loopt per definitie achter: bij een project in Bergen op Zoom bleek pas ná afronding dat onderschatte materiaalkosten de marge vrijwel hadden weggevaagd. Een maand eerder hadden ze nog kunnen bijsturen op uren of meerwerk met de klant. Een ERP-module is geen optie: dat vereist dat ploegbazen hun uren direct in het systeem typen, en die staan op de steiger, niet achter een laptop.",
+    "coverIntro": "Kramer Bouwservice B.V. runs six to seven renovation and new-build projects at the same time, spread across Noord-Brabant and Zeeland. This proposal focuses on one concrete problem: during a project Lisa lacks up-to-date margin insight per project, so course-correcting is only possible afterwards.",
+    "situation": "Every site foreman records his hours on his own Excel timesheet and emails it to Lisa every week. Lisa manually pastes those timesheets into an overview per project and links the purchase invoices that come in through the accounts by hand. That takes her three hours every Monday, including looking up and checking invoices. The result is lagging by definition: on a project in Bergen op Zoom it only became clear after completion that underestimated material costs had almost wiped out the margin. A month earlier they could still have course-corrected on hours or additional work with the client. An ERP module is not an option: it requires site foremen to type their hours directly into the system, and they are up on the scaffolding, not behind a laptop.",
     "goals": [
-      "Elke maandagochtend vóór het overleg met Erik een actueel marge-overzicht per project hebben, zonder handmatig knippen en plakken",
-      "Tijdens een project kunnen bijsturen op marge in plaats van achteraf constateren dat een project niet rendeerde",
-      "Projecten die onder de 15% marge zakken vroegtijdig signaleren",
-      "De drie uur per week die nu in het samenvoegen zit, vrijmaken voor ander werk"
+      "Have an up-to-date margin overview per project every Monday morning before the meeting with Erik, without manual cutting and pasting",
+      "Be able to course-correct on margin during a project instead of finding out afterwards that a project was not profitable",
+      "Flag projects that drop below 15% margin early",
+      "Free up the three hours a week now spent on merging for other work"
     ],
-    "approach": "We koppelen Twinfield - waar de inkoopfacturen en de boekhouding al in zitten - aan een Power BI-dashboard dat per project automatisch de marge berekent: opbrengst minus geboekte uren en inkoop. De ploegbazen blijven werken zoals ze gewend zijn; hun Excel-urenbriefjes blijven de bron voor uren op de werkvloer. Die briefjes worden wekelijks digitaal aangeleverd en automatisch uitgelezen tot uren per project, met een normalisatiestap zodat verschillen in kolommen en projectcodes tussen ploegbazen geen probleem vormen. Lisa hoeft zelf niets meer samen te voegen. Het dashboard toont per project de marge ten opzichte van één vaste drempel van 15%, en markeert projecten die onder de grens zakken. Zo ziet Lisa elke maandagochtend in één oogopslag welke projecten aandacht nodig hebben, vóór het overleg met Erik begint.",
+    "approach": "We connect Twinfield - which already holds the purchase invoices and the accounts - to a Power BI dashboard that automatically calculates the margin per project: revenue minus booked hours and purchases. The site foremen keep working the way they are used to; their Excel timesheets remain the source for hours on site. Those timesheets are submitted digitally every week and automatically read into hours per project, with a normalisation step so that differences in columns and project codes between site foremen are not a problem. Lisa no longer has to merge anything herself. The dashboard shows the margin per project against one fixed threshold of 15%, and flags projects that drop below it. This way Lisa sees at a glance every Monday morning which projects need attention, before the meeting with Erik starts.",
     "scopeDeliverables": [
-      "Koppeling met Twinfield voor inkoopfacturen en boekhouding per project",
-      "Automatische verwerking van de wekelijkse Excel-urenbriefjes van de ploegbazen tot uren per project, inclusief normalisatiestap voor consistente inlezing",
-      "Power BI-dashboard met marge per project (opbrengst minus geboekte uren en inkoop), met één vaste margedrempel van 15%",
-      "Signaalmarkering voor projecten die onder de drempel zakken",
-      "Wekelijkse automatische verversing, klaar vóór het maandagochtend-overleg",
-      "Korte instructie voor Lisa over het wekelijks aanleveren van de urenbriefjes zodat de verwerking blijft werken"
+      "Connection to Twinfield for purchase invoices and accounts per project",
+      "Automatic processing of the site foremen's weekly Excel timesheets into hours per project, including a normalisation step for consistent reading",
+      "Power BI dashboard with margin per project (revenue minus booked hours and purchases), with one fixed margin threshold of 15%",
+      "Alert flag for projects that drop below the threshold",
+      "Weekly automatic refresh, ready before the Monday-morning meeting",
+      "Short guide for Lisa on submitting the timesheets weekly so the processing keeps working"
     ],
     "timeline": {
       "phases": [
         {
-          "name": "Week 1: scoping en data-aansluiting",
-          "description": "Twinfield-koppeling opzetten voor inkoop en boekhouding, project- en kostenplaatscodering afstemmen, en het vaste format voor de urenbriefjes vastleggen."
+          "name": "Week 1: scoping and data connection",
+          "description": "Set up the Twinfield connection for purchases and accounts, align project and cost centre coding, and define the fixed format for the timesheets."
         },
         {
-          "name": "Week 2-3: dashboard bouwen",
-          "description": "Het Power BI-dashboard bouwen met marge per project, de vaste 15%-drempel, en de signaalmarkering voor projecten onder de grens."
+          "name": "Week 2-3: build dashboard",
+          "description": "Build the Power BI dashboard with margin per project, the fixed 15% threshold, and the alert flag for projects below it."
         },
         {
-          "name": "Week 4: testen en opleveren",
-          "description": "Een cyclus meedraaien met echte data van lopende projecten, bijsturen op basis van feedback van Lisa, en opleveren vóór het eerstvolgende maandagochtend-overleg."
+          "name": "Week 4: test and deliver",
+          "description": "Run one cycle with real data from running projects, adjust based on feedback from Lisa, and deliver before the next Monday-morning meeting."
         }
       ]
     },
-    "investment": "Dit traject wordt gescoped als één afgebakend probleem - het marge-per-project-overzicht - tegen een vaste prijs. De exacte investering bevestigen we na een kort scopegesprek waarin we de Twinfield-inrichting, het urenbriefje-format en de gewenste drempelwaarde samen doornemen.",
-    "nextSteps": "Akkoord op dit voorstel, gevolgd door een kort scopegesprek (circa 30 minuten) met Lisa en Erik om de Twinfield-koppeling en het urenbriefje-format door te nemen. Daarna starten we direct in week 1."
+    "investment": "This project is scoped as one clearly defined problem - the margin-per-project overview - at a fixed price. We will confirm the exact investment after a short scoping call in which we go through the Twinfield setup, the timesheet format and the desired threshold together.",
+    "nextSteps": "Approval of this proposal, followed by a short scoping call (about 30 minutes) with Lisa and Erik to go through the Twinfield connection and the timesheet format. After that we start straight away in week 1."
   },
   "savedAt": "2026-09-23T19:07:56.426Z"
 }

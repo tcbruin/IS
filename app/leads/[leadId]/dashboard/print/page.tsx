@@ -5,7 +5,7 @@ import { DashboardView } from "@/components/dashboard/DashboardView";
 import { PrintButton } from "@/components/ui/PrintButton";
 import styles from "./page.module.css";
 
-/** Print view: "Opslaan als PDF" gives a single page exactly the size of the canvas. */
+/** Print view: "Save as PDF" gives a single page exactly the size of the canvas. */
 export default async function DashboardPrintPage({
   params,
 }: {
@@ -29,7 +29,7 @@ export default async function DashboardPrintPage({
       </div>
       <DashboardView record={record} companyName={lead.companyName} />
       <p className={["no-print", styles.note].join(" ")}>
-        Alle cijfers zijn illustratieve voorbeelddata, geen echte gegevens van {lead.companyName}.
+        All figures are illustrative sample data, not real data from {lead.companyName}.
       </p>
     </div>
   );

@@ -18,12 +18,12 @@ import { usePagination } from "./usePagination";
 import styles from "./ProposalDocument.module.css";
 
 const PLACEHOLDERS: Record<ParaField, string> = {
-  coverIntro: "Typ hier de introductie…",
-  situation: "Beschrijf de huidige situatie…",
-  approach: "Beschrijf de aanpak…",
-  investment: "Beschrijf de investering…",
-  nextSteps: "Beschrijf de vervolgstappen…",
-  goals: "Doelstelling…",
+  coverIntro: "Type the introduction here…",
+  situation: "Describe the current situation…",
+  approach: "Describe the approach…",
+  investment: "Describe the investment…",
+  nextSteps: "Describe the next steps…",
+  goals: "Goal…",
   scopeDeliverables: "Deliverable…",
 };
 
@@ -165,7 +165,7 @@ export function ProposalDocument({
           value={phase.name}
           editable={editable}
           editKey={phaseKey(phase.id, "name")}
-          placeholder="Naam van de fase…"
+          placeholder="Phase name…"
           className={styles.phaseName}
           onChange={(text) => onAction?.({ type: "setPhase", id: phase.id, key: "name", text })}
           onKeyDown={(e) => {
@@ -183,7 +183,7 @@ export function ProposalDocument({
           value={phase.description}
           editable={editable}
           editKey={phaseKey(phase.id, "description")}
-          placeholder="Wat gebeurt er in deze fase…"
+          placeholder="What happens in this phase…"
           onChange={(text) => onAction?.({ type: "setPhase", id: phase.id, key: "description", text })}
           onKeyDown={(e) => {
             const t = e.currentTarget;
@@ -199,7 +199,7 @@ export function ProposalDocument({
             className={styles.addPhase}
             onClick={() => onAction?.({ type: "addPhase", afterId: phase.id })}
           >
-            + Fase toevoegen
+            + Add phase
           </button>
         )}
       </Block>
@@ -215,7 +215,7 @@ export function ProposalDocument({
           "--canvas-h": `calc(${pageCount} * var(--page-h) + ${pageCount - 1} * var(--page-gap))`,
         } as CSSProperties
       }
-      lang="nl"
+      lang="en"
     >
       {Array.from({ length: pageCount }, (_, k) => (
         <div
@@ -232,9 +232,9 @@ export function ProposalDocument({
             <span>{companyName}</span>
           </div>
           <div className={styles.runningFooter}>
-            <span>Datavance — Vertrouwelijk — {companyName}</span>
+            <span>Datavance — Confidential — {companyName}</span>
             <span>
-              Pagina {k + 1} van {pageCount}
+              Page {k + 1} of {pageCount}
             </span>
           </div>
         </div>
@@ -242,7 +242,7 @@ export function ProposalDocument({
 
       <div ref={flowRef} className={[styles.flow, editable ? styles.editable : ""].join(" ")}>
         <Block keep className={styles.titleBlock}>
-          <h1 className={styles.title}>Voorstel voor {companyName}</h1>
+          <h1 className={styles.title}>Proposal for {companyName}</h1>
           <div className={styles.date}>{dateLabel}</div>
         </Block>
         {textField("coverIntro", styles.intro)}
@@ -277,7 +277,7 @@ export function ProposalDocument({
   );
 }
 
-/** "+ Opmerking" in the right margin next to a heading; opens a Word-style comment balloon. */
+/** "+ Comment" in the right margin next to a heading; opens a Word-style comment balloon. */
 function CommentBalloon({
   label,
   value,
@@ -294,7 +294,7 @@ function CommentBalloon({
     return (
       <div className={styles.gutter}>
         <button type="button" className={styles.commentTrigger} onClick={() => setOpen(true)}>
-          + Opmerking voor de AI
+          + Comment for the AI
         </button>
       </div>
     );
@@ -303,12 +303,12 @@ function CommentBalloon({
   return (
     <div className={[styles.gutter, styles.gutterOpen].join(" ")}>
       <div className={styles.balloon}>
-        <div className={styles.balloonLabel}>Opmerking · {label}</div>
+        <div className={styles.balloonLabel}>Comment · {label}</div>
         <textarea
           className={styles.balloonInput}
           value={value}
           autoFocus={!hasText}
-          placeholder="Wat moet de AI hier anders doen?"
+          placeholder="What should the AI do differently here?"
           onChange={(e) => onChange(e.target.value)}
           rows={3}
         />
@@ -320,7 +320,7 @@ function CommentBalloon({
             setOpen(false);
           }}
         >
-          Verwijderen
+          Remove
         </button>
       </div>
     </div>

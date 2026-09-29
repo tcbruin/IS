@@ -13,7 +13,7 @@ import { buildView, defaultFilters, generateDataset } from "./dashboardEngine";
 
 const key = z
   .string()
-  .regex(/^[a-z][a-z0-9_]{1,23}$/, "Gebruik een korte sleutel: kleine letters, cijfers of _ (bijv. \"marge_pct\").");
+  .regex(/^[a-z][a-z0-9_]{1,23}$/, "Use a short key: lowercase letters, digits or _ (e.g. \"margin_pct\").");
 
 const noDigits = (s: string) => !/\d/.test(s);
 const label = (max: number) =>
@@ -22,7 +22,7 @@ const label = (max: number) =>
     .trim()
     .min(1)
     .max(max)
-    .refine(noDigits, "Geen cijfers in labels of titels — getallen toont het systeem zelf.");
+    .refine(noDigits, "No digits in labels or titles — the system displays all numbers itself.");
 
 const unit = z.enum(["euro", "count", "hours"]);
 
@@ -35,7 +35,7 @@ export const baseMeasureSchema = z.object({
   typical: z.number().positive().optional(),
   spread: z.enum(["low", "medium", "high"]).default("medium"),
   trend: z.enum(["down", "flat", "up"]).default("flat"),
-  /** Generate as a fraction of an earlier base measure, e.g. retour = 0.90–1.00 × geleverd. */
+  /** Generate as a fraction of an earlier base measure, e.g. returned = 0.90–1.00 × delivered. */
   relativeTo: z
     .object({ measure: key, min: z.number().positive(), max: z.number().positive() })
     .optional(),
@@ -68,7 +68,7 @@ const flagRule = z.enum(["threshold", "vsAverage", "vsPrevious"]);
 export const kpiSchema = z.object({
   measure: key,
   label: label(40),
-  /** flagCount: number of entities failing `flag` for this measure (e.g. "Projecten onder norm"). */
+  /** flagCount: number of entities failing `flag` for this measure (e.g. "Projects below target"). */
   show: z.enum(["value", "flagCount"]).default("value"),
   flag: flagRule.optional(),
 });
@@ -138,7 +138,7 @@ function checkSemantics(spec: DashboardSpec, ctx: z.RefinementCtx) {
   const seen = new Set<string>();
   const dimKeys = model.dimensions.map((d) => d.key);
   for (const k of [...model.measures.map((m) => m.key), ...model.derived.map((m) => m.key), ...dimKeys]) {
-    if (seen.has(k) || k === "entity" || k === "period") issue(`Sleutel "${k}" is dubbel of gereserveerd.`, ["model"]);
+    if (seen.has(k) || k === "entity" || k === "period") issue(`Key "${k}" is duplicated or reserved.`, ["model"]);
     seen.add(k);
   }
 
@@ -146,12 +146,12 @@ function checkSemantics(spec: DashboardSpec, ctx: z.RefinementCtx) {
   model.measures.forEach((m, i) => {
     if (m.relativeTo) {
       if (!available.includes(m.relativeTo.measure)) {
-        issue(`relativeTo moet naar een eerdere basismaat wijzen (${available.join(", ") || "geen"}).`, ["model", "measures", i]);
+        issue(`relativeTo must point to an earlier base measure (${available.join(", ") || "none"}).`, ["model", "measures", i]);
       } else if (m.relativeTo.min > m.relativeTo.max) {
-        issue("relativeTo.min mag niet groter zijn dan max.", ["model", "measures", i]);
+        issue("relativeTo.min must not be greater than max.", ["model", "measures", i]);
       }
     } else if (!m.typical) {
-      issue(`Maat "${m.key}" heeft "typical" nodig (of relativeTo).`, ["model", "measures", i]);
+      issue(`Measure "${m.key}" needs "typical" (or relativeTo).`, ["model", "measures", i]);
     }
     available.push(m.key);
   });
@@ -161,23 +161,23 @@ function checkSemantics(spec: DashboardSpec, ctx: z.RefinementCtx) {
   model.derived.forEach((d, i) => {
     const path = ["model", "derived", i];
     const ok = (k: string | undefined) => k !== undefined && available.includes(k);
-    if (!ok(d.a)) issue(`"a" moet een eerdere maat zijn: ${available.join(", ")}.`, path);
+    if (!ok(d.a)) issue(`"a" must be an earlier measure: ${available.join(", ")}.`, path);
     const needsB = d.op === "add" || d.op === "subtract" || d.op === "divide";
-    if (needsB && !ok(d.b)) issue(`Operatie ${d.op} heeft "b" nodig uit: ${available.join(", ")}.`, path);
-    if (d.op === "multiply" && !d.factor) issue("multiply heeft een factor nodig.", path);
+    if (needsB && !ok(d.b)) issue(`Operation ${d.op} needs "b" from: ${available.join(", ")}.`, path);
+    if (d.op === "multiply" && !d.factor) issue("multiply needs a factor.", path);
     const ka = kinds[d.a];
     const kb = d.b ? kinds[d.b] : undefined;
     if ((d.op === "add" || d.op === "subtract") && ka && kb && ka !== kb) {
-      issue(`${d.op} combineert alleen maten van hetzelfde soort (${d.a}: ${ka}, ${d.b}: ${kb}).`, path);
+      issue(`${d.op} only combines measures of the same kind (${d.a}: ${ka}, ${d.b}: ${kb}).`, path);
     }
-    if (d.op === "balance" && ka && ka !== "flow") issue("balance werkt alleen op een stroommaat.", path);
+    if (d.op === "balance" && ka && ka !== "flow") issue("balance only works on a flow measure.", path);
     if (d.op === "balance" && d.b !== undefined) {
-      if (!ok(d.b)) issue(`balance: "b" moet een eerdere maat zijn: ${available.join(", ")}.`, path);
-      else if (kb !== "flow") issue("balance: \"b\" moet ook een stroommaat zijn.", path);
+      if (!ok(d.b)) issue(`balance: "b" must be an earlier measure: ${available.join(", ")}.`, path);
+      else if (kb !== "flow") issue("balance: \"b\" must also be a flow measure.", path);
     }
-    if (d.op === "divide" && (ka === "ratio" || kb === "ratio")) issue("divide mag geen verhouding als invoer hebben.", path);
-    if (d.unit === "percent" && d.op !== "divide") issue("Eenheid percent kan alleen bij divide.", path);
-    if ((ka === "ratio") && d.op !== "divide") issue("Een verhouding kun je niet verder optellen of vermenigvuldigen.", path);
+    if (d.op === "divide" && (ka === "ratio" || kb === "ratio")) issue("divide must not take a ratio as input.", path);
+    if (d.unit === "percent" && d.op !== "divide") issue("Unit percent is only allowed with divide.", path);
+    if ((ka === "ratio") && d.op !== "divide") issue("A ratio cannot be added, subtracted, multiplied or balanced further.", path);
     kinds[d.key] = d.op === "balance" ? "stock" : d.op === "divide" ? "ratio" : (ka ?? "flow");
     available.push(d.key);
   });
@@ -189,47 +189,47 @@ function checkSemantics(spec: DashboardSpec, ctx: z.RefinementCtx) {
     const path = ["anchors", i];
     if (a.kind === "count") return;
     if (!a.measure || !measureKeys.includes(a.measure)) {
-      issue(`Anker ${a.kind} heeft een bestaande maat nodig: ${listKeys}.`, path);
+      issue(`Anchor ${a.kind} needs an existing measure: ${listKeys}.`, path);
       return;
     }
     if (a.kind === "threshold" && kinds[a.measure] === "flow") {
-      issue("Een drempel (threshold) kan alleen op een verhouding of saldo, niet op een stroommaat.", path);
+      issue("A threshold can only be set on a ratio or balance, not on a flow measure.", path);
     }
-    if (a.kind === "level" && kinds[a.measure] === "ratio") issue("Een niveau-anker kan niet op een verhouding.", path);
+    if (a.kind === "level" && kinds[a.measure] === "ratio") issue("A level anchor cannot be set on a ratio.", path);
   });
 
   const hasThreshold = (m: string) => spec.anchors.some((a) => a.kind === "threshold" && a.measure === m);
   spec.kpis.forEach((k, i) => {
-    if (!measureKeys.includes(k.measure)) issue(`KPI-maat bestaat niet. Kies uit: ${listKeys}.`, ["kpis", i]);
-    if (k.show === "flagCount" && !k.flag) issue("show flagCount heeft een flag nodig.", ["kpis", i]);
+    if (!measureKeys.includes(k.measure)) issue(`KPI measure does not exist. Choose from: ${listKeys}.`, ["kpis", i]);
+    if (k.show === "flagCount" && !k.flag) issue("show flagCount needs a flag.", ["kpis", i]);
     if (k.flag === "threshold" && !hasThreshold(k.measure)) {
-      issue("flag threshold heeft een threshold-anker op dezelfde maat nodig; gebruik anders vsAverage of vsPrevious.", ["kpis", i]);
+      issue("flag threshold needs a threshold anchor on the same measure; otherwise use vsAverage or vsPrevious.", ["kpis", i]);
     }
   });
 
   spec.visuals.forEach((v, i) => {
     const path = ["visuals", i];
     if (v.type === "table") {
-      if (!groupKeys.includes(v.rows)) issue(`rows moet een van zijn: ${groupKeys.join(", ")}.`, path);
-      for (const c of v.columns) if (!measureKeys.includes(c)) issue(`Kolom "${c}" bestaat niet. Kies uit: ${listKeys}.`, path);
-      if (v.sortBy && !measureKeys.includes(v.sortBy)) issue(`sortBy moet een maat zijn: ${listKeys}.`, path);
+      if (!groupKeys.includes(v.rows)) issue(`rows must be one of: ${groupKeys.join(", ")}.`, path);
+      for (const c of v.columns) if (!measureKeys.includes(c)) issue(`Column "${c}" does not exist. Choose from: ${listKeys}.`, path);
+      if (v.sortBy && !measureKeys.includes(v.sortBy)) issue(`sortBy must be a measure: ${listKeys}.`, path);
       if (v.flag) {
-        if (!measureKeys.includes(v.flag.measure)) issue(`flag.measure bestaat niet: ${listKeys}.`, path);
+        if (!measureKeys.includes(v.flag.measure)) issue(`flag.measure does not exist. Choose from: ${listKeys}.`, path);
         else if (v.flag.rule === "threshold" && !hasThreshold(v.flag.measure)) {
-          issue("flag threshold heeft een threshold-anker op dezelfde maat nodig; gebruik anders vsAverage of vsPrevious.", path);
+          issue("flag threshold needs a threshold anchor on the same measure; otherwise use vsAverage or vsPrevious.", path);
         }
       }
     } else {
-      if (![...groupKeys, "period"].includes(v.x)) issue(`x moet een van zijn: period, ${groupKeys.join(", ")}.`, path);
+      if (![...groupKeys, "period"].includes(v.x)) issue(`x must be one of: period, ${groupKeys.join(", ")}.`, path);
       for (const s of v.series) {
-        if (!measureKeys.includes(s.measure)) issue(`Reeks "${s.measure}" bestaat niet. Kies uit: ${listKeys}.`, path);
-        else if (s.running && kinds[s.measure] !== "flow") issue("running kan alleen bij een stroommaat.", path);
+        if (!measureKeys.includes(s.measure)) issue(`Series "${s.measure}" does not exist. Choose from: ${listKeys}.`, path);
+        else if (s.running && kinds[s.measure] !== "flow") issue("running is only allowed on a flow measure.", path);
       }
     }
   });
 
   for (const f of spec.filters) {
-    if (!groupKeys.includes(f)) issue(`Filter moet een van zijn: ${groupKeys.join(", ")}.`, ["filters"]);
+    if (!groupKeys.includes(f)) issue(`Filter must be one of: ${groupKeys.join(", ")}.`, ["filters"]);
   }
 }
 
@@ -255,7 +255,7 @@ export function normalizeSpec(input: DashboardSpec): { spec: DashboardSpec; warn
   if (spec.layout === "openItems" && !spec.visuals.some((v) => v.type === "table")) spec.layout = "overview";
   if (spec.layout === "overview" && spec.visuals.length > 2) {
     spec.visuals = spec.visuals.slice(0, 2);
-    warnings.push("Er passen maximaal twee visuals op deze indeling; de derde is weggelaten.");
+    warnings.push("This layout fits at most two visuals; the third was left out.");
   }
   const maxKpis = spec.layout === "overview" ? 3 : 2;
   if (spec.kpis.length > maxKpis) spec.kpis = spec.kpis.slice(0, maxKpis);
@@ -326,7 +326,7 @@ export function dryRunDashboard(
   });
   if (unusable.length) {
     for (const a of unusable) {
-      warnings.push(`"${a.quote}" is niet als norm gebruikt: het ligt ver buiten de waarden per rij; er wordt met het gemiddelde vergeleken.`);
+      warnings.push(`"${a.quote}" was not used as a target: it is far outside the per-row values; rows are compared with the average instead.`);
     }
     const dropIdx = new Set(unusable.map((a) => spec.anchors.indexOf(a)));
     spec = structuredClone(spec);
@@ -342,13 +342,13 @@ export function dryRunDashboard(
   buildView(spec, ds, defaultFilters(ds));
   const series = ds.series as Record<string, number[][]>;
   for (const rows of Object.values(series)) {
-    for (const row of rows) for (const v of row) if (!Number.isFinite(v)) throw new Error("Niet-eindige waarde in voorbeelddata.");
+    for (const row of rows) for (const v of row) if (!Number.isFinite(v)) throw new Error("Non-finite value in sample data.");
   }
   warnings.push(...ds.warnings);
   for (const d of spec.model.derived) {
     if (d.op !== "subtract") continue;
     const total = series[d.key].flat().reduce((a, b) => a + b, 0);
-    if (total < 0) warnings.push(`Let op: "${d.label}" is in de voorbeelddata over de hele periode negatief.`);
+    if (total < 0) warnings.push(`Note: "${d.label}" is negative over the whole period in the sample data.`);
   }
   return { spec, warnings };
 }

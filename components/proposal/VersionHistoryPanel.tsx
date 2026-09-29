@@ -6,9 +6,9 @@ import styles from "./VersionHistoryPanel.module.css";
 function describeVersion(v: ProposalVersion): string {
   if (v.source === "manual") {
     const pct = v.editStats?.changedPct;
-    return `Handmatig bewerkt${pct !== undefined ? ` · ${pct.toLocaleString("nl-NL")}% gewijzigd` : ""}`;
+    return `Edited manually${pct !== undefined ? ` · ${pct.toLocaleString("en-GB")}% changed` : ""}`;
   }
-  return v.feedback ? "AI · met feedback" : "AI · eerste concept";
+  return v.feedback ? "AI · with feedback" : "AI · first draft";
 }
 
 /** Every save and every AI round is an immutable version; collapsed by default. */
@@ -26,9 +26,9 @@ export function VersionHistoryPanel({
   return (
     <details className={["no-print", styles.panel].join(" ")}>
       <summary className={styles.summary}>
-        <span className={styles.summaryTitle}>Versiegeschiedenis</span>
+        <span className={styles.summaryTitle}>Version history</span>
         <span className={styles.summaryMeta}>
-          {versions.length} {versions.length === 1 ? "versie" : "versies"}
+          {versions.length} {versions.length === 1 ? "version" : "versions"}
         </span>
       </summary>
       <div className={styles.list}>
@@ -41,10 +41,10 @@ export function VersionHistoryPanel({
               >
                 <span className={styles.versionLabel}>v{v.version}</span> · {describeVersion(v)}
               </Link>
-              <div className={styles.date}>{new Date(v.createdAt).toLocaleString("nl-NL")}</div>
+              <div className={styles.date}>{new Date(v.createdAt).toLocaleString("en-GB")}</div>
               {v.feedback && <div className={styles.feedback}>{v.feedback}</div>}
             </div>
-            {v.version === finalVersion && <Chip>Definitief</Chip>}
+            {v.version === finalVersion && <Chip>Final</Chip>}
           </div>
         ))}
       </div>

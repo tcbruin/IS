@@ -2,33 +2,33 @@
   "questions": [
     {
       "id": "scope",
-      "text": "Welk probleem kiezen we als scope: het wekelijkse samenvoegen of het ontbrekende win rate-inzicht?",
-      "hint": "Het voorstel draait om één probleem."
+      "text": "Is the Monday pipeline overview the one problem we scope, or the monthly management figures?",
+      "hint": "Proposal must center on one problem."
     },
     {
-      "id": "uren-bewijs",
-      "text": "Hoe hard is de vier uur per week: is dat gemeten of een schatting van Marloes?",
-      "hint": "Bepaalt de tijdswinst-belofte in het voorstel."
+      "id": "hours-per-week",
+      "text": "Can we quote the four hours every Friday as the current manual time cost?",
+      "hint": "This anchors the time-savings case."
     },
     {
-      "id": "formaat-sheets",
-      "text": "Zijn de acht Excel-sheets qua kolommen en opbouw min of meer identiek?",
-      "hint": "Bepaalt of samenvoegen zonder handwerk kan."
+      "id": "sheet-structure",
+      "text": "Do all eight reps use the same Excel column structure, or does each sheet differ?",
+      "hint": "Determines how much mapping work the dashboard needs."
     },
     {
-      "id": "definitie-fases",
-      "text": "Hanteren de reps allemaal dezelfde fase-indeling in hun sheet?",
-      "hint": "Nodig voor een betrouwbaar pipeline-per-fase beeld."
+      "id": "sheet-access",
+      "text": "How do we get the reps' Excel files: shared drive, email, or something else?",
+      "hint": "Decides the data-collection method for the dashboard."
     },
     {
-      "id": "eigenaar-sheets",
-      "text": "Wie is eigenaar van de Excel-sheets: Marloes of elke rep zelf?",
-      "hint": "Bepaalt afspraken over aanleveren en datakwaliteit."
+      "id": "success-metric",
+      "text": "What single number proves success: hours saved per week, or Monday-morning freshness?",
+      "hint": "Sharpens the measurable result in the proposal."
     },
     {
-      "id": "doel-dashboard",
-      "text": "Moet het dashboard het maandagoverleg ondersteunen of ook de rep per regio aansturen?",
-      "hint": "Bepaalt welke weergaven en KPI's prioriteit krijgen."
+      "id": "rep-adoption",
+      "text": "Are the reps willing to keep filling their own Excel sheet unchanged for now?",
+      "hint": "The no-CRM promise depends on this."
     }
   ]
 }

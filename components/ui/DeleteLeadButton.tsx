@@ -12,7 +12,7 @@ export function DeleteLeadButton({ leadId }: { leadId: string }) {
   if (!confirming) {
     return (
       <Button variant="danger" onClick={() => setConfirming(true)}>
-        Lead verwijderen
+        Delete lead
       </Button>
     );
   }
@@ -25,12 +25,12 @@ export function DeleteLeadButton({ leadId }: { leadId: string }) {
 
   return (
     <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
-      <span>Zeker weten?</span>
+      <span>Are you sure?</span>
       <Button variant="danger" onClick={handleDelete} disabled={deleting}>
-        {deleting ? "Bezig..." : "Ja, verwijderen"}
+        {deleting ? "Deleting..." : "Yes, delete"}
       </Button>
       <Button variant="secondary" onClick={() => setConfirming(false)} disabled={deleting}>
-        Annuleren
+        Cancel
       </Button>
     </div>
   );

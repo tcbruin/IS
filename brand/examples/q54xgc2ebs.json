@@ -1,41 +1,41 @@
 {
   "companyName": "Kramer Bouwservice B.V",
   "content": {
-    "coverIntro": "Kramer Bouwservice B.V. draait zes tot zeven verbouw- en nieuwbouwprojecten tegelijk, verspreid over Noord-Brabant en Zeeland. Dit voorstel richt zich op één concreet probleem: het marge-per-project-overzicht dat nu pas beschikbaar is als een project al is afgerond, waardoor bijsturen tijdens de rit onmogelijk is.",
-    "situation": "Elke ploegbaas houdt zijn uren bij op een eigen Excel-urenbriefje en mailt dat wekelijks naar Lisa. Lisa plakt die briefjes handmatig in een overzicht per project en koppelt daar met de hand de inkoopfacturen aan die via de boekhouding binnenkomen. Dat kost haar elke maandag drie tot vier uur. Het resultaat is een overzicht dat per definitie achterloopt: bij een project in Bergen op Zoom bleek pas ná afronding dat onderschatte materiaalkosten de marge vrijwel hadden weggevaagd. Een maand eerder hadden ze nog kunnen bijsturen op uren of meerwerk met de klant. Een ERP-module is geen optie: dat vereist dat ploegbazen hun uren direct in het systeem typen, en die staan op de steiger, niet achter een laptop.",
+    "coverIntro": "Kramer Bouwservice B.V. runs six to seven renovation and new-build projects at the same time, spread across Noord-Brabant and Zeeland. This proposal focuses on one concrete problem: the margin-per-project overview is currently only available once a project has already been completed, which makes course-correcting along the way impossible.",
+    "situation": "Every site foreman records his hours on his own Excel timesheet and emails it to Lisa every week. Lisa manually pastes those timesheets into an overview per project and links the purchase invoices that come in through the accounts by hand. That takes her three to four hours every Monday. The result is an overview that lags by definition: on a project in Bergen op Zoom it only became clear after completion that underestimated material costs had almost wiped out the margin. A month earlier they could still have course-corrected on hours or additional work with the client. An ERP module is not an option: it requires site foremen to type their hours directly into the system, and they are up on the scaffolding, not behind a laptop.",
     "goals": [
-      "Elke maandagochtend vóór het overleg met Erik een actueel marge-overzicht per project hebben, zonder handmatig knippen en plakken",
-      "Tijdens een project kunnen bijsturen op marge in plaats van achteraf constateren dat een project niet rendeerde",
-      "Projecten die onder de 15% marge zakken vroegtijdig signaleren",
-      "De drie tot vier uur per week die nu in het samenvoegen zit, vrijmaken voor ander werk"
+      "Have an up-to-date margin overview per project every Monday morning before the meeting with Erik, without manual cutting and pasting",
+      "Be able to course-correct on margin during a project instead of finding out afterwards that a project was not profitable",
+      "Flag projects that drop below 15% margin early",
+      "Free up the three to four hours a week now spent on merging for other work"
     ],
-    "approach": "We koppelen Exact Online - waar de verkoopfacturen, inkoopfacturen en urenregistratie al in zitten - aan een Power BI-dashboard dat per project automatisch de brutomarge op directe kosten berekent: materiaal plus uren. De ploegbazen blijven werken zoals ze gewend zijn; hun Excel-urenbriefjes blijven de bron voor uren op de werkvloer, en Lisa levert die wekelijks aan zoals nu, maar zonder dat ze zelf nog iets hoeft samen te voegen. Het dashboard toont per project de marge ten opzichte van de drempel, met een aparte drempel voor verbouwing en voor nieuwbouw, en markeert projecten die onder de grens zakken. Zo ziet Lisa elke maandagochtend in één oogopslag welke projecten aandacht nodig hebben, vóór het overleg met Erik begint.",
+    "approach": "We connect Exact Online - which already holds the sales invoices, purchase invoices and time registration - to a Power BI dashboard that automatically calculates the gross margin on direct costs per project: materials plus hours. The site foremen keep working the way they are used to; their Excel timesheets remain the source for hours on site, and Lisa submits them weekly as she does now, but without having to merge anything herself. The dashboard shows the margin per project against the threshold, with a separate threshold for renovation and for new build, and flags projects that drop below it. This way Lisa sees at a glance every Monday morning which projects need attention, before the meeting with Erik starts.",
     "scopeDeliverables": [
-      "Koppeling met Exact Online voor verkoopfacturen, inkoopfacturen en urenregistratie per project",
-      "Automatische verwerking van de wekelijkse Excel-urenbriefjes van de ploegbazen tot uren per project",
-      "Power BI-dashboard met marge per project op directe kosten (materiaal + uren), met aparte margedrempels voor verbouwing en nieuwbouw",
-      "Signaalmarkering voor projecten die onder de drempel zakken",
-      "Wekelijkse automatische verversing, klaar vóór het maandagochtend-overleg",
-      "Korte instructie voor Lisa over het wekelijks aanleveren van de urenbriefjes zodat de verwerking blijft werken"
+      "Connection to Exact Online for sales invoices, purchase invoices and time registration per project",
+      "Automatic processing of the site foremen's weekly Excel timesheets into hours per project",
+      "Power BI dashboard with margin per project on direct costs (materials + hours), with separate margin thresholds for renovation and new build",
+      "Alert flag for projects that drop below the threshold",
+      "Weekly automatic refresh, ready before the Monday-morning meeting",
+      "Short guide for Lisa on submitting the timesheets weekly so the processing keeps working"
     ],
     "timeline": {
       "phases": [
         {
-          "name": "Week 1: scoping en data-aansluiting",
-          "description": "Exact Online-koppeling opzetten voor verkoop, inkoop en uren, project- en kostenplaatscodering afstemmen, en het vaste format voor de urenbriefjes vastleggen."
+          "name": "Week 1: scoping and data connection",
+          "description": "Set up the Exact Online connection for sales, purchases and hours, align project and cost centre coding, and define the fixed format for the timesheets."
         },
         {
-          "name": "Week 2-3: dashboard bouwen",
-          "description": "Het Power BI-dashboard bouwen met marge per project, de drempels voor verbouwing en nieuwbouw, en de signaalmarkering voor projecten onder de grens."
+          "name": "Week 2-3: build dashboard",
+          "description": "Build the Power BI dashboard with margin per project, the thresholds for renovation and new build, and the alert flag for projects below them."
         },
         {
-          "name": "Week 4: testen en opleveren",
-          "description": "Een cyclus meedraaien met echte data van lopende projecten, bijsturen op basis van feedback van Lisa, en opleveren vóór het eerstvolgende maandagochtend-overleg."
+          "name": "Week 4: test and deliver",
+          "description": "Run one cycle with real data from running projects, adjust based on feedback from Lisa, and deliver before the next Monday-morning meeting."
         }
       ]
     },
-    "investment": "Dit traject wordt gescoped als één afgebakend probleem - het marge-per-project-overzicht - tegen een vaste prijs. De exacte investering bevestigen we na een kort scopegesprek waarin we de Exact Online-inrichting en de urenbriefjes samen doornemen.",
-    "nextSteps": "Akkoord op dit voorstel, gevolgd door een kort scopegesprek (circa 30 minuten) met Lisa en Erik om de Exact Online-koppeling en het urenbriefje-format door te nemen. Daarna starten we direct in week 1."
+    "investment": "This project is scoped as one clearly defined problem - the margin-per-project overview - at a fixed price. We will confirm the exact investment after a short scoping call in which we go through the Exact Online setup and the timesheets together.",
+    "nextSteps": "Approval of this proposal, followed by a short scoping call (about 30 minutes) with Lisa and Erik to go through the Exact Online connection and the timesheet format. After that we start straight away in week 1."
   },
   "savedAt": "2026-09-23T14:58:04.982Z"
 }

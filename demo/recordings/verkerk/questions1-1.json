@@ -2,33 +2,33 @@
   "questions": [
     {
       "id": "scope",
-      "text": "Welk probleem kiezen we als scope: het fustsaldo per klant of de vijf uur overtypen?",
-      "hint": "Het voorstel draait om één probleem."
+      "text": "Which problem should the proposal scope: the crate balance register or the five hours of typing?",
+      "hint": "The proposal must center on one problem."
     },
     {
-      "id": "ritme",
-      "text": "Is er een vast ritme waarop het fustoverzicht relevant is, bijvoorbeeld wekelijks of per levering?",
-      "hint": "Bepaalt de verversingsfrequentie van het dashboard."
+      "id": "typing-hours",
+      "text": "Is the five hours a week for typing slips the number we can use in the business case?",
+      "hint": "This anchors the time-savings claim."
     },
     {
-      "id": "bron-aanlevering",
-      "text": "Kunnen we de bonnetjes-Excel als vaste export aanleveren, of moet dat handmatig blijven?",
-      "hint": "Bepaalt of het dashboard geautomatiseerd kan verversen."
+      "id": "afas-export",
+      "text": "Can we get a sample export from AFAS to see what crate-related data it actually contains?",
+      "hint": "Determines if AFAS can feed the dashboard."
     },
     {
-      "id": "datakwaliteit",
-      "text": "Hoe gaan we om met onvolledige bonnetjes van de elf chauffeurs in het overzicht?",
-      "hint": "Verwachting aan de bron moet kloppen."
+      "id": "excel-structure",
+      "text": "Is the Excel with crate slips structured enough to map to customers and drivers?",
+      "hint": "Shapes the data preparation effort."
     },
     {
-      "id": "succesdefinitie",
-      "text": "Wanneer is dit voor Nienke een succes: minder afboekingen of minder discussie met klanten?",
-      "hint": "Maakt de uitkomst meetbaar in het voorstel."
+      "id": "overview-rhythm",
+      "text": "Is there a fixed rhythm when the crate overview is needed, like weekly or per delivery?",
+      "hint": "Sets the dashboard refresh frequency."
     },
     {
-      "id": "delen-kees",
-      "text": "Moet het overzicht standalone deelbaar zijn met Kees, of alleen intern voor Nienke en Sven?",
-      "hint": "Bepaalt of we een deelbare view bouwen."
+      "id": "kees-view",
+      "text": "Should the dashboard be shareable standalone with Kees for his quarterly customer meetings?",
+      "hint": "Affects access and export features."
     }
   ]
 }

@@ -39,11 +39,11 @@ export const COLORS = {
 /** CSS px per mm (CSS defines 1in = 96px = 25.4mm). */
 export const PX_PER_MM = 96 / 25.4;
 
-/** Dutch long date, e.g. "24 september 2026". */
+/** English long date, e.g. "24 September 2026". */
 export function formatDocumentDate(iso: string): string {
   const months = [
-    "januari", "februari", "maart", "april", "mei", "juni",
-    "juli", "augustus", "september", "oktober", "november", "december",
+    "January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December",
   ];
   const d = new Date(iso);
   return `${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()}`;

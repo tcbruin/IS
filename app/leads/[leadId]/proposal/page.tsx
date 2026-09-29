@@ -55,7 +55,7 @@ export default async function ProposalPage({
         transcriptInput(),
         notesInput(notes, { href: `/leads/${leadId}/questions` }),
         sourceSystemInput(lead.sourceSystem),
-        answersInput("Antwoorden op de verduidelijkingsvragen", questions, answers, `/leads/${leadId}/questions`),
+        answersInput("Answers to the clarifying questions", questions, answers, `/leads/${leadId}/questions`),
         examplesInput(examples.length),
       ]}
       principles={examples.length > 0 ? [...PROPOSAL_PRINCIPLES, PROPOSAL_EXAMPLES_PRINCIPLE] : PROPOSAL_PRINCIPLES}
@@ -65,16 +65,16 @@ export default async function ProposalPage({
   if (lead.state === "questions1_answered") {
     return (
       <div className="page-stack">
-        <StepIntro title="Voorstel" />
+        <StepIntro title="Proposal" />
         {contextPanel}
         <AutoGenerateCard
-          title="De AI schrijft het concept"
-          description="Op basis van het gesprek, je notities en je antwoorden. Daarna kun je het zelf bewerken of de AI om aanpassingen vragen."
+          title="The AI writes the draft"
+          description="Based on the call, your notes and your answers. Afterwards you can edit it yourself or ask the AI for changes."
           url={`/api/leads/${leadId}/proposal`}
-          label="Voorstel genereren"
-          busyLabel="Voorstel wordt geschreven..."
+          label="Generate proposal"
+          busyLabel="Writing proposal..."
         />
-        <StepActions back={{ href: `/leads/${leadId}/questions`, label: "Vragen" }} />
+        <StepActions back={{ href: `/leads/${leadId}/questions`, label: "Questions" }} />
       </div>
     );
   }

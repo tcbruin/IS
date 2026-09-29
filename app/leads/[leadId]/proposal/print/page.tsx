@@ -7,7 +7,7 @@ import { ProposalDocument } from "@/components/proposal/ProposalDocument";
 import { PrintButton } from "@/components/ui/PrintButton";
 import styles from "./page.module.css";
 
-/** Print view of the final proposal — the same A4 pages as on screen; "Opslaan als PDF" in
+/** Print view of the final proposal — the same A4 pages as on screen; "Save as PDF" in
  * the browser's print dialog gives the PDF attachment. */
 export default async function ProposalPrintPage({
   params,

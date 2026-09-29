@@ -1,29 +1,29 @@
 {
   "questions": [
     {
-      "id": "belangrijkste-getal",
-      "text": "Welk cijfer moet bovenaan het dashboard staan: het fustsaldo per klant of het aantal ontbrekende bonnetjes?",
-      "hint": "Bepaalt welk cijfer het dashboard domineert."
+      "id": "primary-kpi",
+      "text": "Which number should dominate the dashboard: outstanding crates per customer or the weekly increase?",
+      "hint": "Determines the main visual and ranking logic."
     },
     {
-      "id": "vergelijking",
-      "text": "Waarmee vergelijkt Nienke het fustsaldo per klant het liefst: de vorige week of een afgesproken norm?",
-      "hint": "Bepaalt of we een normlijn of week-op-week tonen."
+      "id": "comparison-baseline",
+      "text": "Should each customer's balance be compared to last week, to the start of the season, or to a norm?",
+      "hint": "Sets the reference line for judging whether a balance is rising."
     },
     {
-      "id": "uitsplitsing",
-      "text": "Denkt Nienke vooral per klant of per chauffeur als ze naar het fustsaldo kijkt?",
-      "hint": "Bepaalt de hoofdindeling van het dashboard."
+      "id": "breakdown-level",
+      "text": "Do you think per customer, per driver, or per delivery in the overview?",
+      "hint": "Decides the primary grouping and drill-down in the dashboard."
     },
     {
-      "id": "signaal-drempel",
-      "text": "Vanaf welk verschil moet een klant als signaal worden gemarkeerd: 10 kratten of 50?",
-      "hint": "Bepaalt wanneer het dashboard alarm slaat."
+      "id": "weekly-rhythm",
+      "text": "Is there a fixed moment each week when the crate overview must be ready?",
+      "hint": "Anchors the refresh schedule and the weekly cycle."
     },
     {
-      "id": "kwartaalgesprek",
-      "text": "Moet de export voor Kees hetzelfde beeld tonen als het interne dashboard, of een samengevatte versie?",
-      "hint": "Bepaalt of we twee weergaven bouwen."
+      "id": "headline-number",
+      "text": "Should the dashboard headline the 1,800 vs 950 gap or the 850-crate difference?",
+      "hint": "Picks the number that makes the value instantly visible."
     }
   ]
 }

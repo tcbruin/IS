@@ -13,7 +13,7 @@ export async function POST(
     const { leadId } = await params;
     const lead = await getLead(leadId);
     if (!isStateAtLeast(lead.state, "dashboard_generated")) {
-      throw new WorkflowError("Het voorstel en dashboard moeten eerst klaar zijn.");
+      throw new WorkflowError("The proposal and dashboard must be completed first.");
     }
 
     const [finalProposal, dashboard] = await Promise.all([

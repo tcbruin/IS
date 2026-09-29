@@ -9,28 +9,28 @@ import { track } from "./track";
 import styles from "./ReportIssueButton.module.css";
 
 const STEP_LABELS: Record<StepKey, string> = {
-  gesprek: "Gesprek & vragen",
-  voorstel: "Voorstel",
+  call: "Call & questions",
+  proposal: "Proposal",
   dashboard: "Dashboard",
-  versturen: "Versturen",
+  send: "Send",
 };
 
-/** Quiet "Meld een fout" in the lead header: logs what went wrong for the failure analysis.
+/** Quiet "Report an issue" in the lead header: logs what went wrong for the failure analysis.
  * Native <dialog>, the step is pre-filled from the page you're on. */
 export function ReportIssueButton({ leadId }: { leadId: string }) {
   const pathname = usePathname();
   const dialogRef = useRef<HTMLDialogElement>(null);
-  const [step, setStep] = useState<StepKey>("gesprek");
+  const [step, setStep] = useState<StepKey>("call");
   const [category, setCategory] = useState<(typeof FAILURE_CATEGORIES)[number] | null>(null);
-  const [severity, setSeverity] = useState<"klein" | "groot">("klein");
+  const [severity, setSeverity] = useState<"minor" | "major">("minor");
   const [section, setSection] = useState("");
   const [note, setNote] = useState("");
   const [sent, setSent] = useState(false);
 
   function open() {
-    setStep(getStepForRoute(pathname.split("/")[3])?.key ?? "gesprek");
+    setStep(getStepForRoute(pathname.split("/")[3])?.key ?? "call");
     setCategory(null);
-    setSeverity("klein");
+    setSeverity("minor");
     setSection("");
     setNote("");
     setSent(false);
@@ -54,17 +54,17 @@ export function ReportIssueButton({ leadId }: { leadId: string }) {
   return (
     <>
       <button type="button" className={styles.trigger} onClick={open}>
-        Meld een fout
+        Report an issue
       </button>
       <dialog ref={dialogRef} className={styles.dialog} onClick={(e) => e.target === dialogRef.current && dialogRef.current?.close()}>
         {sent ? (
-          <p className={styles.thanks}>✓ Vastgelegd — dank je. Dit telt mee in de foutenanalyse.</p>
+          <p className={styles.thanks}>✓ Logged — thank you. This counts toward the failure analysis.</p>
         ) : (
           <div className={styles.body}>
-            <h3 className={styles.title}>Meld een fout</h3>
+            <h3 className={styles.title}>Report an issue</h3>
 
             <label className={styles.field}>
-              <span>Stap</span>
+              <span>Step</span>
               <select value={step} onChange={(e) => setStep(e.target.value as StepKey)}>
                 {STEP_KEYS.map((k) => (
                   <option key={k} value={k}>
@@ -75,7 +75,7 @@ export function ReportIssueButton({ leadId }: { leadId: string }) {
             </label>
 
             <div className={styles.field}>
-              <span>Wat ging er mis?</span>
+              <span>What went wrong?</span>
               <div className={styles.chips}>
                 {FAILURE_CATEGORIES.map((c) => (
                   <button
@@ -91,24 +91,24 @@ export function ReportIssueButton({ leadId }: { leadId: string }) {
             </div>
 
             <div className={styles.field}>
-              <span>Ernst</span>
+              <span>Severity</span>
               <div className={styles.chips}>
-                {(["klein", "groot"] as const).map((s) => (
+                {(["minor", "major"] as const).map((s) => (
                   <button
                     key={s}
                     type="button"
                     className={[styles.chip, severity === s ? styles.chipOn : ""].join(" ")}
                     onClick={() => setSeverity(s)}
                   >
-                    {s === "klein" ? "Klein — even corrigeren" : "Groot — niet bruikbaar"}
+                    {s === "minor" ? "Minor — quick fix" : "Major — not usable"}
                   </button>
                 ))}
               </div>
             </div>
 
-            {step === "voorstel" && (
+            {step === "proposal" && (
               <label className={styles.field}>
-                <span>Sectie (optioneel)</span>
+                <span>Section (optional)</span>
                 <select value={section} onChange={(e) => setSection(e.target.value)}>
                   <option value="">—</option>
                   {PROPOSAL_SECTIONS.map((s) => (
@@ -121,16 +121,16 @@ export function ReportIssueButton({ leadId }: { leadId: string }) {
             )}
 
             <label className={styles.field}>
-              <span>Toelichting (optioneel)</span>
-              <textarea rows={3} value={note} onChange={(e) => setNote(e.target.value)} placeholder="Wat klopte er niet?" />
+              <span>Details (optional)</span>
+              <textarea rows={3} value={note} onChange={(e) => setNote(e.target.value)} placeholder="What was wrong?" />
             </label>
 
             <div className={styles.actions}>
               <button type="button" className={styles.cancel} onClick={() => dialogRef.current?.close()}>
-                Annuleren
+                Cancel
               </button>
               <button type="button" className={styles.submit} onClick={() => void submit()} disabled={!category}>
-                Vastleggen
+                Log issue
               </button>
             </div>
           </div>

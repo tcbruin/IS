@@ -37,12 +37,12 @@ export function NotesEditor({
       });
       if (!res.ok) {
         const body = await res.json().catch(() => ({}));
-        throw new Error(body.error ?? "Opslaan mislukt.");
+        throw new Error(body.error ?? "Could not save.");
       }
       setEditing(false);
       router.refresh();
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Er ging iets mis.");
+      setError(err instanceof Error ? err.message : "Something went wrong.");
     } finally {
       setSaving(false);
     }
@@ -54,10 +54,10 @@ export function NotesEditor({
         {initialNotes ? (
           <p style={{ whiteSpace: "pre-wrap", marginTop: 0 }}>{initialNotes}</p>
         ) : (
-          <p style={{ opacity: 0.6, marginTop: 0 }}>Nog geen notities.</p>
+          <p style={{ opacity: 0.6, marginTop: 0 }}>No notes yet.</p>
         )}
         <Button variant="secondary" onClick={() => setEditing(true)}>
-          {initialNotes ? "Notities bewerken" : "Notities toevoegen"}
+          {initialNotes ? "Edit notes" : "Add notes"}
         </Button>
       </div>
     );
@@ -74,7 +74,7 @@ export function NotesEditor({
       {error && <p style={{ color: "var(--color-rood)" }}>{error}</p>}
       <div style={{ display: "flex", gap: 8, marginTop: 10 }}>
         <Button onClick={save} disabled={saving}>
-          {saving ? "Opslaan..." : "Opslaan"}
+          {saving ? "Saving..." : "Save notes"}
         </Button>
         <Button
           variant="secondary"
@@ -84,7 +84,7 @@ export function NotesEditor({
           }}
           disabled={saving}
         >
-          Annuleren
+          Cancel
         </Button>
       </div>
     </div>

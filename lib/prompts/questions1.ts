@@ -9,8 +9,9 @@ import {
 import { DATAVANCE_PLAYBOOK } from "./playbook";
 
 /** Logged with every call so evaluation can compare prompt iterations. Bump on meaningful edits.
- * v1-lang: long multi-part questions with embedded proposals. v2-kort: one topic, ≤20 words, hint. */
-export const PROMPT_VERSION = "q1-v2-kort";
+ * v1-lang: long multi-part questions with embedded proposals. v2-kort: one topic, ≤20 words, hint.
+ * v3-en: English prompts and output. */
+export const PROMPT_VERSION = "q1-v3-en";
 
 export function buildQuestions1Prompt(
   transcript: string,
@@ -31,7 +32,7 @@ export function buildQuestions1Prompt(
   ].join("\n");
 
   const user = [
-    `Transcript van het salesgesprek:\n\n${transcript}`,
+    `Sales call transcript:\n\n${transcript}`,
     notesBlock(notes),
     sourceSystemBlock(sourceSystem),
   ]

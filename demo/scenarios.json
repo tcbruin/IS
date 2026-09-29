@@ -4,30 +4,30 @@
       "id": "verkerk",
       "companyName": "Verkerk Versdistributie B.V.",
       "leadName": "Nienke Aalders",
-      "sourceSystem": "AFAS (facturatie) + Excel met fustbonnetjes",
-      "pitch": "Groothandel in groente en fruit: niemand weet hoeveel kratten (fust) er écht bij klanten staan — 1800 volgens eigen Excel, de grootste klant zegt 950.",
+      "sourceSystem": "AFAS (invoicing) + Excel with crate slips",
+      "pitch": "Fruit and vegetable wholesaler: nobody knows how many returnable crates are really sitting at customers — 1,800 according to their own Excel, while the biggest customer says 950.",
       "transcriptFile": "verkerk/transcript.txt",
       "notesFile": "verkerk/notes.txt",
-      "briefing": "Scope is het actuele fustsaldo per klant per week. Chauffeurs blijven met papieren bonnetjes werken, Sven en Nienke tikken ze over in Excel. Kwartaalafstemming met klanten moet eenvoudiger."
+      "briefing": "Scope is the current crate balance per customer per week. Drivers keep working with paper slips, Sven and Nienke type them into Excel. Quarterly reconciliation with customers needs to get easier."
     },
     {
       "id": "kramer",
       "companyName": "Kramer Bouwservice B.V.",
       "leadName": "Lisa Kramer",
       "sourceSystem": "Exact Online",
-      "pitch": "Bouwbedrijf met zes à zeven lopende projecten: marge per project is pas bekend als het project al klaar is. Norm: onder vijftien procent begint het zorgen te baren.",
+      "pitch": "Construction company with six or seven projects running: margin per project is only known once the project is already finished. Rule of thumb: below fifteen percent it starts to get worrying.",
       "transcriptFile": "kramer/transcript.txt",
-      "briefing": "Scope is een wekelijks marge-overzicht per project, klaar vóór het maandagoverleg met Erik. Uren komen uit de Excel-urenbriefjes van de ploegbazen, inkoopfacturen uit Exact Online. Norm: vijftien procent marge."
+      "briefing": "Scope is a weekly margin overview per project, ready before the Monday meeting with Erik. Hours come from the site foremen's Excel timesheets, purchase invoices from Exact Online. Threshold: fifteen percent margin."
     },
     {
       "id": "van-dijk",
       "companyName": "Van Dijk Techniek B.V.",
       "leadName": "Marloes Bakker",
-      "sourceSystem": "Excel-sheets per sales rep (Exact Online alleen voor facturatie)",
-      "pitch": "Groothandel met een man of acht buitendienst: elke rep een eigen Excel-pipeline, samenvoegen kost Marloes elke week vier uur en is maandag alweer verouderd.",
+      "sourceSystem": "Excel sheets per sales rep (Exact Online only for invoicing)",
+      "pitch": "Wholesaler with about eight field sales reps: every rep has their own Excel pipeline, merging them costs Marloes four hours every week and is already out of date by Monday.",
       "transcriptFile": "van-dijk/transcript.txt",
       "notesFile": "van-dijk/notes.txt",
-      "briefing": "Scope is een actueel pipeline-overzicht per rep en regio voor het maandoverleg met de directie, zonder CRM-traject. De reps blijven hun eigen Excel-sheets gebruiken."
+      "briefing": "Scope is an up-to-date pipeline overview per rep and region for the monthly management meeting, without a CRM project. The reps keep using their own Excel sheets."
     }
   ]
 }

@@ -12,7 +12,7 @@ export async function POST(request: Request) {
   try {
     const { scenarioId, mode } = bodySchema.parse(await request.json());
     const scenario = await getScenario(scenarioId);
-    if (!scenario) return NextResponse.json({ error: "Onbekend demoscenario." }, { status: 404 });
+    if (!scenario) return NextResponse.json({ error: "Unknown demo scenario." }, { status: 404 });
 
     const [transcript, notes] = await Promise.all([
       readScenarioFile(scenario.transcriptFile),
@@ -40,7 +40,7 @@ export async function POST(request: Request) {
   }
 }
 
-/** "Demo's opruimen": deletes every lead started from /demo. */
+/** "Clean up demos": deletes every lead started from /demo. */
 export async function DELETE() {
   try {
     const demoLeads = (await listLeads()).filter((l) => l.demo);

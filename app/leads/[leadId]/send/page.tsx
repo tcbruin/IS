@@ -33,35 +33,35 @@ export default async function SendPage({ params }: { params: Promise<{ leadId: s
 
   return (
     <div className="page-stack">
-      <StepIntro title="Versturen">
-        Download de bijlagen, kopieer de e-mail naar je mailprogramma en markeer daarna als verzonden.
+      <StepIntro title="Send">
+        Download the attachments, copy the email into your mail client, then mark as sent.
       </StepIntro>
 
       <Card>
         <h3 className={styles.sectionTitle}>
-          <span className={styles.number}>1</span> Bijlagen
+          <span className={styles.number}>1</span> Attachments
         </h3>
         <AttachmentLinks leadId={leadId} />
       </Card>
 
       <Card>
         <h3 className={styles.sectionTitle}>
-          <span className={styles.number}>2</span> Begeleidende e-mail
+          <span className={styles.number}>2</span> Cover email
         </h3>
         <CoverEmailPanel leadId={leadId} initialEmail={coverEmail} />
       </Card>
 
       <Card>
         <h3 className={styles.sectionTitle}>
-          <span className={styles.number}>3</span> Afronden
+          <span className={styles.number}>3</span> Finish
         </h3>
         {isSent ? (
           <StatusBlock tone="done">
-            Verzonden{sentAt ? ` op ${new Date(sentAt).toLocaleDateString("nl-NL")}` : ""}.
+            Sent{sentAt ? ` on ${new Date(sentAt).toLocaleDateString("en-GB")}` : ""}.
           </StatusBlock>
         ) : (
           <p className={styles.muted}>
-            De app verstuurt zelf niets — markeer als verzonden zodra jij het naar de klant hebt gemaild.
+            The app does not send anything itself — mark as sent once you have emailed it to the client.
           </p>
         )}
       </Card>
@@ -77,7 +77,7 @@ export default async function SendPage({ params }: { params: Promise<{ leadId: s
 
       <StepActions back={{ href: `/leads/${leadId}/dashboard`, label: "Dashboard" }}>
         {!isSent && (
-          <GenerateButton url={`/api/leads/${leadId}/send`} label="Markeer als verzonden" busyLabel="Bezig..." />
+          <GenerateButton url={`/api/leads/${leadId}/send`} label="Mark as sent" busyLabel="Working..." />
         )}
       </StepActions>
     </div>

@@ -1,12 +1,12 @@
 {
-  "sourceLeadId": "arqu0z7i0t",
-  "recordedAt": "2026-09-24T17:01:30.783Z",
+  "sourceLeadId": "l98qpmf9z1",
+  "recordedAt": "2026-09-29T09:21:26.348Z",
   "model": "deepseek-chat",
   "promptVersions": {
-    "questions1": "q1-v2-kort",
-    "proposal": "proposal-v2-keep-edits",
-    "questions2": "q2-v2-kort",
-    "dashboard": "dashboard-v2.1-model",
-    "coverEmail": "email-v2-illustratief"
+    "questions1": "q1-v3-en",
+    "proposal": "proposal-v3-en",
+    "questions2": "q2-v3-en",
+    "dashboard": "dashboard-v3-en",
+    "coverEmail": "email-v3-en"
   }
 }

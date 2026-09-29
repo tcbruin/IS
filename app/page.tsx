@@ -42,8 +42,8 @@ export default async function HomePage() {
   return (
     <div className={styles.page}>
       <Hero
-        title="Voorstel & PoC Dashboard Generator"
-        subtitle="Van salesgesprek naar voorstel en proof-of-concept dashboard, in Datavance huisstijl."
+        title="Proposal & PoC Dashboard Generator"
+        subtitle="From sales call to proposal and proof-of-concept dashboard, in the Datavance house style."
       />
 
       <div className={styles.headerRow}>
@@ -52,16 +52,16 @@ export default async function HomePage() {
           <Link href="/demo" className={styles.quietLink}>
             Demo
           </Link>
-          <Link href="/evaluatie" className={styles.quietLink}>
-            Evaluatie
+          <Link href="/evaluation" className={styles.quietLink}>
+            Evaluation
           </Link>
-          <LinkButton href="/leads/new">+ Nieuwe lead</LinkButton>
+          <LinkButton href="/leads/new">+ New lead</LinkButton>
         </div>
       </div>
 
       {realLeads.length === 0 ? (
         <Card>
-          <p className={styles.empty}>Nog geen leads. Upload een transcript om te beginnen.</p>
+          <p className={styles.empty}>No leads yet. Upload a transcript to get started.</p>
         </Card>
       ) : (
         <div className={styles.list}>
@@ -73,7 +73,7 @@ export default async function HomePage() {
 
       {demoLeads.length > 0 && (
         <>
-          <h3 className={styles.subheading}>Demo&apos;s</h3>
+          <h3 className={styles.subheading}>Demos</h3>
           <div className={styles.list}>
             {demoLeads.map((lead) => (
               <LeadCard key={lead.id} lead={lead} />

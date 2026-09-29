@@ -19,7 +19,7 @@ export async function renderDashboardExport(input: {
     fs.readFile(path.join(process.cwd(), "components", "dashboard", "canvas.css"), "utf-8"),
   ]);
   if (/^\s*import\s/m.test(engineSource)) {
-    throw new Error("lib/dashboardEngine.js mag niets importeren: het wordt letterlijk in de export geplakt.");
+    throw new Error("lib/dashboardEngine.js must not import anything: it is inlined verbatim into the export.");
   }
   const engine = engineSource.replace(/^export /gm, "");
   const data = JSON.stringify({
@@ -33,7 +33,7 @@ export async function renderDashboardExport(input: {
   const title = escapeHtml(input.record.spec.title);
 
   return `<!doctype html>
-<html lang="nl">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -51,13 +51,13 @@ ${css}
   <div class="dv-header"></div>
   <img class="dv-logo" alt="Datavance" src="data:image/png;base64,${input.logoBase64}">
   <div class="dv-divider"></div>
-  <div class="dv-titles"><div class="dv-eyebrow">Illustratieve voorbeelddata · ${company}</div><h1 class="dv-title">${title}</h1></div>
-  <div class="dv-meta"><div class="dv-meta-label">Gegenereerd</div><div class="dv-meta-value" id="dv-generated"></div></div>
+  <div class="dv-titles"><div class="dv-eyebrow">Illustrative sample data · ${company}</div><h1 class="dv-title">${title}</h1></div>
+  <div class="dv-meta"><div class="dv-meta-label">Generated</div><div class="dv-meta-value" id="dv-generated"></div></div>
   <div class="dv-filterbar" id="dv-filterbar"></div>
   <div class="dv-content" id="dv-content"></div>
   <div class="dv-footer"></div>
 </div></div>
-<p class="dv-note">Alle cijfers in dit dashboard zijn illustratieve voorbeelddata, geen echte gegevens van ${company}. Het laat zien hoe het inzicht eruit komt te zien.</p>
+<p class="dv-note">All figures in this dashboard are illustrative sample data, not real data from ${company}. It shows what the insight will look like.</p>
 <script>
 (function () {
 "use strict";

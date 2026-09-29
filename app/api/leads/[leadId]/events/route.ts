@@ -19,7 +19,7 @@ export async function POST(
     return NextResponse.json({ ok: true });
   } catch (err) {
     if (err instanceof SyntaxError) {
-      return NextResponse.json({ error: "Ongeldige JSON." }, { status: 400 });
+      return NextResponse.json({ error: "Invalid JSON." }, { status: 400 });
     }
     return handleApiError(err);
   }

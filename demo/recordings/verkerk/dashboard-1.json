@@ -1,34 +1,34 @@
 {
-  "title": "Fustsaldo per klant",
-  "layout": "overview",
+  "title": "Crate balance per customer",
+  "layout": "openItems",
   "model": {
     "entity": {
-      "singular": "Klant",
-      "plural": "Klanten",
+      "singular": "Customer",
+      "plural": "Customers",
       "count": 93,
       "names": [
-        "Horeca De Gouden Lepel",
+        "De Groene Lepel",
+        "Brasserie Zeven",
         "Supermarkt Van Dijk",
-        "Brasserie Het Anker",
-        "Supermarkt De Waard",
-        "Restaurant Zilte Zon",
+        "Eetcafé De Haven",
         "Supermarkt Hofstede",
-        "Eetcafé De Brug",
-        "Supermarkt Meerzicht",
-        "Hotel Duinzicht",
-        "Supermarkt Van Loon",
-        "Cafetaria De Hoek",
-        "Supermarkt Bergzicht"
+        "Restaurant Amandel",
+        "Bistro De Kade",
+        "Supermarkt Noordermarkt",
+        "Trattoria Sole",
+        "Supermarkt De Waal",
+        "Lunchroom Vork",
+        "Supermarkt Oostpoort"
       ],
       "sizeSpread": "skewed"
     },
     "dimensions": [
       {
-        "key": "klanttype",
-        "label": "Klanttype",
+        "key": "segment",
+        "label": "Segment",
         "values": [
-          "Horeca",
-          "Supermarkt"
+          "Restaurants",
+          "Supermarkets"
         ]
       }
     ],
@@ -38,54 +38,54 @@
     },
     "measures": [
       {
-        "key": "afgeleverd",
-        "label": "Afgeleverd fust",
+        "key": "delivered",
+        "label": "Crates delivered",
         "unit": "count",
         "higherIsBetter": true,
-        "typical": 60,
+        "typical": 120,
         "spread": "high",
         "trend": "flat"
       },
       {
-        "key": "retour",
-        "label": "Retour fust",
+        "key": "returned",
+        "label": "Crates returned",
         "unit": "count",
         "higherIsBetter": true,
-        "spread": "high",
+        "spread": "medium",
         "trend": "flat",
         "relativeTo": {
-          "measure": "afgeleverd",
-          "min": 0.55,
-          "max": 0.95
+          "measure": "delivered",
+          "min": 0.75,
+          "max": 1
         }
-      },
-      {
-        "key": "bonnetjes_ontbreekt",
-        "label": "Ontbrekende bonnetjes",
-        "unit": "count",
-        "higherIsBetter": false,
-        "typical": 2,
-        "spread": "medium",
-        "trend": "flat"
       }
     ],
     "derived": [
       {
-        "key": "fustsaldo",
-        "label": "Fustsaldo",
+        "key": "crates_outstanding",
+        "label": "Crates outstanding",
         "unit": "count",
         "higherIsBetter": false,
         "op": "balance",
-        "a": "afgeleverd",
-        "b": "retour"
+        "a": "delivered",
+        "b": "returned"
       },
       {
-        "key": "fustwaarde",
-        "label": "Vervangingswaarde fust",
+        "key": "crates_week_change",
+        "label": "Change vs last week",
+        "unit": "count",
+        "higherIsBetter": false,
+        "op": "subtract",
+        "a": "delivered",
+        "b": "returned"
+      },
+      {
+        "key": "crates_value",
+        "label": "Replacement value",
         "unit": "euro",
         "higherIsBetter": false,
         "op": "multiply",
-        "a": "fustsaldo",
+        "a": "crates_outstanding",
         "factor": 9
       }
     ]
@@ -94,72 +94,81 @@
     {
       "kind": "count",
       "value": 93,
-      "quote": "verspreid over in totaal drieënnegentig klanten"
+      "quote": "spread across ninety-three customers in total"
     },
     {
       "kind": "level",
-      "measure": "fustsaldo",
+      "measure": "crates_outstanding",
       "value": 1800,
-      "quote": "zo'n 1800 kratten openstaan bij klanten"
+      "quote": "we had about 1800 crates outstanding with customers"
     }
   ],
   "kpis": [
     {
-      "measure": "fustsaldo",
-      "label": "Fustsaldo open bij klanten",
+      "measure": "crates_outstanding",
+      "label": "Crates outstanding",
       "show": "value"
     },
     {
-      "measure": "fustwaarde",
-      "label": "Vervangingswaarde open fust",
+      "measure": "crates_value",
+      "label": "Replacement value",
       "show": "value"
-    },
-    {
-      "measure": "fustsaldo",
-      "label": "Klanten met stijgend saldo",
-      "show": "flagCount",
-      "flag": "vsPrevious"
     }
   ],
   "visuals": [
     {
+      "type": "table",
+      "title": "Crate balance per customer",
+      "rows": "entity",
+      "columns": [
+        "crates_outstanding",
+        "crates_week_change",
+        "crates_value"
+      ],
+      "flag": {
+        "measure": "crates_week_change",
+        "rule": "vsPrevious"
+      },
+      "sortBy": "crates_outstanding",
+      "sortDir": "desc"
+    },
+    {
       "type": "chart",
-      "title": "Afgeleverd en retour fust per week",
+      "title": "Crates outstanding per week",
       "x": "period",
       "series": [
         {
-          "measure": "afgeleverd",
-          "style": "bar"
+          "measure": "delivered",
+          "style": "bar",
+          "running": false
         },
         {
-          "measure": "retour",
-          "style": "bar"
+          "measure": "returned",
+          "style": "bar",
+          "running": false
         },
         {
-          "measure": "fustsaldo",
-          "style": "line"
+          "measure": "crates_week_change",
+          "style": "line",
+          "running": true
         }
       ]
     },
     {
-      "type": "table",
-      "title": "Fustsaldo per klant",
-      "rows": "entity",
-      "columns": [
-        "fustsaldo",
-        "fustwaarde",
-        "bonnetjes_ontbreekt"
-      ],
-      "flag": {
-        "measure": "fustsaldo",
-        "rule": "vsPrevious"
-      },
-      "sortBy": "fustsaldo",
-      "sortDir": "desc"
+      "type": "chart",
+      "title": "Crates outstanding per segment",
+      "x": "segment",
+      "series": [
+        {
+          "measure": "crates_outstanding",
+          "style": "bar",
+          "running": false
+        }
+      ]
     }
   ],
   "filters": [
-    "klanttype",
+    "segment",
     "entity"
   ]
 }

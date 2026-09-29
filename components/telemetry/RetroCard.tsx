@@ -5,10 +5,10 @@ import { track } from "./track";
 import styles from "./RetroCard.module.css";
 
 const ITEMS = [
-  { key: "questions", label: "Vragen" },
-  { key: "proposal", label: "Voorstel" },
+  { key: "questions", label: "Questions" },
+  { key: "proposal", label: "Proposal" },
   { key: "dashboard", label: "Dashboard" },
-  { key: "email", label: "E-mail" },
+  { key: "email", label: "Email" },
 ] as const;
 
 /**
@@ -46,8 +46,8 @@ export function RetroCard({
 
   return (
     <div className={styles.card}>
-      <h3 className={styles.title}>Terugblik</h3>
-      <p className={styles.intro}>Hoe bruikbaar was wat de AI maakte? (1 = onbruikbaar, 5 = direct bruikbaar)</p>
+      <h3 className={styles.title}>Retrospective</h3>
+      <p className={styles.intro}>How useful was what the AI produced? (1 = unusable, 5 = usable as is)</p>
       <div className={styles.grid}>
         {ITEMS.map((item) => (
           <div key={item.key} className={styles.row}>
@@ -61,7 +61,7 @@ export function RetroCard({
                   aria-checked={ratings[item.key] === n}
                   className={[styles.star, (ratings[item.key] ?? 0) >= n ? styles.on : ""].join(" ")}
                   onClick={() => rate(item.key, n)}
-                  title={`${n} van 5`}
+                  title={`${n} of 5`}
                 >
                   ★
                 </button>
@@ -72,7 +72,7 @@ export function RetroCard({
       </div>
 
       <label className={styles.estimate}>
-        <span>Hoe lang had dit zonder de app gekost?</span>
+        <span>How long would this have taken without the app?</span>
         <span className={styles.estimateInput}>
           <input
             type="number"
@@ -84,12 +84,12 @@ export function RetroCard({
             }}
             onBlur={saveEstimate}
           />
-          minuten {savedEstimate && <span className={styles.saved}>✓ opgeslagen</span>}
+          minutes {savedEstimate && <span className={styles.saved}>✓ saved</span>}
         </span>
       </label>
 
       <label className={styles.comment}>
-        <span>Opmerking (optioneel)</span>
+        <span>Comment (optional)</span>
         <textarea
           rows={2}
           value={comment}
@@ -97,7 +97,7 @@ export function RetroCard({
             setComment(e.target.value);
             setCommentSaved(false);
           }}
-          placeholder="Wat viel op, wat moet beter?"
+          placeholder="What stood out, what should improve?"
         />
       </label>
       {comment.trim() && (
@@ -110,7 +110,7 @@ export function RetroCard({
           }}
           disabled={commentSaved}
         >
-          {commentSaved ? "✓ Opgeslagen" : "Opmerking opslaan"}
+          {commentSaved ? "✓ Saved" : "Save comment"}
         </button>
       )}
     </div>

@@ -2,27 +2,27 @@
   "answers": [
     {
       "questionId": "scope",
-      "answer": "Marge-inzicht tijdens projecten."
+      "answer": "The weekly margin overview per project."
     },
     {
-      "questionId": "uren-per-week",
-      "answer": "Drie tot vier uur, elke maandag."
+      "questionId": "hours-per-week",
+      "answer": "Yes, three to four hours every Monday."
     },
     {
-      "questionId": "exact-export",
-      "answer": "Geen concreet antwoord — schat dit zelf in op basis van het transcript en de notities."
+      "questionId": "exact-access",
+      "answer": "No concrete answer — estimate this yourself based on the transcript and the notes."
     },
     {
-      "questionId": "urenbriefje-formaat",
-      "answer": "Excel, elke ploegbaas mailt wekelijks zijn eigen sheet."
+      "questionId": "foreman-excel-format",
+      "answer": "Roughly the same Excel template; each foreman emails his own sheet weekly."
     },
     {
-      "questionId": "marge-definitie",
-      "answer": "Eén grens van vijftien procent voor alle projecten is prima als start."
+      "questionId": "material-cost-source",
+      "answer": "Purchase invoices are all booked in Exact Online."
     },
     {
-      "questionId": "bijsturen-actie",
-      "answer": "Meerwerk bespreken met de klant of uren beperken."
+      "questionId": "success-metric",
+      "answer": "Yes, one fifteen percent threshold for all projects is fine to start with."
     },
     {
       "questionId": "extra-info",

@@ -20,7 +20,7 @@ export function UploadForm() {
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (!file) {
-      setError("Kies eerst een transcriptbestand.");
+      setError("Choose a transcript file first.");
       return;
     }
     setSubmitting(true);
@@ -36,46 +36,46 @@ export function UploadForm() {
       const res = await fetch("/api/leads", { method: "POST", body: formData });
       if (!res.ok) {
         const body = await res.json().catch(() => ({}));
-        throw new Error(body.error ?? "Uploaden mislukt.");
+        throw new Error(body.error ?? "Upload failed.");
       }
       const { leadId } = await res.json();
       router.push(`/leads/${leadId}`);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Er ging iets mis.");
+      setError(err instanceof Error ? err.message : "Something went wrong.");
       setSubmitting(false);
     }
   }
 
   return (
     <form onSubmit={handleSubmit}>
-      <FormField label="Klant / bedrijfsnaam">
+      <FormField label="Client / company name">
         <TextInput
           required
           value={companyName}
           onChange={(e) => setCompanyName(e.target.value)}
-          placeholder="Bijv. Acme B.V."
+          placeholder="E.g. Acme B.V."
         />
       </FormField>
-      <FormField label="Contactpersoon (optioneel)">
+      <FormField label="Contact person (optional)">
         <TextInput
           value={leadName}
           onChange={(e) => setLeadName(e.target.value)}
-          placeholder="Bijv. Jane de Vries"
+          placeholder="E.g. Jane Smith"
         />
       </FormField>
       <FormField
-        label="Bronsysteem (optioneel)"
-        hint="Het systeem waar we de data straks uit gaan halen, bijv. voor het voorstel en dashboard."
+        label="Source system (optional)"
+        hint="The system we will pull the data from, e.g. for the proposal and dashboard."
       >
         <TextInput
           value={sourceSystem}
           onChange={(e) => setSourceSystem(e.target.value)}
-          placeholder="Bijv. Exact Online, Twinfield, Excel-sheets..."
+          placeholder="E.g. Exact Online, Twinfield, Excel sheets..."
         />
       </FormField>
       <FormField
-        label="Transcript van het salesgesprek"
-        hint="Ondersteunde formaten: .txt, .docx, .srt, .vtt — een audio/video-bestand wordt in v1 nog niet automatisch getranscribeerd."
+        label="Sales call transcript"
+        hint="Supported formats: .txt, .docx, .srt, .vtt — audio/video files are not transcribed automatically in v1."
       >
         <input
           type="file"
@@ -85,14 +85,14 @@ export function UploadForm() {
         />
       </FormField>
       <FormField
-        label="Notities van de consultant (optioneel)"
-        hint="Losse aantekeningen naast het transcript — de AI gebruikt dit als extra context bij elke stap."
+        label="Consultant notes (optional)"
+        hint="Loose notes alongside the transcript — the AI uses them as extra context at every step."
       >
-        <TextArea value={notes} onChange={(e) => setNotes(e.target.value)} placeholder="Bijv. context over systemen, wat al besproken is, gevoel bij het gesprek..." />
+        <TextArea value={notes} onChange={(e) => setNotes(e.target.value)} placeholder="E.g. context on systems, what has been discussed, your impression of the call..." />
       </FormField>
       {error && <p style={{ color: "var(--color-rood)" }}>{error}</p>}
       <Button type="submit" disabled={submitting}>
-        {submitting ? "Bezig met uploaden..." : "Lead aanmaken"}
+        {submitting ? "Uploading..." : "Create lead"}
       </Button>
     </form>
   );

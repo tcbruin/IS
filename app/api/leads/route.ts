@@ -22,21 +22,21 @@ export async function POST(request: NextRequest) {
     const file = formData.get("file");
 
     if (!companyName) {
-      return NextResponse.json({ error: "Klant / bedrijfsnaam is verplicht." }, { status: 400 });
+      return NextResponse.json({ error: "Client / company name is required." }, { status: 400 });
     }
     if (!(file instanceof File)) {
-      return NextResponse.json({ error: "Geen transcriptbestand ontvangen." }, { status: 400 });
+      return NextResponse.json({ error: "No transcript file received." }, { status: 400 });
     }
 
     const ext = path.extname(file.name);
     if (!isSupportedExtension(ext)) {
       return NextResponse.json(
-        { error: `Niet-ondersteund bestandstype. Gebruik: ${SUPPORTED_EXTENSIONS.join(", ")}.` },
+        { error: `Unsupported file type. Use: ${SUPPORTED_EXTENSIONS.join(", ")}.` },
         { status: 400 },
       );
     }
     if (file.size > MAX_SIZE_BYTES) {
-      return NextResponse.json({ error: "Bestand is groter dan 10MB." }, { status: 400 });
+      return NextResponse.json({ error: "File is larger than 10 MB." }, { status: 400 });
     }
 
     const buffer = Buffer.from(await file.arrayBuffer());
@@ -49,7 +49,7 @@ export async function POST(request: NextRequest) {
     const text = await parseTranscript(ext, buffer);
     if (!text.trim()) {
       return NextResponse.json(
-        { error: "Kon geen tekst uit het bestand halen." },
+        { error: "Could not extract any text from the file." },
         { status: 400 },
       );
     }

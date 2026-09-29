@@ -1,56 +1,56 @@
-Transcript salesgesprek — Datavance x Kramer Bouwservice B.V.
-Datum: 12 september 2026
-Deelnemers: Sanne de Groot (Datavance), Lisa Kramer (Operationeel Manager, Kramer Bouwservice B.V.)
-Kanaal: Teams-call, 34 minuten
+Sales call transcript — Datavance x Kramer Bouwservice B.V.
+Date: 12 September 2026
+Participants: Sanne de Groot (Datavance), Lisa Kramer (Operations Manager, Kramer Bouwservice B.V.)
+Channel: Teams call, 34 minutes
 
 ---
 
-Sanne: Hoi Lisa, leuk dat het gelukt is vandaag. Voor de goede orde, ik neem het gesprek op zodat ik er straks niks van hoef te missen, is dat oké?
+Sanne: Hi Lisa, great that we could make it work today. Just so you know, I'm recording the call so I don't miss anything later, is that okay?
 
-Lisa: Ja hoor, prima.
+Lisa: Yes, sure, that's fine.
 
-Sanne: Top. Vertel eens, wat maakte dat je contact hebt opgenomen?
+Sanne: Great. So tell me, what made you reach out to us?
 
-Lisa: Nou, we liepen al een tijdje rond met het gevoel dat we onze projectmarges niet goed in beeld hebben. We doen verbouwingen en kleinschalige nieuwbouw, meestal projecten van acht tot twaalf weken, met een man of vijf tot tien op een klus. En pas als een project helemaal is afgerond en alle facturen binnen zijn, weten we écht wat we eraan hebben overgehouden.
+Lisa: Well, for a while now we've had the feeling that we don't really have a good view of our project margins. We do renovations and small-scale new builds, usually projects of eight to twelve weeks, with about five to ten people on a job. And only once a project is completely finished and all the invoices are in do we really know what we actually made on it.
 
-Sanne: En hoe volgen jullie dat nu tijdens een project?
+Sanne: And how do you track that during a project right now?
 
-Lisa: Elke ploegbaas houdt zijn eigen urenbriefje bij, in een Excelletje dat hij per week naar mij mailt. Ik plak die dan handmatig in een overzicht per project. Inkoopfacturen — hout, beton, installatiemateriaal — die komen los binnen via de boekhouding, en die koppel ik er ook met de hand aan. Dat kost me elke maandag zo'n drie, vier uur.
+Lisa: Every site foreman keeps his own timesheet, in a little Excel file that he emails to me every week. I then paste those manually into an overview per project. Purchase invoices — timber, concrete, installation materials — come in separately through the accounts, and I link those up by hand as well. That takes me about three, four hours every Monday.
 
-Sanne: En als je dat overzicht dan hebt, wat doe je er dan mee?
+Sanne: And once you have that overview, what do you do with it?
 
-Lisa: Dan zie ik pas achteraf of een project quitte speelde of niet. Vorige maand hadden we een project in Bergen op Zoom waar we dachten dat het prima liep, en toen bleek achteraf dat we door onderschatte materiaalkosten bijna geen marge hadden overgehouden. Dat wisten we pas nadat het project al klaar was.
+Lisa: Then I only see afterwards whether a project broke even or not. Last month we had a project in Bergen op Zoom where we thought things were going fine, and then it turned out afterwards that because we'd underestimated the material costs we had barely any margin left. We only found that out after the project was already finished.
 
-Sanne: Dus eigenlijk stuur je nu blind tijdens de rit.
+Sanne: So basically you're flying blind while the job is running.
 
-Lisa: Precies. En dat is het frustrerende — als ik dat een maand eerder had geweten, hadden we nog kunnen bijsturen. Extra uren beperken, of het gesprek met de klant aangaan over meerwerk.
+Lisa: Exactly. And that's what's so frustrating — if I'd known that a month earlier, we could still have course-corrected. Cut back on extra hours, or had the conversation with the client about additional work.
 
-Sanne: Hoeveel projecten lopen er ongeveer tegelijk?
+Sanne: Roughly how many projects are running at the same time?
 
-Lisa: Meestal een stuk of zes, zeven tegelijk, verspreid over Noord-Brabant en een stukje Zeeland.
+Lisa: Usually around six, seven at a time, spread across Noord-Brabant and a bit of Zeeland.
 
-Sanne: En zijn er dingen die je al geprobeerd hebt om dit op te lossen?
+Sanne: And are there things you've already tried to solve this?
 
-Lisa: We hebben even gekeken naar een module in ons ERP-pakket, maar dat vereist dat alle ploegbazen hun uren direct in dat systeem intypen, en dat gaat gewoon niet gebeuren. Die mannen staan op de steiger, niet achter een laptop. Het Excelletje werkt voor hén — het probleem zit hem in het samenvoegen aan mijn kant.
+Lisa: We briefly looked at a module in our ERP package, but that requires all the site foremen to type their hours straight into that system, and that's just not going to happen. Those guys are up on the scaffolding, not behind a laptop. The little Excel file works for them — the problem is the merging on my end.
 
-Sanne: Helder. En even praktisch — wie kijkt er allemaal mee naar die cijfers, als je ze wél op tijd zou hebben?
+Sanne: Got it. And just practically — who would be looking at those numbers, if you did have them on time?
 
-Lisa: In principe alleen ik en mijn broer Erik, hij is directeur. Wij bespreken elke maandagochtend de lopende projecten.
+Lisa: Basically just me and my brother Erik, he's the managing director. We go through the running projects every Monday morning.
 
-Sanne: En wat zou het voor jullie schelen als je élke maandagochtend, voordat dat overleg begint, gewoon een actueel overzicht had van de marge per project, zonder dat jij daar zelf nog voor hoeft te knippen en plakken?
+Sanne: And what difference would it make for you if every Monday morning, before that meeting starts, you simply had an up-to-date overview of the margin per project, without you having to do any cutting and pasting yourself?
 
-Lisa: Dat zou enorm schelen. Dan kunnen we per project echt op tijd bijsturen in plaats van achteraf balen. En ik ben dan ook gewoon die vier uur per week kwijt aan iets anders.
+Lisa: That would make a huge difference. Then we can really course-correct per project in time instead of being annoyed about it afterwards. And I'd also just get those four hours a week back for something else.
 
-Sanne: Duidelijk. Nog één ding — hebben jullie een gevoel bij wat een "gezonde" marge is voor jullie type projecten, of verschilt dat nogal?
+Sanne: Clear. One more thing — do you have a sense of what a "healthy" margin is for your type of projects, or does that vary quite a bit?
 
-Lisa: Het verschilt wel per type project, maar als we onder de vijftien procent zakken beginnen we ons zorgen te maken. Daarboven is het oké.
+Lisa: It does vary per type of project, but if we drop below fifteen percent we start to get worried. Above that it's okay.
 
-Sanne: Helder, dat geeft me genoeg om mee te starten. Ik ga hiermee aan de slag en kom terug met een voorstel — en om het concreet te maken bouwen we ook een voorbeeld-dashboard, zodat je meteen ziet hoe zoiets er voor Kramer Bouwservice uit zou zien.
+Sanne: Clear, that gives me enough to get started. I'll get to work on this and come back to you with a proposal — and to make it concrete we'll also build a sample dashboard, so you can immediately see what something like this would look like for Kramer Bouwservice.
 
-Lisa: Klinkt goed, ik hoor het graag.
+Lisa: Sounds good, I look forward to it.
 
-Sanne: Top, ik stuur je deze week nog iets toe. Bedankt voor je tijd, Lisa!
+Sanne: Great, I'll send you something this week. Thanks for your time, Lisa!
 
-Lisa: Dankjewel, tot snel!
+Lisa: Thank you, talk soon!
 
---- einde transcript ---
+--- end of transcript ---

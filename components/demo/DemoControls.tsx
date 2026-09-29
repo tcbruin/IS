@@ -32,7 +32,7 @@ export function StartDemoButton({
     });
     const body = await res.json().catch(() => ({}));
     if (!res.ok) {
-      setError(body.error ?? "Starten mislukt.");
+      setError(body.error ?? "Could not start the demo.");
       setBusy(false);
       return;
     }
@@ -42,7 +42,7 @@ export function StartDemoButton({
   return (
     <span style={{ display: "inline-flex", flexDirection: "column", gap: 4 }}>
       <Button variant={variant} onClick={() => void start()} disabled={disabled || busy}>
-        {busy ? "Bezig…" : label}
+        {busy ? "Working…" : label}
       </Button>
       {error && <span style={{ color: "var(--color-rood)", fontSize: 14 }}>{error}</span>}
     </span>
@@ -55,18 +55,18 @@ export function PingButton() {
   async function ping() {
     setState({ busy: true, text: null });
     const res = await fetch("/api/demo/ping", { method: "POST" });
-    const body = await res.json().catch(() => ({ ok: false, error: "Geen antwoord" }));
+    const body = await res.json().catch(() => ({ ok: false, error: "No response" }));
     setState({
       busy: false,
       ok: body.ok,
-      text: body.ok ? `Bereikbaar — ${body.ms} ms (${body.model})` : `Niet bereikbaar: ${body.error ?? "onbekende fout"}`,
+      text: body.ok ? `Reachable — ${body.ms} ms (${body.model})` : `Not reachable: ${body.error ?? "unknown error"}`,
     });
   }
 
   return (
     <span style={{ display: "inline-flex", alignItems: "center", gap: 12, flexWrap: "wrap" }}>
       <Button variant="secondary" onClick={() => void ping()} disabled={state.busy}>
-        {state.busy ? "Testen…" : "Test AI-verbinding"}
+        {state.busy ? "Testing…" : "Test AI connection"}
       </Button>
       {state.text && (
         <span style={{ fontWeight: 700, fontSize: 15, color: state.ok ? "var(--color-groen)" : "var(--color-rood)" }}>
@@ -83,7 +83,7 @@ export function CleanupButton({ count }: { count: number }) {
   const [busy, setBusy] = useState(false);
 
   async function cleanup() {
-    if (!window.confirm(`${count} demo-lead(s) verwijderen? Opnames blijven bewaard.`)) return;
+    if (!window.confirm(`Delete ${count} demo lead(s)? Recordings are kept.`)) return;
     setBusy(true);
     await fetch("/api/demo", { method: "DELETE" });
     setBusy(false);
@@ -92,12 +92,12 @@ export function CleanupButton({ count }: { count: number }) {
 
   return (
     <Button variant="danger" onClick={() => void cleanup()} disabled={busy || count === 0}>
-      {busy ? "Bezig…" : "Demo's opruimen"}
+      {busy ? "Working…" : "Clean up demos"}
     </Button>
   );
 }
 
-/** "Opslaan als demo-opname" (lead ⋯ menu): saves this live demo run for fast replays. */
+/** "Save as demo recording" (lead ⋯ menu): saves this live demo run for fast replays. */
 export function SnapshotButton({ leadId }: { leadId: string }) {
   const [state, setState] = useState<"idle" | "busy" | "done" | "error">("idle");
   const [message, setMessage] = useState("");
@@ -111,13 +111,13 @@ export function SnapshotButton({ leadId }: { leadId: string }) {
     });
     const body = await res.json().catch(() => ({}));
     setState(res.ok ? "done" : "error");
-    setMessage(res.ok ? "Opgeslagen als opname voor snelle demo's." : (body.error ?? "Opslaan mislukt."));
+    setMessage(res.ok ? "Saved as a recording for quick demos." : (body.error ?? "Could not save."));
   }
 
   return (
     <span style={{ display: "flex", flexDirection: "column", gap: 4 }}>
       <Button variant="secondary" onClick={() => void snapshot()} disabled={state === "busy"}>
-        {state === "busy" ? "Opslaan…" : "Opslaan als demo-opname"}
+        {state === "busy" ? "Saving…" : "Save as demo recording"}
       </Button>
       {message && (
         <span style={{ fontSize: 13, color: state === "done" ? "var(--color-groen)" : "var(--color-rood)" }}>{message}</span>

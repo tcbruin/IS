@@ -1,39 +1,29 @@
 {
-  "title": "Marge per project tijdens de rit",
+  "title": "Margin per project",
   "layout": "overview",
   "model": {
     "entity": {
       "singular": "Project",
-      "plural": "Projecten",
+      "plural": "Projects",
       "count": 7,
       "names": [
-        "Verbouwing Lindenlaan",
-        "Nieuwbouw De Akker",
-        "Renovatie Molenstraat",
-        "Uitbouw Vlierhof",
-        "Verbouwing Zeedijk",
-        "Nieuwbouw Parkzicht",
-        "Renovatie Kerkplein"
+        "Renovation Sint-Annaland",
+        "New build Halsteren",
+        "Renovation Oosterhout",
+        "New build Roosendaal",
+        "Renovation Goes",
+        "New build Etten-Leur",
+        "Renovation Bergen op Zoom"
       ],
       "sizeSpread": "skewed"
     },
     "dimensions": [
       {
-        "key": "projecttype",
-        "label": "Projecttype",
+        "key": "province",
+        "label": "Province",
         "values": [
-          "Verbouwing",
-          "Kleinschalige nieuwbouw"
-        ]
-      },
-      {
-        "key": "ploegbaas",
-        "label": "Ploegbaas",
-        "values": [
-          "Ploegbaas A",
-          "Ploegbaas B",
-          "Ploegbaas C",
-          "Ploegbaas D"
+          "Noord-Brabant",
+          "Zeeland"
         ]
       }
     ],
@@ -43,8 +33,8 @@
     },
     "measures": [
       {
-        "key": "opbrengst",
-        "label": "Opbrengst",
+        "key": "revenue",
+        "label": "Revenue",
         "unit": "euro",
         "higherIsBetter": true,
         "typical": 42000,
@@ -52,64 +42,59 @@
         "trend": "flat"
       },
       {
-        "key": "uren",
-        "label": "Geboekte uren",
-        "unit": "hours",
-        "higherIsBetter": false,
-        "typical": 320,
-        "spread": "medium",
-        "trend": "flat"
-      },
-      {
-        "key": "inkoop",
-        "label": "Inkoopfacturen",
+        "key": "hours_cost",
+        "label": "Hours cost",
         "unit": "euro",
         "higherIsBetter": false,
         "spread": "medium",
         "trend": "flat",
         "relativeTo": {
-          "measure": "opbrengst",
-          "min": 0.3,
-          "max": 0.62
+          "measure": "revenue",
+          "min": 0.28,
+          "max": 0.46
+        }
+      },
+      {
+        "key": "materials_cost",
+        "label": "Materials cost",
+        "unit": "euro",
+        "higherIsBetter": false,
+        "spread": "medium",
+        "trend": "flat",
+        "relativeTo": {
+          "measure": "revenue",
+          "min": 0.22,
+          "max": 0.44
         }
       }
     ],
     "derived": [
       {
-        "key": "loonkosten",
-        "label": "Loonkosten",
-        "unit": "euro",
-        "higherIsBetter": false,
-        "op": "multiply",
-        "a": "uren",
-        "factor": 52
-      },
-      {
-        "key": "kosten",
-        "label": "Totale kosten",
-        "unit": "euro",
-        "higherIsBetter": false,
-        "op": "add",
-        "a": "loonkosten",
-        "b": "inkoop"
-      },
-      {
-        "key": "marge_eur",
-        "label": "Marge",
+        "key": "margin_eur",
+        "label": "Margin",
         "unit": "euro",
         "higherIsBetter": true,
         "op": "subtract",
-        "a": "opbrengst",
-        "b": "kosten"
+        "a": "revenue",
+        "b": "hours_cost"
       },
       {
-        "key": "marge_pct",
-        "label": "Marge %",
+        "key": "margin_eur_net",
+        "label": "Margin after materials",
+        "unit": "euro",
+        "higherIsBetter": true,
+        "op": "subtract",
+        "a": "margin_eur",
+        "b": "materials_cost"
+      },
+      {
+        "key": "margin_pct",
+        "label": "Margin %",
         "unit": "percent",
         "higherIsBetter": true,
         "op": "divide",
-        "a": "marge_eur",
-        "b": "opbrengst"
+        "a": "margin_eur_net",
+        "b": "revenue"
       }
     ]
   },
@@ -117,29 +102,29 @@
     {
       "kind": "count",
       "value": 7,
-      "quote": "Meestal een stuk of zes, zeven tegelijk"
+      "quote": "Usually around six, seven at a time"
     },
     {
       "kind": "threshold",
-      "measure": "marge_pct",
+      "measure": "margin_pct",
       "value": 15,
-      "quote": "als we onder de vijftien procent zakken"
+      "quote": "if we drop below fifteen percent we start to get worried"
     }
   ],
   "kpis": [
     {
-      "measure": "marge_pct",
-      "label": "Marge %",
+      "measure": "margin_pct",
+      "label": "Margin %",
       "show": "value"
     },
     {
-      "measure": "marge_eur",
-      "label": "Marge",
+      "measure": "margin_eur_net",
+      "label": "Margin",
       "show": "value"
     },
     {
-      "measure": "marge_pct",
-      "label": "Projecten onder norm",
+      "measure": "margin_pct",
+      "label": "Projects below target",
       "show": "flagCount",
       "flag": "threshold"
     }
@@ -147,39 +132,36 @@
   "visuals": [
     {
       "type": "chart",
-      "title": "Marge per project per week",
+      "title": "Margin % per week",
       "x": "period",
       "series": [
         {
-          "measure": "marge_eur",
-          "style": "bar"
-        },
-        {
-          "measure": "marge_pct",
-          "style": "line"
+          "measure": "margin_pct",
+          "style": "line",
+          "running": false
         }
       ]
     },
     {
       "type": "table",
-      "title": "Marge per project",
+      "title": "Margin per project",
       "rows": "entity",
       "columns": [
-        "marge_pct",
-        "marge_eur",
-        "opbrengst",
-        "kosten"
+        "margin_pct",
+        "margin_eur_net",
+        "hours_cost",
+        "materials_cost"
       ],
       "flag": {
-        "measure": "marge_pct",
+        "measure": "margin_pct",
         "rule": "threshold"
       },
-      "sortBy": "marge_pct",
+      "sortBy": "margin_pct",
       "sortDir": "asc"
     }
   ],
   "filters": [
-    "projecttype",
+    "province",
     "entity"
   ]
 }

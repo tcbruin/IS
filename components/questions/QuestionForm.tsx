@@ -6,14 +6,14 @@ import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { TextArea } from "@/components/ui/Form";
 import { StepActions } from "@/components/ui/StepActions";
-import { AI_ESTIMATE_SENTINEL, EXTRA_INFO_QUESTION, type Answer, type Question } from "@/lib/validation";
+import { AI_ESTIMATE_SENTINEL, EXTRA_INFO_QUESTION, isAiEstimateAnswer, type Answer, type Question } from "@/lib/validation";
 import styles from "./QuestionForm.module.css";
 
 export function QuestionForm({
   questions,
   submitUrl,
   initialAnswers,
-  submitLabel = "Antwoorden opslaan",
+  submitLabel = "Save answers",
   redirectTo,
   back,
   extraActions,
@@ -36,15 +36,15 @@ export function QuestionForm({
   const [values, setValues] = useState<Record<string, string>>(() =>
     Object.fromEntries(
       (initialAnswers ?? [])
-        .filter((a) => a.answer !== AI_ESTIMATE_SENTINEL)
+        .filter((a) => !isAiEstimateAnswer(a.answer))
         .map((a) => [a.questionId, a.answer]),
     ),
   );
-  // Pre-check "laat de AI inschatten" on edit if that's exactly what was submitted before.
+  // Pre-check "let the AI estimate" on edit if that's exactly what was submitted before.
   const [estimateFlags, setEstimateFlags] = useState<Record<string, boolean>>(() =>
     Object.fromEntries(
       (initialAnswers ?? [])
-        .filter((a) => a.answer === AI_ESTIMATE_SENTINEL)
+        .filter((a) => isAiEstimateAnswer(a.answer))
         .map((a) => [a.questionId, true]),
     ),
   );
@@ -67,15 +67,15 @@ export function QuestionForm({
       });
       if (!res.ok) {
         const body = await res.json().catch(() => ({}));
-        throw new Error(body.error ?? "Opslaan van antwoorden mislukt.");
+        throw new Error(body.error ?? "Could not save the answers.");
       }
       if (redirectTo) router.push(redirectTo);
       // Also after a push: the lead layout's step bar stays mounted across client navigation.
       router.refresh();
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Er ging iets mis.");
+      setError(err instanceof Error ? err.message : "Something went wrong.");
     } finally {
-      // Resubmits without redirect keep this form mounted — reset so it never sticks on "Bezig".
+      // Resubmits without redirect keep this form mounted — reset so it never sticks on "Working".
       setSubmitting(false);
     }
   }
@@ -91,7 +91,7 @@ export function QuestionForm({
       const answer = recorded.get(q.id);
       if (q.id === EXTRA_INFO_QUESTION.id) {
         nextValues[q.id] = answer || demoFill.briefing;
-      } else if (answer && answer !== AI_ESTIMATE_SENTINEL) {
+      } else if (answer && !isAiEstimateAnswer(answer)) {
         nextValues[q.id] = answer;
         nextFlags[q.id] = false;
       } else {
@@ -123,7 +123,7 @@ export function QuestionForm({
                   id={fieldId}
                   value={values[q.id] ?? ""}
                   onChange={(e) => setValues({ ...values, [q.id]: e.target.value })}
-                  placeholder={estimating ? "De AI maakt hier een onderbouwde inschatting." : isExtraInfo ? "Optioneel" : "Kort is prima"}
+                  placeholder={estimating ? "The AI will make a reasoned estimate here." : isExtraInfo ? "Optional" : "Short is fine"}
                   disabled={estimating}
                   rows={2}
                 />
@@ -134,7 +134,7 @@ export function QuestionForm({
                       checked={estimating}
                       onChange={(e) => setEstimateFlags({ ...estimateFlags, [q.id]: e.target.checked })}
                     />
-                    Weet ik niet — laat de AI inschatten
+                    Don't know — let the AI estimate
                   </label>
                 )}
               </li>
@@ -146,12 +146,12 @@ export function QuestionForm({
       <StepActions back={back}>
         {demoFill && (
           <Button type="button" variant="secondary" onClick={fillDemo}>
-            Vul demo-antwoorden in
+            Fill in demo answers
           </Button>
         )}
         {extraActions}
         <Button type="submit" disabled={submitting}>
-          {submitting ? "Bezig..." : submitLabel}
+          {submitting ? "Working..." : submitLabel}
         </Button>
       </StepActions>
     </form>

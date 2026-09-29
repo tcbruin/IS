@@ -104,12 +104,12 @@ export async function buildProposalDocx(input: {
   }
 
   const doc = new Document({
-    title: `Voorstel voor ${companyName}`,
-    subject: "Voorstel",
+    title: `Proposal for ${companyName}`,
+    subject: "Proposal",
     creator: "Datavance",
     lastModifiedBy: "Datavance",
-    description: `Versie v${input.versionNumber}`,
-    keywords: "Datavance, voorstel",
+    description: `Version v${input.versionNumber}`,
+    keywords: "Datavance, proposal",
     fonts: [
       { name: FONTS.body, data: input.fonts.body, characterSet: CharacterSet.ANSI },
       { name: FONTS.heading, data: input.fonts.heading, characterSet: CharacterSet.ANSI },
@@ -117,7 +117,7 @@ export async function buildProposalDocx(input: {
     styles: {
       default: {
         document: {
-          run: { font: FONTS.body, size: hp(TYPE.bodyPt), color: COLORS.text, language: { value: "nl-NL" } },
+          run: { font: FONTS.body, size: hp(TYPE.bodyPt), color: COLORS.text, language: { value: "en-GB" } },
           paragraph: { spacing: { after: 160, line: Math.round(240 * TYPE.lineHeight) } },
         },
         heading1: {
@@ -191,9 +191,9 @@ export async function buildProposalDocx(input: {
                 tabStops: [{ type: TabStopType.RIGHT, position: CONTENT_WIDTH_TWIP }],
                 spacing: { after: 0 },
                 children: [
-                  new TextRun({ text: `Datavance — Vertrouwelijk — ${companyName}`, size: hp(TYPE.runningPt), color: COLORS.muted }),
+                  new TextRun({ text: `Datavance — Confidential — ${companyName}`, size: hp(TYPE.runningPt), color: COLORS.muted }),
                   new TextRun({
-                    children: ["\tPagina ", PageNumber.CURRENT, " van ", PageNumber.TOTAL_PAGES],
+                    children: ["\tPage ", PageNumber.CURRENT, " of ", PageNumber.TOTAL_PAGES],
                     size: hp(TYPE.runningPt),
                     color: COLORS.muted,
                   }),
@@ -205,7 +205,7 @@ export async function buildProposalDocx(input: {
         children: [
           new Paragraph({
             spacing: { after: 60 },
-            children: [new TextRun({ text: `Voorstel voor ${companyName}`, font: FONTS.heading, size: hp(TYPE.titlePt) })],
+            children: [new TextRun({ text: `Proposal for ${companyName}`, font: FONTS.heading, size: hp(TYPE.titlePt) })],
           }),
           new Paragraph({
             spacing: { after: 360 },

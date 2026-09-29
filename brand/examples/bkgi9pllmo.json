@@ -1,44 +1,44 @@
 {
   "companyName": "Verkerk Versdistributie B.V.",
   "content": {
-    "coverIntro": "Verkerk Versdistributie B.V. levert groente en fruit aan horeca en kleinere supermarkten, in blauw fust dat weer terug moet komen. Dit voorstel richt zich op één concreet probleem: het fustsaldo per klant is niet betrouwbaar, waardoor Verkerk pas per kwartaal ontdekt dat duizenden kratten 'kwijt' zijn en dat verschil niet hard kan maken richting de klant.",
-    "situation": "Elke chauffeur levert af en zou op een bonnetje laten tekenen hoeveel kratten hij aflevert en hoeveel hij weer meeneemt. In de praktijk vullen de elf chauffeurs dat wisselend nauwkeurig in; briefjes raken kwijt. Nienke en Sven typen de bonnetjes aan het eind van de week over in een Excel per klant: samen zo'n vijf uur per week, alleen al het overtypen. De saldi kloppen daarna nog steeds niet. Vorig kwartaal stond volgens de Excel 1.800 kratten open bij klanten, verdeeld over 93 klanten. Bij de grootste klant, een supermarktketen met zes filialen, zei de klant zelf maar 950 kratten te hebben. Een verschil van 850 kratten, bij €8-10 per krat al snel €6.800-8.500 bij die ene klant. Zonder betrouwbare eigen data kan Verkerk dat verschil niet hard maken en wordt het grotendeels afgeboekt als verlies. Fust staat nergens digitaal; AFAS wordt alleen voor facturatie gebruikt.",
+    "coverIntro": "Verkerk Versdistributie B.V. supplies fruit and vegetables to restaurants and smaller supermarkets, in blue returnable crates that have to come back. This proposal focuses on one concrete problem: the crate balance per customer is not reliable, so Verkerk only discovers each quarter that thousands of crates are 'missing' and cannot back up that difference with the customer.",
+    "situation": "Every driver makes the delivery and is supposed to get a slip signed showing how many crates he drops off and how many he takes back. In practice the eleven drivers fill this in with varying accuracy; slips get lost. At the end of the week Nienke and Sven type the slips into an Excel file per customer: together about five hours a week, just the typing alone. Even then the balances still don't add up. Last quarter the Excel showed 1,800 crates outstanding at customers, spread across 93 customers. The biggest customer, a supermarket chain with six branches, said it only had 950 crates. A difference of 850 crates, which at €8-10 per crate easily comes to €6,800-8,500 at that one customer alone. Without reliable data of its own, Verkerk cannot back up that difference and most of it is written off as a loss. Crates are not recorded digitally anywhere; AFAS is only used for invoicing.",
     "goals": [
-      "Per klant, per week het actuele fustsaldo zien in plaats van pas per kwartaal te ontdekken dat het niet klopt",
-      "Bijsturen voordat een fustverschil uit de hand loopt, in plaats van achteraf een welles-nietesdiscussie met de klant",
-      "Het structurele fustverlies in euro's terugdringen: kratten die bij klanten staan maar niet worden teruggemeld",
-      "De vijf uur per week die Nienke en Sven nu aan overtypen besteden vrijmaken",
-      "Bij kwartaalgesprekken met grote klanten een onderbouwd fustsaldo per klant op tafel kunnen leggen"
+      "See the current crate balance per customer, per week, instead of only discovering each quarter that it is wrong",
+      "Step in before a crate discrepancy gets out of hand, instead of having a 'yes you did, no we didn't' argument with the customer afterwards",
+      "Reduce the structural crate loss in euros: crates that sit at customers but are not reported back",
+      "Free up the five hours a week that Nienke and Sven now spend typing",
+      "Be able to put a substantiated crate balance per customer on the table in quarterly meetings with big customers"
     ],
-    "approach": "We koppelen AFAS voor de leveringen per klant en bouwen daar een fustsaldo-overzicht op: per klant wordt elke levering afgezet tegen wat er aan fust terugkomt, zodat het openstaande saldo continu klopt in plaats van pas bij de kwartaalafsluiting. De chauffeurs blijven werken zoals nu, op papier; er komen geen scanners of apps bij. De bonnetjes blijven de bron, maar worden niet meer overgetypt: ze worden digitaal aangeleverd en automatisch uitgelezen tot fustregels per klant per levering. Waar een bonnetje ontbreekt of onduidelijk is, markeert het overzicht dat als openstaand punt in plaats van er stil een getal van te maken. Zo ziet Nienke wekelijks per klant wat het actuele fustsaldo is, met de onderliggende leveringen erbij, en kan ze bijsturen voordat een verschil oploopt. Het overzicht is ook los te delen met Kees voor de kwartaalgesprekken met grote afnemers.",
+    "approach": "We connect AFAS for deliveries per customer and build a crate balance overview on top of it: for each customer, every delivery is matched against the crates that come back, so the outstanding balance is always correct rather than only at quarter close. The drivers keep working as they do now, on paper; no scanners or apps are added. The slips remain the source, but are no longer typed over: they are submitted digitally and automatically read into crate lines per customer per delivery. Where a slip is missing or unclear, the overview flags it as an open item instead of silently turning it into a number. This way Nienke sees the current crate balance per customer every week, with the underlying deliveries alongside it, and can step in before a discrepancy builds up. The overview can also be shared separately with Kees for the quarterly meetings with big accounts.",
     "scopeDeliverables": [
-      "Koppeling met AFAS voor leveringen per klant, met klantnummer-matching zodat fustregels aan de juiste klant hangen",
-      "Digitale aanlevering van de chauffeursbonnetjes en automatische uitlezing tot fustregels (afgeleverd en retour) per klant per levering",
-      "Fustsaldo-overzicht per klant per week: openstaand saldo, onderliggende leveringen, en het verschil met de vorige periode",
-      "Markering van ontbrekende of onduidelijke bonnetjes als openstaand punt, in plaats van stilzwijgende correctie",
-      "Signaalmarkering voor klanten waar het saldo boven een af te spreken drempel uitkomt",
-      "Wekelijkse automatische verversing van het overzicht",
-      "Los deelbaar overzicht voor Kees bij kwartaalgesprekken met grote klanten",
-      "Korte instructie voor Nienke en Sven over de wekelijkse aanlevering van bonnetjes zodat de verwerking blijft werken"
+      "Connection to AFAS for deliveries per customer, with customer number matching so crate lines are attached to the right customer",
+      "Digital submission of the drivers' slips and automatic reading into crate lines (delivered and returned) per customer per delivery",
+      "Crate balance overview per customer per week: outstanding balance, underlying deliveries, and the difference from the previous period",
+      "Flagging of missing or unclear slips as open items, instead of silent correction",
+      "Alert flag for customers whose balance exceeds an agreed threshold",
+      "Weekly automatic refresh of the overview",
+      "Separately shareable overview for Kees for quarterly meetings with big customers",
+      "Short guide for Nienke and Sven on the weekly submission of slips so the processing keeps working"
     ],
     "timeline": {
       "phases": [
         {
-          "name": "Week 1: scoping en data-aansluiting",
-          "description": "AFAS-koppeling opzetten voor leveringen per klant, klantnummer-matching afstemmen, en het vaste format voor de bonnetjesaanlevering vastleggen."
+          "name": "Week 1: scoping and data connection",
+          "description": "Set up the AFAS connection for deliveries per customer, align customer number matching, and define the fixed format for submitting slips."
         },
         {
-          "name": "Week 2-3: uitlezing en overzicht bouwen",
-          "description": "Automatische uitlezing van de bonnetjes tot fustregels bouwen, en het fustsaldo-overzicht per klant per week met signaalmarkering en openstaande punten inrichten."
+          "name": "Week 2-3: build reading and overview",
+          "description": "Build the automatic reading of slips into crate lines, and set up the crate balance overview per customer per week with alert flags and open items."
         },
         {
-          "name": "Week 4: testen en opleveren",
-          "description": "Een cyclus meedraaien met echte bonnetjes en AFAS-leveringen, bijsturen op basis van feedback van Nienke en Sven, en het overzicht opleveren inclusief de los deelbare versie voor Kees."
+          "name": "Week 4: test and deliver",
+          "description": "Run one cycle with real slips and AFAS deliveries, adjust based on feedback from Nienke and Sven, and deliver the overview including the separately shareable version for Kees."
         }
       ]
     },
-    "investment": "Dit traject wordt gescoped als één afgebakend probleem - het betrouwbare fustsaldo per klant per week - tegen een vaste prijs. De exacte investering bevestigen we na een kort scopegesprek waarin we de AFAS-inrichting, het bonnetje-format en de gewenste drempelwaarde samen doornemen.",
-    "nextSteps": "Akkoord op dit voorstel, gevolgd door een kort scopegesprek (circa 30 minuten) met Nienke en Sven om de AFAS-koppeling, het bonnetje-format en de drempelwaarde voor signalering door te nemen. Daarna starten we direct in week 1."
+    "investment": "This project is scoped as one clearly defined problem - the reliable crate balance per customer per week - at a fixed price. We will confirm the exact investment after a short scoping call in which we go through the AFAS setup, the slip format and the desired threshold together.",
+    "nextSteps": "Approval of this proposal, followed by a short scoping call (about 30 minutes) with Nienke and Sven to go through the AFAS connection, the slip format and the alert threshold. After that we start straight away in week 1."
   },
   "savedAt": "2026-09-23T18:11:55.101Z"
 }

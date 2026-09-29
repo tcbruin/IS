@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 
-const MESSAGE = "Je hebt niet-opgeslagen wijzigingen of opmerkingen. Pagina toch verlaten?";
+const MESSAGE = "You have unsaved changes or comments. Leave this page anyway?";
 
 /** Warns before losing unsaved work: on reload/tab close (beforeunload) and on in-app link
  * clicks (capture listener on document runs before Next's <Link> handler, which then sees

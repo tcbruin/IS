@@ -17,7 +17,7 @@ export function Hero({
   /** Small label above the title, e.g. "PoC Dashboard" — switches Hero into the Power BI
    * report-template layout (logo + divider + kicker/title left, refresh meta right). */
   kicker?: string;
-  /** Label for the top-right meta value (usually paired with `date`). Defaults to "Laatste refresh". */
+  /** Label for the top-right meta value (usually paired with `date`). Defaults to "Last refresh". */
   metaLabel?: string;
 }) {
   const wordmark = logoSlot ?? (
@@ -38,7 +38,7 @@ export function Hero({
           </div>
           {date && (
             <div className={styles.meta}>
-              <div className={styles.metaLabel}>{metaLabel ?? "Laatste refresh"}</div>
+              <div className={styles.metaLabel}>{metaLabel ?? "Last refresh"}</div>
               <div className={styles.metaValue}>{date}</div>
             </div>
           )}

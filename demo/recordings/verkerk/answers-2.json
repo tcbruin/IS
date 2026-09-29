@@ -1,24 +1,24 @@
 {
   "answers": [
     {
-      "questionId": "belangrijkste-getal",
-      "answer": "Het fustsaldo per klant."
+      "questionId": "primary-kpi",
+      "answer": "Outstanding crates per customer."
     },
     {
-      "questionId": "vergelijking",
-      "answer": "De vorige week; een norm is er niet."
+      "questionId": "comparison-baseline",
+      "answer": "Last week; there is no norm."
     },
     {
-      "questionId": "uitsplitsing",
-      "answer": "Per klant, met onderscheid horeca en supermarkt."
+      "questionId": "breakdown-level",
+      "answer": "Per customer, split into restaurants and supermarkets."
     },
     {
-      "questionId": "signaal-drempel",
-      "answer": "Geen concreet antwoord — schat dit zelf in op basis van het transcript en de notities."
+      "questionId": "weekly-rhythm",
+      "answer": "Friday afternoon, after the slips are typed in."
     },
     {
-      "questionId": "kwartaalgesprek",
-      "answer": "Hetzelfde beeld, gefilterd op die ene klant."
+      "questionId": "headline-number",
+      "answer": "No concrete answer — estimate this yourself based on the transcript and the notes."
     },
     {
       "questionId": "extra-info",

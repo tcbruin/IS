@@ -60,11 +60,11 @@ export function DashboardView({ record, companyName }: { record: DashboardRecord
         <Image src="/logo.png" alt="Datavance" width={40} height={40} className="dv-logo" />
         <div className="dv-divider" />
         <div className="dv-titles">
-          <div className="dv-eyebrow">Illustratieve voorbeelddata · {companyName}</div>
+          <div className="dv-eyebrow">Illustrative sample data · {companyName}</div>
           <h1 className="dv-title">{record.spec.title}</h1>
         </div>
         <div className="dv-meta">
-          <div className="dv-meta-label">Gegenereerd</div>
+          <div className="dv-meta-label">Generated</div>
           <div className="dv-meta-value">{formatDateTime(record.generatedAt)}</div>
         </div>
         <div ref={barRef} className="dv-filterbar" dangerouslySetInnerHTML={{ __html: renderFilterBarHtml(view, filters) }} />

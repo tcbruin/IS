@@ -58,7 +58,7 @@ export function GenerateButton({
       });
       if (!res.ok) {
         const data = await res.json().catch(() => ({}));
-        throw new Error(data.error ?? "Actie mislukt.");
+        throw new Error(data.error ?? "Action failed.");
       }
       if (redirectTo) {
         router.push(redirectTo);
@@ -67,9 +67,9 @@ export function GenerateButton({
       // navigation and would otherwise keep showing the pre-action state.
       router.refresh();
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Er ging iets mis.");
+      setError(err instanceof Error ? err.message : "Something went wrong.");
     } finally {
-      // Some callers (e.g. "Opnieuw genereren") stay mounted in the exact same spot after a
+      // Some callers (e.g. "Regenerate") stay mounted in the exact same spot after a
       // successful router.refresh() — without this, the button would stay stuck on its busy
       // label forever. Redirect-bound callers unmount anyway, so resetting here is harmless.
       setSubmitting(false);
@@ -87,7 +87,7 @@ export function GenerateButton({
   return (
     <div>
       <Button variant={variant} onClick={handleClick} disabled={submitting || disabled}>
-        {submitting ? `${busyLabel ?? "Bezig..."}${elapsed > 0 ? ` ${elapsed} s` : ""}` : label}
+        {submitting ? `${busyLabel ?? "Working..."}${elapsed > 0 ? ` ${elapsed} s` : ""}` : label}
       </Button>
       {error && <p style={{ color: "var(--color-rood)", margin: "8px 0 0" }}>{error}</p>}
     </div>

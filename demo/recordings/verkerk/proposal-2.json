@@ -1,39 +1,38 @@
 {
-  "coverIntro": "Verkerk Versdistributie B.V. levert groente en fruit aan horeca en kleinere supermarkten, in blauw fust dat na levering weer terug moet komen. Dit voorstel richt zich op één concreet probleem: Nienke en Sven hebben geen actueel fustsaldo per klant, waardoor fust structureel zoekraakt en pas per kwartaal blijkt dat de cijfers niet kloppen.",
-  "situation": "Elke chauffeur levert af en zou op een bonnetje moeten noteren hoeveel kratten hij aflevert en hoeveel hij weer meeneemt. In de praktijk vullen de elf chauffeurs dat wisselend nauwkeurig in: sommigen netjes, anderen op een briefje dat halverwege de dag kwijtraakt. Aan het einde van de week verzamelt Nienke de bonnetjes en typt ze samen met Sven over in een Excel per klant. Dat kost hen samen zo'n vijf uur per week, alleen al aan overtypen. De saldi kloppen daarna vaak nog niet. Vorig kwartaal stond volgens de Excel zo'n 1.800 kratten open bij klanten, verspreid over 93 klanten. Bij de grootste klant, een supermarktketen met zes filialen, zei de klant zelf maar 950 kratten te hebben. Dat verschil van 850 kratten betekent bij 8 tot 10 euro per krat al snel 6.800 tot 8.500 euro aan vervangingswaarde bij één klant. Omdat Verkerks eigen data niet betrouwbaar genoeg is om iets hard te maken, wordt het verschil grotendeels afgeboekt als verlies. Fust staat nergens digitaal; facturatie loopt via AFAS, maar de fustadministratie is puur bonnetjes plus Excel.",
+  "coverIntro": "Verkerk Versdistributie B.V. supplies fruit and vegetables to restaurants and smaller supermarkets, delivered in blue returnable crates that have to come back. This proposal focuses on one concrete problem: Verkerk has no reliable, current crate balance per customer, so crates that stay behind at customers are only discovered afterwards and mostly written off.",
+  "situation": "Eleven drivers deliver the crates and are supposed to get a slip signed showing how many crates they drop off and how many they take back. In practice the accuracy varies: some fill it in neatly, others scribble on a scrap of paper that gets lost during the day. Every week Nienke and Sven type those slips into an Excel file per customer, which takes about five hours a week. Even then the balances do not add up. Last quarter the Excel showed roughly 1,800 crates outstanding across 93 customers, while the biggest customer - a supermarket chain with six branches - counted only 950. With a replacement cost of eight to ten euros per crate, that single gap is 6,800 to 8,500 euros, and similar discussions run with several customers. Because Verkerk's own data is not reliable enough to back up a claim, the difference is usually written off as a loss. Crate movements are not recorded digitally anywhere: invoicing runs through AFAS, but the crates live only on the paper slips and in the Excel file.",
   "goals": [
-    "Per klant, per week het actuele fustsaldo kunnen zien in plaats van pas per kwartaal te ontdekken dat het niet klopt",
-    "Bijsturen voordat een fustsaldo uit de hand loopt, in plaats van achteraf een welles-nietesdiscussie met de klant",
-    "Minder afboekingen op kwijtgeraakt fust doordat het saldo onderbouwd is",
-    "De vijf uur per week die Nienke en Sven nu aan overtypen besteden, vrijmaken voor ander werk",
-    "Bij het kwartaalgesprek met grote klanten een onderbouwd fustoverzicht kunnen delen met directeur Kees"
+    "See the current crate balance per customer per week, instead of only finding out once a quarter that it is wrong",
+    "Step in early when a customer's balance runs up, instead of having a 'yes you did, no we didn't' argument afterwards",
+    "Have reliable figures to take to the customer in the quarterly meeting",
+    "Free up the five hours a week Nienke and Sven now spend typing slips into Excel",
+    "Keep it workable for the drivers on the floor, without an extra device or app they have to learn"
   ],
-  "approach": "We koppelen AFAS voor de klant- en leveringsgegevens en lezen de wekelijkse fust-Excel van Nienke en Sven in als bron voor de bonnetjes. De chauffeurs blijven gewoon met papieren bonnetjes werken: geen scanners, geen app, geen extra apparaat op de vloer. De bonnetjes worden op vrijdag overgetypt zoals nu, en die Excel lezen we wekelijks automatisch in. Het dashboard rekent per klant het fustsaldo uit: afgeleverd fust minus retour ontvangen fust, opgeteld over de weken. Zo ziet Nienke elke week per klant hoeveel kratten er openstaan, in plaats van pas per kwartaal. Omdat de bonnetjes aan de bron niet altijd volledig zijn, markeert het overzicht per klant en per week de regels waar de invoer ontbreekt of afwijkt, zodat Nienke en Sven gericht kunnen bijwerken in plaats van alles te controleren. Het dashboard is intern voor Nienke en Sven, met een export die Kees kan gebruiken in het kwartaalgesprek met grote afnemers.",
+  "approach": "We build a crate register that turns the existing paper slips into a current balance per customer. The drivers keep working with paper slips - nothing changes for them, no scanner, no app. The slips are typed in as they are today (one row per slip with customer, date, delivered and returned crates), and we connect AFAS, which already holds the customer and invoicing data, so every crate movement lands on the right customer. From that we calculate the running balance per customer per week: delivered minus returned, accumulated from the start of the season. The result is a Power BI dashboard that Nienke and Sven open every week after the Friday input, showing per customer how many crates are still outstanding, with the customers whose balance is rising fastest at the top. For Kees's quarterly meetings there is an export per customer that can be shared standalone. This replaces the quarterly reconstruction in Excel with a weekly, defensible figure, so a customer discussion starts from Verkerk's own numbers instead of from a shrug.",
   "scopeDeliverables": [
-    "Koppeling met AFAS voor klant- en leveringsgegevens",
-    "Wekelijkse inlezing van de fust-Excel met bonnetjes, inclusief normalisatiestap zodat verschillen in invoer tussen chauffeurs geen probleem vormen",
-    "Fustsaldo per klant per week: afgeleverd minus retour",
-    "Signaalmarkering per klant en per week waar bonnetjes ontbreken of afwijken, zodat gericht bijwerken mogelijk is",
-    "Wekelijkse verversing, klaar na het overtypen van de bonnetjes op vrijdag",
-    "Export van het fustoverzicht per klant voor het kwartaalgesprek met Kees",
-    "Korte instructie voor Nienke en Sven over het wekelijks aanleveren van de fust-Excel zodat de inlezing blijft werken"
+    "Connection to AFAS for customer and invoicing data, so every crate movement is linked to the right customer",
+    "Processing of the weekly Excel with crate slips (customer, date, delivered, returned) into a running crate balance per customer",
+    "Power BI dashboard with the current crate balance per customer, refreshed weekly after the Friday input",
+    "Ranking of customers by outstanding balance and by increase, so rising balances stand out immediately",
+    "Export per customer for Kees's quarterly meetings with large accounts",
+    "Short guide for Nienke and Sven on the weekly input so the balance stays current"
   ],
   "timeline": {
     "phases": [
       {
-        "name": "Week 1: scoping en data-aansluiting",
-        "description": "AFAS-koppeling opzetten voor klant- en leveringsgegevens, het vaste format van de fust-Excel vastleggen, en de berekening van het fustsaldo per klant afstemmen."
+        "name": "Week 1: scoping and data connection",
+        "description": "Set up the AFAS connection for customer and invoicing data, align customer coding with the Excel file, and fix the format of the slip input."
       },
       {
-        "name": "Week 2-3: dashboard bouwen",
-        "description": "Het fustsaldo-dashboard bouwen met saldo per klant per week, de signaalmarkering voor ontbrekende of afwijkende bonnetjes, en de export voor het kwartaalgesprek."
+        "name": "Week 2-3: build the crate register",
+        "description": "Build the calculation of the running crate balance per customer and the Power BI dashboard with the weekly overview and the ranking by outstanding balance."
       },
       {
-        "name": "Week 4: testen en opleveren",
-        "description": "Een weekcyclus meedraaien met echte bonnetjes en AFAS-gegevens, bijsturen op basis van feedback van Nienke en Sven, en opleveren na de eerstvolgende vrijdagse invoer."
+        "name": "Week 4: test and deliver",
+        "description": "Run one weekly cycle with real slips, compare the outcome against the last quarterly balance, adjust with Nienke and Sven, and deliver the dashboard plus the per-customer export."
       }
     ]
   },
-  "investment": "Dit traject wordt gescoped als één afgebakend probleem - het actuele fustsaldo per klant - tegen een vaste prijs. De exacte investering bevestigen we na een kort scopegesprek waarin we de AFAS-inrichting, het format van de fust-Excel en de gewenste signaalmarkering samen doornemen.",
-  "nextSteps": "Akkoord op dit voorstel, gevolgd door een kort scopegesprek (circa 30 minuten) met Nienke en Sven om de AFAS-koppeling en het Excel-format door te nemen. Daarna starten we direct in week 1. Concreet eerste stap: samen één week bonnetjes doorlopen om het format en de knelpunten in de invoer vast te leggen."
+  "investment": "This project is scoped as one clearly defined problem - the current crate balance per customer - at a fixed price. We will confirm the exact investment after a short scoping call in which we go through the AFAS setup, the slip format and the weekly rhythm together.",
+  "nextSteps": "Approval of this proposal, followed by a short scoping call (about 30 minutes) with Nienke and Sven to go through the AFAS connection and the slip input. As a concrete first step, we will go through one week of slips together to map the input and validate the balance calculation. After that we start straight away in week 1, and we build a sample dashboard alongside it so you can see immediately what the crate overview would look like for Verkerk."
 }

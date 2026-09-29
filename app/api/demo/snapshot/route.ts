@@ -18,18 +18,18 @@ import { handleApiError } from "@/lib/apiError";
 const bodySchema = z.object({ leadId: z.string() });
 
 /**
- * "Opslaan als demo-opname": turns a completed live demo run into the recording that fast
+ * "Save as demo recording": turns a completed live demo run into the recording that fast
  * demos of that scenario replay — the AI outputs in call order, plus the answers and feedback
- * that were used, so "Vul demo-antwoorden in" lines up with the recorded questions by id.
+ * that were used, so "Fill in demo answers" lines up with the recorded questions by id.
  */
 export async function POST(request: Request) {
   try {
     const { leadId } = bodySchema.parse(await request.json());
     const lead = await getLead(leadId);
-    if (!lead.demo) throw new WorkflowError("Alleen een demo-lead kan als opname worden opgeslagen.");
-    if (lead.demo.mode !== "live") throw new WorkflowError("Een opname maak je van een demo met live AI.");
+    if (!lead.demo) throw new WorkflowError("Only a demo lead can be saved as a recording.");
+    if (lead.demo.mode !== "live") throw new WorkflowError("Recordings can only be made from a live AI demo.");
     if (!isStateAtLeast(lead.state, "dashboard_generated")) {
-      throw new WorkflowError("Doorloop de demo eerst tot en met het dashboard.");
+      throw new WorkflowError("Run the demo through the dashboard step first.");
     }
 
     const [q1, a1, q2, a2, versions, dashboard, email] = await Promise.all([

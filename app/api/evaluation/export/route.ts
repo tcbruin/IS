@@ -18,31 +18,31 @@ export async function GET(request: Request) {
             const lead = rows.find((r) => r.lead.id === m.leadId)!.lead;
             return {
               lead_id: m.leadId,
-              bedrijf: m.company,
+              company: m.company,
               status: STATE_LABELS[lead.state],
-              demo: m.demo ? "ja" : "nee",
-              verzonden: m.sent ? "ja" : "nee",
-              gestart: m.firstAt,
-              actieve_minuten: m.activeMinutes,
-              doorlooptijd_minuten: m.throughputMinutes,
-              ai_wachttijd_minuten: m.aiWaitMinutes,
-              baseline_minuten: settings.baselineMinutesPerLead,
-              eigen_schatting_handmatig_minuten: m.baselineEstimate,
-              ai_aanroepen: m.aiCalls,
-              ai_kosten_eur: m.aiCostEur,
-              feedbackrondes: m.feedbackRounds,
-              handmatige_versies: m.manualVersions,
-              handmatig_gewijzigd_pct: m.manualEditPct,
-              vragen_beantwoord: m.answered,
-              vragen_ingeschat: m.estimated,
-              vragen_leeg: m.blank,
-              promptversie_vragen: m.q1PromptVersion,
-              score_vragen: m.ratings.questions,
-              score_voorstel: m.ratings.proposal,
+              demo: m.demo ? "yes" : "no",
+              sent: m.sent ? "yes" : "no",
+              started_at: m.firstAt,
+              active_minutes: m.activeMinutes,
+              throughput_minutes: m.throughputMinutes,
+              ai_wait_minutes: m.aiWaitMinutes,
+              baseline_minutes: settings.baselineMinutesPerLead,
+              own_estimate_manual_minutes: m.baselineEstimate,
+              ai_calls: m.aiCalls,
+              ai_cost_eur: m.aiCostEur,
+              feedback_rounds: m.feedbackRounds,
+              manual_versions: m.manualVersions,
+              manual_edit_pct: m.manualEditPct,
+              questions_answered: m.answered,
+              questions_estimated: m.estimated,
+              questions_blank: m.blank,
+              questions_prompt_version: m.q1PromptVersion,
+              score_questions: m.ratings.questions,
+              score_proposal: m.ratings.proposal,
               score_dashboard: m.ratings.dashboard,
               score_email: m.ratings.email,
-              fouten_handmatig: m.failures.filter((f) => f.source === "handmatig").length,
-              fouten_automatisch: m.failures.filter((f) => f.source === "automatisch").length,
+              failures_manual: m.failures.filter((f) => f.source === "manual").length,
+              failures_automatic: m.failures.filter((f) => f.source === "automatic").length,
             };
           })
         : rows.flatMap(({ lead, events }) =>
@@ -52,9 +52,9 @@ export async function GET(request: Request) {
               for (const [k, val] of Object.entries(rest)) extra[k] = Array.isArray(val) ? val.join(",") : val;
               if (e.type === "llm_call") {
                 const usd = llmCostUsd(e);
-                extra.kosten_eur = usd === null ? null : usd * settings.usdToEur;
+                extra.cost_eur = usd === null ? null : usd * settings.usdToEur;
               }
-              return { lead_id: lead.id, bedrijf: lead.companyName, tijdstip: at, type: eventType, ...extra };
+              return { lead_id: lead.id, company: lead.companyName, timestamp: at, type: eventType, ...extra };
             }),
           );
 
@@ -62,7 +62,7 @@ export async function GET(request: Request) {
     return new NextResponse(toCsv(records), {
       headers: {
         "Content-Type": "text/csv; charset=utf-8",
-        "Content-Disposition": `attachment; filename="evaluatie-${type}-${date}.csv"`,
+        "Content-Disposition": `attachment; filename="evaluation-${type}-${date}.csv"`,
         "Cache-Control": "no-store",
       },
     });

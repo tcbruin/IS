@@ -14,15 +14,15 @@ export function IntakeStep({ leadId, notes }: { leadId: string; notes: string })
   return (
     <>
       <Card variant="creme">
-        <h2 style={{ marginTop: 0 }}>Notities van de consultant</h2>
+        <h2 style={{ marginTop: 0 }}>Consultant notes</h2>
         <NotesEditor leadId={leadId} initialNotes={notes} onEditingChange={setEditingNotes} />
       </Card>
       <StepActions>
-        {editingNotes && <span style={{ fontSize: 15, opacity: 0.7 }}>Sla eerst je notities op</span>}
+        {editingNotes && <span style={{ fontSize: 15, opacity: 0.7 }}>Save your notes first</span>}
         <GenerateButton
           url={`/api/leads/${leadId}/questions`}
-          label="Vragen genereren →"
-          busyLabel="Transcript wordt geanalyseerd..."
+          label="Generate questions →"
+          busyLabel="Analyzing transcript..."
           disabled={editingNotes}
         />
       </StepActions>

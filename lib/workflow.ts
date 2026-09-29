@@ -6,19 +6,19 @@ export type { StepKey };
 export const STATE_ORDER = LEAD_STATES;
 
 export const STATE_LABELS: Record<LeadState, string> = {
-  transcript_uploaded: "Transcript geupload",
-  questions1_generated: "Verduidelijkingsvragen klaar",
-  questions1_answered: "Antwoorden ontvangen",
-  proposal_generated: "Voorstel in review",
-  proposal_finalized: "Voorstel definitief",
-  questions2_generated: "Dashboardvragen klaar",
-  questions2_answered: "Dashboardantwoorden ontvangen",
-  dashboard_generated: "Dashboard klaar",
-  sent: "Verzonden",
+  transcript_uploaded: "Transcript uploaded",
+  questions1_generated: "Clarifying questions ready",
+  questions1_answered: "Answers received",
+  proposal_generated: "Proposal in review",
+  proposal_finalized: "Proposal final",
+  questions2_generated: "Dashboard questions ready",
+  questions2_answered: "Dashboard answers received",
+  dashboard_generated: "Dashboard ready",
+  sent: "Sent",
 };
 
-/** Which page a state's work continues on — the `/leads/[id]` redirect target ("Verder waar je
- * was"). Always the page of the step the lead is active in, matching the step bar. */
+/** Which page a state's work continues on — the `/leads/[id]` redirect target ("continue where you
+ * left off"). Always the page of the step the lead is active in, matching the step bar. */
 export const STEP_ROUTES: Record<LeadState, string> = {
   transcript_uploaded: "questions",
   questions1_generated: "questions",
@@ -51,52 +51,52 @@ export type Step = {
 
 export const STEPS: Step[] = [
   {
-    key: "gesprek",
+    key: "call",
     number: 1,
-    label: "Gesprek",
-    description: "Transcript en notities; de AI stelt verduidelijkingsvragen die jij beantwoordt.",
+    label: "Call",
+    description: "Transcript and notes; the AI asks clarifying questions that you answer.",
     from: "transcript_uploaded",
     doneAt: "questions1_answered",
     substeps: [
-      { key: "transcript", label: "Transcript & notities", route: "questions", from: "transcript_uploaded", doneAt: "questions1_generated" },
-      { key: "vragen", label: "Vragen beantwoorden", route: "questions", from: "questions1_generated", doneAt: "questions1_answered" },
+      { key: "transcript", label: "Transcript & notes", route: "questions", from: "transcript_uploaded", doneAt: "questions1_generated" },
+      { key: "questions", label: "Answer questions", route: "questions", from: "questions1_generated", doneAt: "questions1_answered" },
     ],
   },
   {
-    key: "voorstel",
+    key: "proposal",
     number: 2,
-    label: "Voorstel",
-    description: "De AI schrijft een concept; jij bewerkt het, vraagt aanpassingen en maakt het definitief.",
+    label: "Proposal",
+    description: "The AI writes a draft; you edit it, request changes and finalize it.",
     from: "questions1_answered",
     doneAt: "proposal_finalized",
     substeps: [
-      { key: "concept", label: "Concept", route: "proposal", from: "questions1_answered", doneAt: "proposal_generated" },
-      { key: "bewerken", label: "Bewerken & feedback", route: "proposal", from: "proposal_generated", doneAt: "proposal_finalized" },
-      { key: "definitief", label: "Definitief", route: "proposal", from: "proposal_finalized", doneAt: "proposal_finalized" },
+      { key: "draft", label: "Draft", route: "proposal", from: "questions1_answered", doneAt: "proposal_generated" },
+      { key: "edit", label: "Edit & feedback", route: "proposal", from: "proposal_generated", doneAt: "proposal_finalized" },
+      { key: "final", label: "Final", route: "proposal", from: "proposal_finalized", doneAt: "proposal_finalized" },
     ],
   },
   {
     key: "dashboard",
     number: 3,
     label: "Dashboard",
-    description: "Een paar dashboardvragen, daarna bouwt de AI een PoC-dashboard voor dit probleem.",
+    description: "A few dashboard questions, then the AI builds a PoC dashboard for this problem.",
     from: "proposal_finalized",
     doneAt: "dashboard_generated",
     substeps: [
-      { key: "dashboardvragen", label: "Dashboardvragen", route: "dashboard-questions", from: "proposal_finalized", doneAt: "questions2_answered" },
+      { key: "dashboard-questions", label: "Dashboard questions", route: "dashboard-questions", from: "proposal_finalized", doneAt: "questions2_answered" },
       { key: "dashboard", label: "Dashboard", route: "dashboard", from: "questions2_answered", doneAt: "dashboard_generated" },
     ],
   },
   {
-    key: "versturen",
+    key: "send",
     number: 4,
-    label: "Versturen",
-    description: "Bijlagen en begeleidende e-mail klaarzetten en als verzonden markeren.",
+    label: "Send",
+    description: "Prepare the attachments and cover email, then mark as sent.",
     from: "dashboard_generated",
     doneAt: "sent",
     substeps: [
-      { key: "bijlagen", label: "Bijlagen & e-mail", route: "send", from: "dashboard_generated", doneAt: "sent" },
-      { key: "verzonden", label: "Verzonden", route: "send", from: "sent", doneAt: "sent" },
+      { key: "attachments", label: "Attachments & email", route: "send", from: "dashboard_generated", doneAt: "sent" },
+      { key: "sent", label: "Sent", route: "send", from: "sent", doneAt: "sent" },
     ],
   },
 ];
@@ -129,10 +129,10 @@ export function getStepHref(leadId: string, step: Step, state: LeadState): strin
   return `/leads/${leadId}/${target.route}`;
 }
 
-/** Short "where is this lead" label for the lead list, e.g. "Voorstel · Bewerken & feedback". */
+/** Short "where is this lead" label for the lead list, e.g. "Proposal · Edit & feedback". */
 export function describeStatus(state: LeadState): string {
   const step = STEPS.find((s) => getStepStatus(s, state) === "active");
-  if (!step) return "Verzonden";
+  if (!step) return "Sent";
   const sub = step.substeps.find((s) => getStepStatus(s, state) === "active") ?? step.substeps[0];
   return `${step.label} · ${sub.label}`;
 }
@@ -222,7 +222,7 @@ export function assertTransition(current: LeadState, action: Action): LeadState 
   const transition = TRANSITIONS[action];
   if (!transition.from.includes(current)) {
     throw new WorkflowError(
-      `Actie '${action}' kan niet vanuit status '${current}'. Verwacht een van: ${transition.from.join(", ")}.`,
+      `Action '${action}' is not allowed from state '${current}'. Expected one of: ${transition.from.join(", ")}.`,
     );
   }
   return transition.to;

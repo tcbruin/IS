@@ -2,33 +2,33 @@
   "questions": [
     {
       "id": "scope",
-      "text": "Welk probleem kiezen we als scope: marge-inzicht tijdens projecten of de urenbriefjes-verwerking?",
-      "hint": "Het voorstel draait om één probleem."
+      "text": "Do we scope the proposal on the weekly margin overview, or on the ERP timesheet entry?",
+      "hint": "The proposal must center on one problem."
     },
     {
-      "id": "uren-per-week",
-      "text": "Hoeveel uur per week kost het samenvoegen van urenbriefjes en inkoopfacturen nu echt?",
-      "hint": "Bewijst de tijdswinst in het voorstel."
+      "id": "hours-per-week",
+      "text": "Can we state the 3–4 hours every Monday as the current manual cost in the proposal?",
+      "hint": "This anchors the time-savings case."
     },
     {
-      "id": "exact-export",
-      "text": "Kunnen we de inkoopfacturen uit Exact Online exporteren via API of standaard export?",
-      "hint": "Bepaalt de technische aanpak van het dashboard."
+      "id": "exact-access",
+      "text": "Does Kramer have API access to Exact Online, or only manual exports?",
+      "hint": "Determines whether the dashboard can refresh automatically."
     },
     {
-      "id": "urenbriefje-formaat",
-      "text": "In welk formaat komen de urenbriefjes binnen: Excel, PDF of papier?",
-      "hint": "Bepaalt of we ze kunnen automatiseren."
+      "id": "foreman-excel-format",
+      "text": "Are the foremen's Excel timesheets in a consistent format we can ingest?",
+      "hint": "Inconsistent files would add parsing work to the scope."
     },
     {
-      "id": "marge-definitie",
-      "text": "Is de 15%-marge de grens voor alle projecttypen of verschilt dat per type?",
-      "hint": "Nodig voor de KPI-definitie in het dashboard."
+      "id": "material-cost-source",
+      "text": "Do material costs live in Exact Online purchase invoices, or also in other tools?",
+      "hint": "Margin accuracy depends on where costs are booked."
     },
     {
-      "id": "bijsturen-actie",
-      "text": "Welke concrete actie onderneemt Lisa als een project onder de 15% marge zakt?",
-      "hint": "Maakt het resultaat meetbaar en actiegericht."
+      "id": "success-metric",
+      "text": "Is the 15% margin threshold the KPI we should show in the dashboard?",
+      "hint": "Gives the dashboard a concrete alert rule."
     }
   ]
 }

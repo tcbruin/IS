@@ -3,13 +3,13 @@
  * the API expects. `kind` says how a section renders. coverIntro is deliberately excluded: it's
  * the intro under the title, not a section with a heading. */
 export const PROPOSAL_SECTIONS = [
-  { key: "situation", label: "Situatie", kind: "text" },
-  { key: "goals", label: "Doelstellingen", kind: "list" },
-  { key: "approach", label: "Aanpak", kind: "text" },
+  { key: "situation", label: "Situation", kind: "text" },
+  { key: "goals", label: "Goals", kind: "list" },
+  { key: "approach", label: "Approach", kind: "text" },
   { key: "scopeDeliverables", label: "Scope & deliverables", kind: "list" },
-  { key: "timeline", label: "Tijdlijn", kind: "phases" },
-  { key: "investment", label: "Investering", kind: "callout" },
-  { key: "nextSteps", label: "Vervolgstappen", kind: "text" },
+  { key: "timeline", label: "Timeline", kind: "phases" },
+  { key: "investment", label: "Investment", kind: "callout" },
+  { key: "nextSteps", label: "Next steps", kind: "text" },
 ] as const;
 
 export type ProposalSectionKey = (typeof PROPOSAL_SECTIONS)[number]["key"];
@@ -26,7 +26,7 @@ export function composeSectionFeedback(comments: Partial<Record<ProposalSectionK
 }
 
 /** Inverse of composeSectionFeedback: the per-section comments inside a feedback string. Any
- * paragraph without a known "Label:" prefix is collected under "algemeen". */
+ * paragraph without a known "Label:" prefix is collected under "general". */
 export function splitSectionFeedback(feedback: string | null | undefined): Record<string, string> {
   const out: Record<string, string> = {};
   if (!feedback?.trim()) return out;
@@ -34,7 +34,7 @@ export function splitSectionFeedback(feedback: string | null | undefined): Recor
     const text = chunk.trim();
     if (!text) continue;
     const section = PROPOSAL_SECTIONS.find(({ label }) => text.startsWith(`${label}:`));
-    const key = section ? section.key : "algemeen";
+    const key = section ? section.key : "general";
     const body = section ? text.slice(section.label.length + 1).trim() : text;
     out[key] = out[key] ? `${out[key]}\n\n${body}` : body;
   }

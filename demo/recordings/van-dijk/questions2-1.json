@@ -1,29 +1,29 @@
 {
   "questions": [
     {
-      "id": "hoofdmaat",
-      "text": "Welk cijfer moet bovenaan het dashboard staan: verwachte omzet of de stand ten opzichte van het target van 4,8 miljoen?",
-      "hint": "Bepaalt het hoofdcijfer van de PoC."
+      "id": "primary-measure",
+      "text": "Which single number must be right on the dashboard every Monday: open pipeline value or progress against the 4.8M target?",
+      "hint": "Determines the dashboard's headline KPI."
     },
     {
-      "id": "vergelijking",
-      "text": "Waarmee vergelijkt Marloes de pipeline het liefst: vorige maand of het target?",
-      "hint": "Bepaalt welke vergelijkingslijn we bouwen."
+      "id": "comparison",
+      "text": "Should the dashboard compare against the 4.8M annual target or the same week last year?",
+      "hint": "Shapes the target gauge and trend visuals."
     },
     {
-      "id": "uitsplitsing",
-      "text": "Denkt Marloes vooral in regio's of in de acht reps afzonderlijk?",
-      "hint": "Bepaalt de hoofduitsplitsing van het dashboard."
+      "id": "breakdown",
+      "text": "Which breakdown matters most to Marloes: per rep or per region?",
+      "hint": "Decides the main drill-down on the dashboard."
     },
     {
-      "id": "fase-indeling",
-      "text": "Kiezen we één vaste fase-indeling voor alle acht sheets, of tonen we de ruwe fases naast elkaar?",
-      "hint": "Bepaalt de normalisatiestap in week 1."
+      "id": "stages",
+      "text": "Which pipeline stages should the dashboard show for open value per stage?",
+      "hint": "Stage names drive the funnel visual."
     },
     {
-      "id": "datakwaliteit",
-      "text": "Tonen we de wisselende datakwaliteit per rep zichtbaar in het dashboard?",
-      "hint": "Bepaalt of we een kwaliteitsindicator opnemen."
+      "id": "monday-number",
+      "text": "Is there a number from the call worth building the PoC around, like the four hours?",
+      "hint": "Anchors the value story in the demo."
     }
   ]
 }

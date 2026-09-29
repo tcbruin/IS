@@ -1,39 +1,39 @@
 {
   "companyName": "Van Dijk Techniek B.V.",
   "content": {
-    "coverIntro": "Van Dijk Techniek groeit, en de sales-organisatie groeit mee - acht buitendienstmedewerkers, elk met een eigen regio en een eigen manier van pipeline bijhouden. Dit voorstel richt zich op een concreet, herkenbaar probleem: het maandagochtend-overzicht dat Marloes elke vrijdag vier uur kost om handmatig samen te stellen, en dat op maandag alweer verouderd is.",
-    "situation": "Elke rep houdt zijn eigen Excel-sheet bij met openstaande offertes, verwachte waarde en verwachte closing-datum. Elke vrijdagmiddag kopieert Marloes dit handmatig samen tot een overkoepelend overzicht - een klus van circa vier uur per week. Omdat er in het weekend niemand bijwerkt en er op maandag alweer nieuwe gesprekken zijn geweest, is het overzicht tijdens het wekelijkse directieoverleg op maandag om 9 uur vaak al achterhaald. Er is bovendien geen betrouwbaar zicht op waar deals daadwerkelijk vastlopen: verloren deals worden alleen zichtbaar als een rep dat handmatig aangeeft, en dat gebeurt niet altijd. Exact Online wordt uitsluitend gebruikt voor facturatie, niet als CRM.",
+    "coverIntro": "Van Dijk Techniek is growing, and the sales organisation is growing with it - eight field sales reps, each with their own region and their own way of keeping a pipeline. This proposal focuses on a concrete, recognisable problem: the Monday-morning overview that takes Marloes four hours every Friday to put together by hand, and that is already out of date by Monday.",
+    "situation": "Every rep keeps their own Excel sheet with open quotes, expected value and expected closing date. Every Friday afternoon Marloes manually copies these together into an overarching overview - a job of about four hours a week. Because nobody updates over the weekend and there have already been new conversations by Monday, the overview is often already outdated during the weekly management meeting on Monday at 9 o'clock. There is also no reliable view of where deals actually get stuck: lost deals only become visible when a rep marks them manually, and that does not always happen. Exact Online is used exclusively for invoicing, not as a CRM.",
     "goals": [
-      "Een actueel pipeline-overzicht hebben zonder handmatig kopieerwerk, elke maandagochtend klaar voor het directieoverleg",
-      "Zicht krijgen op openstaande waarde per fase, per rep en per regio",
-      "Beter kunnen bijsturen op onderpresterende regio's of reps ten opzichte van target",
-      "Dit bereiken zonder nu al een volledig CRM-traject te starten - de organisatie is daar nog niet aan toe"
+      "Have an up-to-date pipeline overview without manual copying, ready every Monday morning for the management meeting",
+      "Gain visibility of open value per stage, per rep and per region",
+      "Be better able to course-correct on underperforming regions or reps against target",
+      "Achieve this without starting a full CRM project yet - the organisation is not ready for that"
     ],
-    "approach": "We bouwen een Power BI-dashboard dat de bestaande Excel-sheets van de acht reps (aangeleverd via de al bestaande gedeelde SharePoint-map) automatisch samenvoegt tot een actueel pipeline-overzicht. Reps blijven werken zoals ze gewend zijn - er verandert niets aan hun sheet of werkwijze. Het dashboard toont openstaande pipeline per fase, omzet ten opzichte van target, en prestaties per regio en per rep, zodat Marloes elke maandag met actuele cijfers het overleg in kan zonder handwerk.",
+    "approach": "We build a Power BI dashboard that automatically merges the existing Excel sheets of the eight reps (submitted via the existing shared SharePoint folder) into an up-to-date pipeline overview. Reps keep working the way they are used to - nothing changes in their sheet or way of working. The dashboard shows open pipeline per stage, revenue against target, and performance per region and per rep, so Marloes can go into the meeting every Monday with current figures and no manual work.",
     "scopeDeliverables": [
-      "Koppeling die de acht rep-sheets vanuit de gedeelde SharePoint-map automatisch inleest",
-      "Power BI-dashboard met pipeline per fase, omzet vs. target, en een overzicht per regio en per rep",
-      "Wekelijkse automatische verversing, beschikbaar voor het maandagochtend-overleg",
-      "Korte instructie voor Marloes over hoe de reps hun sheet moeten aanleveren zodat de koppeling blijft werken"
+      "Connection that automatically reads the eight rep sheets from the shared SharePoint folder",
+      "Power BI dashboard with pipeline per stage, revenue vs. target, and an overview per region and per rep",
+      "Weekly automatic refresh, available for the Monday-morning meeting",
+      "Short guide for Marloes on how the reps should submit their sheet so the connection keeps working"
     ],
     "timeline": {
       "phases": [
         {
-          "name": "Week 1: scoping en data-aansluiting",
-          "description": "De acht sheets inventariseren, kolommen afstemmen op een gezamenlijk format, en de koppeling met de SharePoint-map opzetten."
+          "name": "Week 1: scoping and data connection",
+          "description": "Inventory the eight sheets, align columns to a shared format, and set up the connection to the SharePoint folder."
         },
         {
-          "name": "Week 2-3: dashboard bouwen",
-          "description": "Het Power BI-dashboard bouwen met pipeline per fase, omzet vs. target en de weergave per regio/rep, in de Datavance-huisstijl."
+          "name": "Week 2-3: build dashboard",
+          "description": "Build the Power BI dashboard with pipeline per stage, revenue vs. target and the view per region/rep, in the Datavance house style."
         },
         {
-          "name": "Week 4: testen en opleveren",
-          "description": "Een cyclus meedraaien met echte data van de reps, bijsturen op basis van feedback van Marloes, en opleveren voor het eerstvolgende maandagoverleg."
+          "name": "Week 4: test and deliver",
+          "description": "Run one cycle with real data from the reps, adjust based on feedback from Marloes, and deliver in time for the next Monday meeting."
         }
       ]
     },
-    "investment": "Dit traject wordt gescoped als één afgebakend probleem - het pipeline-overzicht - tegen een vaste prijs. De exacte investering bevestigen we na een kort scopegesprek waarin we de acht sheets samen doornemen.",
-    "nextSteps": "Akkoord op dit voorstel, gevolgd door een kort scopegesprek (circa 30 minuten) om de sheets en het gewenste format door te nemen. Daarna starten we direct in week 1."
+    "investment": "This project is scoped as one clearly defined problem - the pipeline overview - at a fixed price. We will confirm the exact investment after a short scoping call in which we go through the eight sheets together.",
+    "nextSteps": "Approval of this proposal, followed by a short scoping call (about 30 minutes) to go through the sheets and the desired format. After that we start straight away in week 1."
   },
   "savedAt": "2026-09-18T10:05:00.000Z"
 }

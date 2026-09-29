@@ -3,7 +3,7 @@ import { languageInstruction, jsonOnlyInstruction, formatQA, notesBlock, sourceS
 import { DATAVANCE_PLAYBOOK } from "./playbook";
 
 /** Logged with every call so evaluation can compare prompt iterations. Bump on meaningful edits. */
-export const PROMPT_VERSION = "proposal-v2-keep-edits";
+export const PROMPT_VERSION = "proposal-v3-en";
 
 const PROPOSAL_JSON_SHAPE = `{
   "coverIntro": string,        // short opening paragraph: who the client is, why this proposal
@@ -33,7 +33,7 @@ export function buildProposalPrompt(input: {
     "Write in a confident, concrete, concise style — short sentences, no filler, no generic consultant-speak.",
     "The proposal must center on the ONE scoped problem per the strategy above — 'scopeDeliverables' and 'timeline' describe work to solve that one problem, not a broad program.",
     input.sourceSystem
-      ? "The client's source system is given below — name it concretely in 'approach' (e.g. \"we koppelen [systeem]\") instead of a vague \"jullie bestaande systemen\"."
+      ? "The client's source system is given below — name it concretely in 'approach' (e.g. \"we connect [system]\") instead of a vague \"your existing systems\"."
       : "",
     "Some answers below may say the account owner has no concrete answer and asks you to estimate instead — that's expected, not a gap to leave blank. Make the most reasonable, concrete assumption grounded in the transcript and notes (never an unfounded invented specific), and write it into the proposal as a normal, confident statement rather than hedging or flagging it as a guess.",
     "Never invent concrete pricing figures — the investment section must stay a placeholder that frames it as a fixed price for this one scoped problem, to be confirmed on a scoping call.",
@@ -49,15 +49,15 @@ export function buildProposalPrompt(input: {
     .join("\n");
 
   const parts = [
-    `Transcript van het salesgesprek:\n\n${input.transcript}`,
+    `Sales call transcript:\n\n${input.transcript}`,
     notesBlock(input.notes),
     sourceSystemBlock(input.sourceSystem),
-    `Aanvullende vragen en antwoorden:\n\n${formatQA(input.questions, input.answers)}`,
+    `Clarifying questions and answers:\n\n${formatQA(input.questions, input.answers)}`,
   ].filter(Boolean);
 
   if (input.examples?.length) {
     parts.push(
-      `Eerder goedgekeurde Datavance-voorstellen (andere klanten, alleen als referentie voor toon en structuur):\n\n${input.examples
+      `Previously approved Datavance proposals (other clients, only as a reference for tone and structure):\n\n${input.examples
         .map((e) => `## ${e.companyName}\n${JSON.stringify(e.content, null, 2)}`)
         .join("\n\n---\n\n")}`,
     );
@@ -65,10 +65,10 @@ export function buildProposalPrompt(input: {
 
   if (input.priorDraft && input.feedback) {
     parts.push(
-      `Vorig concept van het voorstel (JSON):\n\n${JSON.stringify(input.priorDraft, null, 2)}`,
+      `Previous draft of the proposal (JSON):\n\n${JSON.stringify(input.priorDraft, null, 2)}`,
     );
     parts.push(
-      `Feedback van de accountmanager op dit concept — verwerk dit in een nieuwe versie. Pas alleen de onderdelen aan waar de feedback over gaat en neem alle andere secties letterlijk over: de accountmanager kan die zelf hebben bewerkt.\n\n${input.feedback}`,
+      `Feedback from the account owner on this draft — work it into a new version. Only change the parts the feedback is about and copy all other sections verbatim: the account owner may have edited them.\n\n${input.feedback}`,
     );
   }
 

@@ -52,18 +52,18 @@ export default async function DashboardPage({
         notesInput(notes, { href: `/leads/${leadId}/questions` }),
         sourceSystemInput(lead.sourceSystem),
         finalProposalInput(finalProposal.version, `/leads/${leadId}/proposal`),
-        answersInput("Antwoorden op de dashboardvragen", questions2, answers2, `/leads/${leadId}/dashboard-questions`),
+        answersInput("Answers to the dashboard questions", questions2, answers2, `/leads/${leadId}/dashboard-questions`),
         sampleDataInput(),
       ]}
       principles={DASHBOARD_PRINCIPLES}
     />
   );
-  const back = { href: `/leads/${leadId}/dashboard-questions`, label: "Dashboardvragen" };
+  const back = { href: `/leads/${leadId}/dashboard-questions`, label: "Dashboard questions" };
   const regenerate = (
     <GenerateButton
       url={`/api/leads/${leadId}/dashboard`}
-      label="Opnieuw genereren"
-      busyLabel="Dashboard wordt ontworpen..."
+      label="Regenerate"
+      busyLabel="Designing dashboard..."
       variant="secondary"
     />
   );
@@ -74,11 +74,11 @@ export default async function DashboardPage({
         <StepIntro title="PoC dashboard" />
         {contextPanel}
         <AutoGenerateCard
-          title="De AI ontwerpt het dashboard"
-          description="De AI kiest wat er per rij, per periode en als KPI getoond wordt voor dit ene probleem. Het systeem vult het met illustratieve voorbeelddata en rekent alle cijfers zelf uit."
+          title="The AI designs the dashboard"
+          description="The AI chooses what is shown per row, per period and as KPIs for this one problem. The system fills it with illustrative sample data and calculates all figures itself."
           url={`/api/leads/${leadId}/dashboard`}
-          label="Dashboard genereren"
-          busyLabel="Dashboard wordt ontworpen..."
+          label="Generate dashboard"
+          busyLabel="Designing dashboard..."
         />
         <StepActions back={back} />
       </div>
@@ -95,12 +95,12 @@ export default async function DashboardPage({
       <div className="page-stack">
         <StepIntro title="PoC dashboard" />
         <Card>
-          <h2 style={{ marginTop: 0 }}>Dit dashboard is met een oudere versie gemaakt</h2>
+          <h2 style={{ marginTop: 0 }}>This dashboard was made with an older version</h2>
           <p>
-            Die versie toonde algemene verkoopcijfers met andere labels. Genereer het opnieuw: de AI
-            ontwerpt dan een dashboard dat echt bij het probleem van {lead.companyName} past.
+            That version showed generic sales figures with different labels. Regenerate it: the AI
+            will then design a dashboard that truly fits {lead.companyName}'s problem.
           </p>
-          <GenerateButton url={`/api/leads/${leadId}/dashboard`} label="Dashboard opnieuw genereren" busyLabel="Dashboard wordt ontworpen..." />
+          <GenerateButton url={`/api/leads/${leadId}/dashboard`} label="Regenerate dashboard" busyLabel="Designing dashboard..." />
         </Card>
         <StepActions back={back} />
       </div>
@@ -113,15 +113,15 @@ export default async function DashboardPage({
   return (
     <div className="page-stack">
       <StepIntro title="PoC dashboard">
-        Klik gerust door de filters — de klant krijgt precies deze interactieve versie mee.
+        Feel free to click through the filters — the client receives exactly this interactive version.
       </StepIntro>
       <div style={{ display: "flex", flexWrap: "wrap", gap: "4px 20px", alignItems: "flex-start" }}>
         {contextPanel}
         {(record.spec.anchors.length > 0 || record.warnings.length > 0) && (
           <details className="disclosure no-print">
             <summary>
-              Cijfers uit het gesprek · {record.spec.anchors.length} gebruikt
-              {record.warnings.length > 0 && `, ${record.warnings.length} ${record.warnings.length === 1 ? "opmerking" : "opmerkingen"}`}
+              Figures from the call · {record.spec.anchors.length} used
+              {record.warnings.length > 0 && `, ${record.warnings.length} ${record.warnings.length === 1 ? "note" : "notes"}`}
             </summary>
             <Card>
               {record.spec.anchors.length > 0 ? (
@@ -130,18 +130,18 @@ export default async function DashboardPage({
                     <li key={i}>
                       <strong>
                         {a.kind === "count"
-                          ? `Aantal ${record.spec.model.entity.plural.toLowerCase()}`
+                          ? `Number of ${record.spec.model.entity.plural.toLowerCase()}`
                           : a.kind === "threshold"
-                            ? `Norm voor ${units[a.measure ?? ""] ?? a.measure}`
-                            : `Niveau van ${units[a.measure ?? ""] ?? a.measure}`}
+                            ? `Target for ${units[a.measure ?? ""] ?? a.measure}`
+                            : `Level of ${units[a.measure ?? ""] ?? a.measure}`}
                         :
                       </strong>{" "}
-                      {a.value.toLocaleString("nl-NL")} — &ldquo;{a.quote}&rdquo;
+                      {a.value.toLocaleString("en-GB")} — &ldquo;{a.quote}&rdquo;
                     </li>
                   ))}
                 </ul>
               ) : (
-                <p style={{ margin: 0, fontSize: 16 }}>Geen cijfers uit het gesprek gebruikt; alles is illustratief.</p>
+                <p style={{ margin: 0, fontSize: 16 }}>No figures from the call were used; everything is illustrative.</p>
               )}
               {record.warnings.length > 0 && (
                 <ul style={{ margin: "12px 0 0", paddingLeft: 20, fontSize: 15, opacity: 0.75 }}>
@@ -157,7 +157,7 @@ export default async function DashboardPage({
       <DashboardView record={record} companyName={lead.companyName} />
       <StepActions back={back}>
         {regenerate}
-        <LinkButton href={`/leads/${leadId}/send`}>Verder naar versturen &rarr;</LinkButton>
+        <LinkButton href={`/leads/${leadId}/send`}>Continue to send &rarr;</LinkButton>
       </StepActions>
     </div>
   );

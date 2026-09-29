@@ -22,7 +22,7 @@ const CONTENT_H = CONTENT_BOTTOM - CONTENT_TOP;
  * Block wrappers carry no styling of their own, so the spacer padding is the only padding.
  *
  * Positions are computed in "paper" coordinates (pages stacked without gaps). A block that
- * doesn't fit moves as a whole ("regels bijeenhouden"); data-keep="1" also keeps it with the
+ * doesn't fit moves as a whole ("keep lines together"); data-keep="1" also keeps it with the
  * next block (headings).
  */
 function paginate(flow: HTMLElement): number {

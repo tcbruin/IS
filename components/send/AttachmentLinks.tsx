@@ -6,10 +6,10 @@ import styles from "./AttachmentLinks.module.css";
 type Kind = "proposalDocx" | "proposalPdf" | "dashboardPdf" | "dashboardHtml";
 
 const ATTACHMENTS: { kind: Kind; title: string; detail: string; path: (id: string) => string; download: boolean }[] = [
-  { kind: "proposalDocx", title: "Voorstel", detail: "Word (.docx)", path: (id) => `/api/leads/${id}/proposal/docx?version=final`, download: true },
-  { kind: "proposalPdf", title: "Voorstel", detail: "PDF via printweergave", path: (id) => `/leads/${id}/proposal/print`, download: false },
-  { kind: "dashboardPdf", title: "PoC dashboard", detail: "PDF via printweergave", path: (id) => `/leads/${id}/dashboard/print`, download: false },
-  { kind: "dashboardHtml", title: "PoC dashboard", detail: "Interactief, werkt offline (.html)", path: (id) => `/api/leads/${id}/dashboard/export`, download: true },
+  { kind: "proposalDocx", title: "Proposal", detail: "Word (.docx)", path: (id) => `/api/leads/${id}/proposal/docx?version=final`, download: true },
+  { kind: "proposalPdf", title: "Proposal", detail: "PDF via print view", path: (id) => `/leads/${id}/proposal/print`, download: false },
+  { kind: "dashboardPdf", title: "PoC dashboard", detail: "PDF via print view", path: (id) => `/leads/${id}/dashboard/print`, download: false },
+  { kind: "dashboardHtml", title: "PoC dashboard", detail: "Interactive, works offline (.html)", path: (id) => `/api/leads/${id}/dashboard/export`, download: true },
 ];
 
 /** The attachments to send, as quiet tiles. Opening one is logged for the evaluation. */

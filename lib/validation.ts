@@ -58,14 +58,22 @@ export const answerSchema = z.object({
 });
 export type Answer = z.infer<typeof answerSchema>;
 
-/** Submitted as the `answer` value when the consultant checks "laat de AI dit inschatten" for a
+/** Submitted as the `answer` value when the consultant checks "let the AI estimate this" for a
  * question they genuinely can't answer — the consultant only has the same transcript/notes the
  * AI already has, so they can steer direction and make assumptions, never supply facts nobody
- * has. This is a full, readable Dutch sentence (not an opaque code) deliberately: it's read
+ * has. This is a full, readable sentence (not an opaque code) deliberately: it's read
  * as-is both by the account owner (in the read-only Q&A view) and by the AI (via formatQA in
  * every downstream prompt) — no special-case branching needed anywhere that renders answers. */
 export const AI_ESTIMATE_SENTINEL =
+  "No concrete answer — estimate this yourself based on the transcript and the notes.";
+
+/** The Dutch wording that answers saved before the English translation still contain. */
+const LEGACY_AI_ESTIMATE_SENTINEL =
   "Geen concreet antwoord — schat dit zelf in op basis van het transcript en de notities.";
+
+export function isAiEstimateAnswer(answer: string): boolean {
+  return answer === AI_ESTIMATE_SENTINEL || answer === LEGACY_AI_ESTIMATE_SENTINEL;
+}
 
 /** A fixed, non-AI-authored question appended to every generated question list (both rounds) —
  * a catch-all free-text field for context that doesn't fit any specific question. Reuses the
@@ -73,7 +81,7 @@ export const AI_ESTIMATE_SENTINEL =
  * of adding a parallel "extra notes" field and schema. */
 export const EXTRA_INFO_QUESTION: Question = {
   id: "extra-info",
-  text: "Nog iets dat de AI moet weten? (optioneel)",
+  text: "Anything else the AI should know? (optional)",
 };
 
 /** AI-generated ids aren't trustworthy: slugify them, make them unique and keep the fixed
@@ -81,7 +89,7 @@ export const EXTRA_INFO_QUESTION: Question = {
 export function normalizeQuestionIds(questions: Question[]): Question[] {
   const used = new Set<string>([EXTRA_INFO_QUESTION.id]);
   return questions.map((q, i) => {
-    const base = slugify(q.id, `vraag-${i + 1}`);
+    const base = slugify(q.id, `question-${i + 1}`);
     let id = base;
     for (let n = 2; used.has(id); n++) id = `${base}-${n}`;
     used.add(id);

@@ -6,9 +6,9 @@ export interface AIContextInputItem {
   present: boolean;
   /** Shown after the label when present, e.g. a value, an excerpt, or a count. */
   detail?: string;
-  /** Shown instead of a generic "niet aanwezig" line when !present. */
+  /** Shown instead of a generic "not available" line when !present. */
   absentText?: string;
-  /** Optional "Bekijk ..." link, only rendered when present. */
+  /** Optional "View ..." link, only rendered when present. */
   href?: string;
   linkLabel?: string;
 }
@@ -28,16 +28,16 @@ export function AIContextPanel({
   return (
     <details className={["no-print", styles.panel].join(" ")}>
       <summary className={styles.summary}>
-        <span className={styles.summaryTitle}>Waarop is dit gebaseerd?</span>
+        <span className={styles.summaryTitle}>What is this based on?</span>
         <span className={styles.summaryMeta}>
-          {sourceCount} {sourceCount === 1 ? "bron" : "bronnen"} · {principles.length}{" "}
-          {principles.length === 1 ? "regel" : "regels"}
+          {sourceCount} {sourceCount === 1 ? "source" : "sources"} · {principles.length}{" "}
+          {principles.length === 1 ? "rule" : "rules"}
         </span>
       </summary>
 
       <div className={styles.body}>
         <div>
-          <div className={styles.groupLabel}>Gebaseerd op</div>
+          <div className={styles.groupLabel}>Based on</div>
           <ul className={styles.inputList}>
             {inputs.map((item) => (
               <li key={item.label} className={styles.inputRow}>
@@ -52,7 +52,7 @@ export function AIContextPanel({
                     <>
                       {" "}
                       <Link href={item.href} className={styles.link}>
-                        {item.linkLabel ?? "Bekijk"}
+                        {item.linkLabel ?? "View"}
                       </Link>
                     </>
                   )}
@@ -63,7 +63,7 @@ export function AIContextPanel({
         </div>
 
         <div>
-          <div className={styles.groupLabel}>Waar de AI zich aan houdt</div>
+          <div className={styles.groupLabel}>Rules the AI follows</div>
           <ul className={styles.principleList}>
             {principles.map((p) => (
               <li key={p}>{p}</li>

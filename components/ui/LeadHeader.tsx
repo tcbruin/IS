@@ -22,9 +22,9 @@ export function LeadHeader({
   menu,
 }: {
   lead: Pick<Lead, "id" | "companyName" | "leadName" | "sourceSystem" | "state" | "demo">;
-  /** Quiet inline actions on the right (e.g. "Meld een fout"). */
+  /** Quiet inline actions on the right (e.g. "Report an issue"). */
   actions?: ReactNode;
-  /** Items inside the ⋯ menu (e.g. "Lead verwijderen"). */
+  /** Items inside the ⋯ menu (e.g. "Delete lead"). */
   menu?: ReactNode;
 }) {
   const pathname = usePathname();
@@ -42,12 +42,12 @@ export function LeadHeader({
     <header className={["no-print", styles.header].join(" ")}>
       <div className={styles.topRow}>
         <Link href="/" className={styles.backLink}>
-          &larr; Alle leads
+          &larr; All leads
         </Link>
         <div className={styles.right}>
           {lead.demo && (
             <span className={styles.demoBadge}>
-              Demo · {lead.demo.mode === "replay" ? "opname" : "live AI"}
+              Demo · {lead.demo.mode === "replay" ? "recording" : "live AI"}
             </span>
           )}
           {actions}
@@ -64,7 +64,7 @@ export function LeadHeader({
 
       {viewedStep && viewedSub && (
         <div className={styles.trailRow}>
-          <ol className={styles.trail} aria-label={`Onderdelen van stap ${viewedStep.number}`}>
+          <ol className={styles.trail} aria-label={`Parts of step ${viewedStep.number}`}>
             {viewedStep.substeps.map((sub) => {
               const status = getStepStatus(sub, lead.state);
               const isViewed = sub.key === viewedSub.key;
@@ -82,7 +82,7 @@ export function LeadHeader({
           </ol>
           {lookingBack && (
             <Link href={`/leads/${lead.id}`} className={styles.resume}>
-              Verder waar je was &rarr;
+              Resume where you left off &rarr;
             </Link>
           )}
         </div>

@@ -88,7 +88,7 @@ export async function createLead(input: {
 
 export async function getLead(leadId: string): Promise<Lead> {
   const data = await readJson<Lead>(path.join(leadDir(leadId), "lead.json"));
-  if (!data) throw new NotFoundError(`Lead ${leadId} niet gevonden.`);
+  if (!data) throw new NotFoundError(`Lead ${leadId} not found.`);
   return leadSchema.parse(data);
 }
 
@@ -155,7 +155,7 @@ export async function getTranscriptText(leadId: string): Promise<string> {
     return await fs.readFile(filePath, "utf-8");
   } catch (err) {
     if ((err as NodeJS.ErrnoException).code === "ENOENT") {
-      throw new NotFoundError(`Transcript voor lead ${leadId} niet gevonden.`);
+      throw new NotFoundError(`Transcript for lead ${leadId} not found.`);
     }
     throw err;
   }
@@ -200,7 +200,7 @@ export async function writeQuestions(
 
 export async function getQuestions(leadId: string, round: Round): Promise<Question[]> {
   const data = await readJson<{ questions: Question[] }>(questionsFile(leadId, round));
-  if (!data) throw new NotFoundError(`Vragen (ronde ${round}) voor lead ${leadId} niet gevonden.`);
+  if (!data) throw new NotFoundError(`Questions (round ${round}) for lead ${leadId} not found.`);
   return data.questions;
 }
 
@@ -214,7 +214,7 @@ export async function writeAnswers(
 
 export async function getAnswers(leadId: string, round: Round): Promise<Answer[]> {
   const data = await readJson<{ answers: Answer[] }>(answersFile(leadId, round));
-  if (!data) throw new NotFoundError(`Antwoorden (ronde ${round}) voor lead ${leadId} niet gevonden.`);
+  if (!data) throw new NotFoundError(`Answers (round ${round}) for lead ${leadId} not found.`);
   return data.answers;
 }
 
@@ -245,7 +245,7 @@ export async function getProposalVersion(
   const data = await readJson<ProposalVersion>(
     path.join(proposalVersionsDir(leadId), `v${version}.json`),
   );
-  if (!data) throw new NotFoundError(`Voorstelversie v${version} niet gevonden.`);
+  if (!data) throw new NotFoundError(`Proposal version v${version} not found.`);
   return proposalVersionSchema.parse(data);
 }
 
@@ -258,7 +258,7 @@ export async function getLatestProposalVersion(leadId: string): Promise<Proposal
 export async function getFinalProposalVersion(leadId: string): Promise<ProposalVersion> {
   const current = await getProposalCurrent(leadId);
   if (!current.finalVersion) {
-    throw new NotFoundError(`Voorstel voor lead ${leadId} is nog niet definitief gemaakt.`);
+    throw new NotFoundError(`The proposal for lead ${leadId} has not been finalized yet.`);
   }
   return getProposalVersion(leadId, current.finalVersion);
 }
@@ -318,7 +318,7 @@ export async function finalizeProposalVersion(
 ): Promise<ProposalCurrent> {
   const current = await getProposalCurrent(leadId);
   if (version < 1 || version > current.latestVersion) {
-    throw new NotFoundError(`Voorstelversie v${version} bestaat niet.`);
+    throw new NotFoundError(`Proposal version v${version} does not exist.`);
   }
   const nextCurrent: ProposalCurrent = { ...current, finalVersion: version };
   await writeJsonAtomic(proposalCurrentFile(leadId), nextCurrent);
@@ -341,7 +341,7 @@ function dashboardFile(leadId: string): string {
 /** An old-format dashboard (relabelled generic sales data) — must be regenerated. Maps to 409. */
 export class LegacyDashboardError extends WorkflowError {
   constructor() {
-    super("Dit dashboard is met een oudere versie gemaakt. Genereer het opnieuw.");
+    super("This dashboard was created with an older version. Please regenerate it.");
     this.name = "LegacyDashboardError";
   }
 }
@@ -352,7 +352,7 @@ export async function writeDashboard(leadId: string, record: DashboardRecord): P
 
 export async function getDashboard(leadId: string): Promise<DashboardRecord> {
   const data = await readJson<{ version?: number }>(dashboardFile(leadId));
-  if (!data) throw new NotFoundError(`Dashboard voor lead ${leadId} niet gevonden.`);
+  if (!data) throw new NotFoundError(`Dashboard for lead ${leadId} not found.`);
   if (data.version !== 2) throw new LegacyDashboardError();
   return dashboardRecordSchema.parse(data);
 }

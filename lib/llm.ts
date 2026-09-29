@@ -49,7 +49,7 @@ function getClient(): OpenAI {
     const apiKey = process.env.LLM_API_KEY ?? process.env.DEEPSEEK_API_KEY;
     if (!apiKey) {
       throw new LLMError(
-        "LLM_API_KEY (of DEEPSEEK_API_KEY) ontbreekt. Zet deze in .env.local (zie .env.example).",
+        "LLM_API_KEY (or DEEPSEEK_API_KEY) is missing. Set it in .env.local (see .env.example).",
       );
     }
     client = new OpenAI({
@@ -77,7 +77,7 @@ export const PROMPT_VERSIONS: Record<string, string> = {
 };
 
 /**
- * Demo "snel" mode: return the recorded output for the n-th call of this step on this lead,
+ * Demo replay mode: return the recorded output for the n-th call of this step on this lead,
  * after a short artificial delay, instead of calling the API. Returns undefined when there is
  * no usable recording — the caller then calls the API live, so a demo never gets stuck.
  */
@@ -99,7 +99,7 @@ async function replayRecording<T>(opts: {
   await logEvent(opts.ctx.leadId, {
     type: "llm_call",
     step: opts.step,
-    model: "opname",
+    model: "recording",
     promptVersion: opts.promptVersion,
     ok: true,
     attempts: 1,
@@ -119,7 +119,7 @@ export async function pingLLM(): Promise<{ ok: boolean; ms: number; model: strin
   try {
     await getClient().chat.completions.create({
       model,
-      messages: [{ role: "user", content: "Antwoord met: ok" }],
+      messages: [{ role: "user", content: "Reply with: ok" }],
       max_tokens: 3,
     });
     return { ok: true, ms: Math.round(performance.now() - started), model };
@@ -176,8 +176,8 @@ async function callLLM<T>(opts: {
         });
       } catch (err) {
         if (err instanceof LLMError) throw err;
-        error = (err as Error).message?.slice(0, 200) ?? "onbekende fout";
-        throw new LLMError("De AI-dienst is niet bereikbaar of gaf een fout. Probeer het opnieuw.");
+        error = (err as Error).message?.slice(0, 200) ?? "unknown error";
+        throw new LLMError("The AI service is unreachable or returned an error. Please try again.");
       }
 
       const u = completion.usage as UsageWithCache | undefined;
@@ -215,8 +215,8 @@ async function callLLM<T>(opts: {
       });
     }
 
-    error = "Ongeldig antwoord na alle pogingen";
-    throw new LLMError("AI-antwoord kon niet worden verwerkt na een nieuwe poging. Probeer opnieuw.");
+    error = "Invalid response after all attempts";
+    throw new LLMError("The AI response could not be processed, even after a retry. Please try again.");
   } finally {
     await logEvent(opts.ctx.leadId, {
       type: "llm_call",
@@ -329,7 +329,7 @@ export async function generateDashboard(
   try {
     built = dryRunDashboard(normalized.spec, build.seed, build.generatedAt);
   } catch {
-    throw new LLMError("Het dashboard kon niet worden opgebouwd uit het ontwerp van de AI. Probeer opnieuw.");
+    throw new LLMError("The dashboard could not be built from the AI's design. Please try again.");
   }
   return { spec: built.spec, warnings: [...guarded.warnings, ...normalized.warnings, ...built.warnings] };
 }

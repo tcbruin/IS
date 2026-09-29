@@ -32,11 +32,11 @@ export function CoverEmailPanel({
         const res = await fetch(`/api/leads/${leadId}/send/draft-email`, { method: "POST" });
         if (!res.ok) {
           const body = await res.json().catch(() => ({}));
-          throw new Error(body.error ?? "Opstellen van de e-mail mislukt.");
+          throw new Error(body.error ?? "Could not draft the email.");
         }
         router.refresh();
       } catch (err) {
-        setError(err instanceof Error ? err.message : "Er ging iets mis.");
+        setError(err instanceof Error ? err.message : "Something went wrong.");
       }
     })();
     // Only ever fires once, on first mount without an existing draft — router.refresh() (on
@@ -46,7 +46,7 @@ export function CoverEmailPanel({
 
   async function handleCopy() {
     if (!initialEmail) return;
-    await navigator.clipboard.writeText(`Onderwerp: ${initialEmail.subject}\n\n${initialEmail.body}`);
+    await navigator.clipboard.writeText(`Subject: ${initialEmail.subject}\n\n${initialEmail.body}`);
     void track(leadId, { type: "email_copied" });
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
@@ -57,7 +57,7 @@ export function CoverEmailPanel({
   }
 
   if (generating) {
-    return <p style={{ margin: 0, opacity: 0.75 }}>De AI stelt een korte begeleidende e-mail op...</p>;
+    return <p style={{ margin: 0, opacity: 0.75 }}>The AI is drafting a short cover email...</p>;
   }
 
   if (!initialEmail) return null;
@@ -65,21 +65,21 @@ export function CoverEmailPanel({
   return (
     <div className={styles.panel}>
       <div className={styles.field}>
-        <div className={styles.label}>Onderwerp</div>
+        <div className={styles.label}>Subject</div>
         <div className={styles.subject}>{initialEmail.subject}</div>
       </div>
       <div className={styles.field}>
-        <div className={styles.label}>Bericht</div>
+        <div className={styles.label}>Message</div>
         <div className={styles.body}>{initialEmail.body}</div>
       </div>
       <div className={styles.actions}>
         <Button variant="secondary" onClick={handleCopy}>
-          {copied ? "Gekopieerd!" : "Kopieer naar klembord"}
+          {copied ? "Copied!" : "Copy to clipboard"}
         </Button>
         <GenerateButton
           url={`/api/leads/${leadId}/send/draft-email`}
-          label="Opnieuw genereren"
-          busyLabel="Bezig..."
+          label="Regenerate"
+          busyLabel="Working..."
           variant="secondary"
         />
       </div>

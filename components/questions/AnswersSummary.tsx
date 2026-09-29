@@ -1,5 +1,5 @@
 import { Card } from "@/components/ui/Card";
-import { AI_ESTIMATE_SENTINEL, EXTRA_INFO_QUESTION, type Answer, type Question } from "@/lib/validation";
+import { EXTRA_INFO_QUESTION, isAiEstimateAnswer, type Answer, type Question } from "@/lib/validation";
 import styles from "./AnswersSummary.module.css";
 
 /** Read-only, compact Q&A list for revisiting answered questions. */
@@ -11,12 +11,12 @@ export function AnswersSummary({ questions, answers }: { questions: Question[]; 
           const answer = answers.find((a) => a.questionId === q.id)?.answer?.trim();
           const isExtra = q.id === EXTRA_INFO_QUESTION.id;
           if (isExtra && !answer) return null;
-          const isEstimate = answer === AI_ESTIMATE_SENTINEL;
+          const isEstimate = answer !== undefined && isAiEstimateAnswer(answer);
           return (
             <div key={q.id} className={styles.row}>
-              <dt className={styles.question}>{isExtra ? "Overige informatie" : q.text}</dt>
+              <dt className={styles.question}>{isExtra ? "Additional information" : q.text}</dt>
               <dd className={[styles.answer, isEstimate || !answer ? styles.muted : ""].join(" ")}>
-                {isEstimate ? "Laat de AI inschatten" : answer || "Niet beantwoord"}
+                {isEstimate ? "Let the AI estimate" : answer || "Not answered"}
               </dd>
             </div>
           );

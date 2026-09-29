@@ -9,11 +9,11 @@ import styles from "./page.module.css";
 export const dynamic = "force-dynamic";
 
 const STEP_NAMES: Record<string, string> = {
-  questions1: "vragen",
-  proposal: "voorstel",
-  questions2: "dashboardvragen",
+  questions1: "questions",
+  proposal: "proposal",
+  questions2: "dashboard questions",
   dashboard: "dashboard",
-  coverEmail: "e-mail",
+  coverEmail: "email",
 };
 
 /** Presenter page: pre-flight checks and one-click demo scenarios. */
@@ -26,35 +26,35 @@ export default async function DemoPage() {
   return (
     <div className={styles.page}>
       <Link href="/" className={styles.back}>
-        &larr; Alle leads
+        &larr; All leads
       </Link>
       <div>
         <h1 className={styles.title}>Demo</h1>
         <p className={styles.subtitle}>
-          Voor presentaties. <strong>Snel</strong> speelt een eerder opgenomen AI-run af (±1,5 s per stap, geen internet
-          nodig voor de AI). <strong>Live AI</strong> gebruikt de echte API — daarvan maak je ook een nieuwe opname.
+          For presentations. <strong>Fast</strong> replays a previously recorded AI run (±1.5 s per step, no internet
+          needed for the AI). <strong>Live AI</strong> uses the real API — that is also how you make a new recording.
         </p>
       </div>
 
       <Card>
-        <h2 className={styles.h2}>Checklist vooraf</h2>
+        <h2 className={styles.h2}>Pre-flight checklist</h2>
         <ul className={styles.checklist}>
           <li>
-            <span className={hasKey ? styles.ok : styles.bad}>{hasKey ? "✓" : "✗"}</span> API-sleutel{" "}
-            {hasKey ? "ingesteld" : "ontbreekt — alleen snelle demo's werken"}
+            <span className={hasKey ? styles.ok : styles.bad}>{hasKey ? "✓" : "✗"}</span> API key{" "}
+            {hasKey ? "configured" : "missing — only fast demos will work"}
           </li>
           <li className={styles.pingRow}>
             <PingButton />
           </li>
           {scenarios.map((s, i) => (
             <li key={s.id}>
-              <span className={statuses[i].complete ? styles.ok : styles.warn}>{statuses[i].complete ? "✓" : "–"}</span> Opname{" "}
-              {s.companyName}: {statuses[i].complete ? "compleet" : "nog niet (compleet)"}
+              <span className={statuses[i].complete ? styles.ok : styles.warn}>{statuses[i].complete ? "✓" : "–"}</span> Recording{" "}
+              {s.companyName}: {statuses[i].complete ? "complete" : "not (fully) recorded yet"}
             </li>
           ))}
           <li className={styles.cleanupRow}>
             <span>
-              {demoLeads.length} demo-{demoLeads.length === 1 ? "lead" : "leads"} in de lijst
+              {demoLeads.length} demo {demoLeads.length === 1 ? "lead" : "leads"} in the list
             </span>
             <CleanupButton count={demoLeads.length} />
           </li>
@@ -75,25 +75,25 @@ export default async function DemoPage() {
               <p className={styles.recording}>
                 {status.complete && status.meta ? (
                   <>
-                    Opname van {new Date(status.meta.recordedAt).toLocaleDateString("nl-NL")} ({status.meta.model})
+                    Recorded on {new Date(status.meta.recordedAt).toLocaleDateString("en-GB")} ({status.meta.model})
                     {outdated.length > 0 && (
                       <span className={styles.outdated}>
                         {" "}
-                        · gemaakt met een oudere prompt voor {outdated.map(([step]) => STEP_NAMES[step] ?? step).join(", ")}
+                        · made with an older prompt for {outdated.map(([step]) => STEP_NAMES[step] ?? step).join(", ")}
                       </span>
                     )}
                   </>
                 ) : (
                   <>
-                    Nog geen complete opname
+                    No complete recording yet
                     {Object.values(status.steps).some(Boolean) &&
-                      ` (wel: ${RECORDED_STEPS.filter((st) => status.steps[st]).map((st) => STEP_NAMES[st]).join(", ")})`}
-                    . Start live, doorloop de demo en kies in het ⋯-menu “Opslaan als demo-opname”.
+                      ` (available: ${RECORDED_STEPS.filter((st) => status.steps[st]).map((st) => STEP_NAMES[st]).join(", ")})`}
+                    . Start live, run through the demo and choose “Save as demo recording” in the ⋯ menu.
                   </>
                 )}
               </p>
               <div className={styles.actions}>
-                <StartDemoButton scenarioId={s.id} mode="replay" label="Start (snel)" disabled={!status.complete} />
+                <StartDemoButton scenarioId={s.id} mode="replay" label="Start (fast)" disabled={!status.complete} />
                 <StartDemoButton scenarioId={s.id} mode="live" label="Start (live AI)" variant="secondary" disabled={!hasKey} />
               </div>
             </Card>
@@ -102,20 +102,20 @@ export default async function DemoPage() {
       </div>
 
       <Card variant="creme">
-        <h2 className={styles.h2}>Tips voor de presentatie</h2>
+        <h2 className={styles.h2}>Presentation tips</h2>
         <ul className={styles.tips}>
-          <li>Kies bij twijfel over wifi of tijd voor <strong>Snel</strong>: elke AI-stap duurt dan ±1,5 seconde.</li>
+          <li>If wifi or time is uncertain, choose <strong>Fast</strong>: each AI step then takes about 1.5 seconds.</li>
           <li>
-            Gebruik op de vraagschermen <strong>Vul demo-antwoorden in</strong>; laat bij één vraag zien hoe “laat de AI
-            inschatten” werkt.
+            On the question screens, use <strong>Fill in demo answers</strong>; on one question, show how “let the AI
+            estimate” works.
           </li>
-          <li>Typ in het voorstel één zin zelf en zet één opmerking in de kantlijn — dat laat de mens-in-de-lus zien.</li>
-          <li>Klik op het dashboard door de filters en open “Cijfers uit het gesprek”: elk getal is herleidbaar.</li>
+          <li>Type one sentence yourself in the proposal and add one margin comment — that shows the human in the loop.</li>
+          <li>Click through the dashboard filters and open “Figures from the call”: every number is traceable.</li>
           <li>
-            Meld tijdens de demo één fout via <strong>Meld een fout</strong> en open daarna{" "}
-            <Link href="/evaluatie">Evaluatie</Link> in een tweede tab.
+            Report one issue during the demo via <strong>Report an issue</strong>, then open{" "}
+            <Link href="/evaluation">Evaluation</Link> in a second tab.
           </li>
-          <li>Ruim na afloop de demo-leads op; opnames blijven bewaard. Opnames tellen nooit mee in de evaluatie.</li>
+          <li>Clean up the demo leads afterwards; recordings are kept. Recordings never count toward the evaluation.</li>
         </ul>
       </Card>
     </div>

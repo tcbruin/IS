@@ -41,7 +41,7 @@ export async function POST(
     if (body.basedOnVersion !== current.latestVersion && !body.force) {
       return NextResponse.json(
         {
-          error: `Er is intussen een nieuwere versie (v${current.latestVersion}). Je wijzigingen zijn gebaseerd op v${body.basedOnVersion}.`,
+          error: `A newer version (v${current.latestVersion}) has been saved in the meantime. Your changes are based on v${body.basedOnVersion}.`,
           code: "stale_version",
           latestVersion: current.latestVersion,
         },

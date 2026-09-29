@@ -1,91 +1,116 @@
 {
-  "title": "Pipeline-overzicht buitendienst",
+  "title": "Open pipeline per stage, rep and region",
   "layout": "overview",
   "model": {
     "entity": {
-      "singular": "Rep",
-      "plural": "Reps",
+      "singular": "Sales rep",
+      "plural": "Sales reps",
       "count": 8,
       "names": [
-        "Jeroen Bakker",
-        "Sanne de Wit",
-        "Mehmet Yilmaz",
-        "Lisa van Dam",
-        "Peter Hendriks",
-        "Fatima El Amrani",
-        "Bram Visser",
-        "Nadia Kort"
+        "Bram de Wit",
+        "Sanne Kuiper",
+        "Joost Verhoeven",
+        "Ilse Bakker",
+        "Rachid El Amrani",
+        "Nienke Vos",
+        "Tom Groot",
+        "Lotte Hendriks"
       ],
       "sizeSpread": "skewed"
     },
     "dimensions": [
       {
-        "key": "regio",
-        "label": "Regio",
+        "key": "region",
+        "label": "Region",
         "values": [
-          "Noord",
-          "Zuid",
+          "North",
+          "South",
           "Randstad",
-          "Oost",
+          "East",
           "West"
+        ]
+      },
+      {
+        "key": "stage",
+        "label": "Stage",
+        "values": [
+          "Quote sent",
+          "Follow-up",
+          "Negotiation",
+          "Verbal yes",
+          "Won",
+          "Lost"
         ]
       }
     ],
     "period": {
-      "grain": "month",
-      "count": 12
+      "grain": "week",
+      "count": 16
     },
     "measures": [
       {
-        "key": "openstaande_waarde",
-        "label": "Openstaande waarde",
+        "key": "quotes",
+        "label": "Quotes",
+        "unit": "count",
+        "higherIsBetter": true,
+        "typical": 9,
+        "spread": "medium",
+        "trend": "flat"
+      },
+      {
+        "key": "open_value",
+        "label": "Open value",
         "unit": "euro",
         "higherIsBetter": true,
-        "typical": 60000,
+        "typical": 26000,
         "spread": "high",
         "trend": "flat"
       },
       {
-        "key": "gewonnen_waarde",
-        "label": "Gewonnen waarde",
+        "key": "won_value",
+        "label": "Won value",
         "unit": "euro",
         "higherIsBetter": true,
-        "typical": 40000,
         "spread": "high",
-        "trend": "up"
-      },
-      {
-        "key": "verloren_waarde",
-        "label": "Verloren waarde",
-        "unit": "euro",
-        "higherIsBetter": false,
-        "spread": "medium",
         "trend": "flat",
         "relativeTo": {
-          "measure": "gewonnen_waarde",
-          "min": 0.15,
+          "measure": "open_value",
+          "min": 0.2,
           "max": 0.5
+        }
+      },
+      {
+        "key": "lost_value",
+        "label": "Lost value",
+        "unit": "euro",
+        "higherIsBetter": false,
+        "spread": "high",
+        "trend": "flat",
+        "relativeTo": {
+          "measure": "open_value",
+          "min": 0.05,
+          "max": 0.25
         }
       }
     ],
     "derived": [
       {
-        "key": "verwachte_omzet",
-        "label": "Verwachte omzet",
-        "unit": "euro",
-        "higherIsBetter": true,
-        "op": "add",
-        "a": "openstaande_waarde",
-        "b": "gewonnen_waarde"
-      },
-      {
-        "key": "win_rate_pct",
+        "key": "win_rate",
         "label": "Win rate",
         "unit": "percent",
         "higherIsBetter": true,
         "op": "divide",
-        "a": "gewonnen_waarde",
-        "b": "verwachte_omzet"
+        "a": "won_value",
+        "b": "won_value"
+      },
+      {
+        "key": "open_per_quote",
+        "label": "Open value per quote",
+        "unit": "euro",
+        "higherIsBetter": true,
+        "op": "divide",
+        "a": "open_value",
+        "b": "quotes"
       }
     ]
   },
@@ -93,45 +118,42 @@
     {
       "kind": "count",
       "value": 8,
-      "quote": "we hebben een man of acht buitendienst"
+      "quote": "we have about eight field sales reps"
     },
     {
       "kind": "level",
-      "measure": "openstaande_waarde",
-      "value": 480000,
-      "quote": "rond de 480.000 euro aan openstaande pipeline"
+      "measure": "open_value",
+      "value": 4800000,
+      "quote": "target this year 4.8 mln"
     }
   ],
   "kpis": [
     {
-      "measure": "verwachte_omzet",
-      "label": "Verwachte omzet",
+      "measure": "open_value",
+      "label": "Open pipeline value",
       "show": "value"
     },
     {
-      "measure": "openstaande_waarde",
-      "label": "Openstaande pipeline",
-      "show": "value"
-    },
-    {
-      "measure": "win_rate_pct",
+      "measure": "win_rate",
       "label": "Win rate",
       "show": "value"
+    },
+    {
+      "measure": "open_value",
+      "label": "Reps below average open value",
+      "show": "flagCount",
+      "flag": "vsAverage"
     }
   ],
   "visuals": [
     {
       "type": "chart",
-      "title": "Verwachte omzet per maand",
-      "x": "period",
+      "title": "Open value per stage",
+      "x": "stage",
       "series": [
         {
-          "measure": "verwachte_omzet",
+          "measure": "open_value",
           "style": "bar"
-        },
-        {
-          "measure": "openstaande_waarde",
-          "style": "line"
         }
       ]
     },
@@ -140,20 +162,20 @@
       "title": "Pipeline per rep",
       "rows": "entity",
       "columns": [
-        "openstaande_waarde",
-        "verwachte_omzet",
-        "win_rate_pct"
+        "open_value",
+        "quotes",
+        "win_rate"
       ],
       "flag": {
-        "measure": "win_rate_pct",
+        "measure": "open_value",
         "rule": "vsAverage"
       },
-      "sortBy": "openstaande_waarde",
+      "sortBy": "open_value",
       "sortDir": "desc"
     }
   ],
   "filters": [
-    "regio",
+    "region",
     "entity"
   ]
 }

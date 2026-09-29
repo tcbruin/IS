@@ -1,28 +1,28 @@
 {
   "answers": [
     {
-      "questionId": "hoofdmaat",
-      "answer": "De verwachte omzet uit de pipeline."
+      "questionId": "primary-measure",
+      "answer": "The open pipeline value."
     },
     {
-      "questionId": "vergelijking",
-      "answer": "Vorige maand."
+      "questionId": "comparison",
+      "answer": "The previous month."
     },
     {
-      "questionId": "uitsplitsing",
-      "answer": "Allebei: regio om te zien of een gebied achterblijft, rep om gericht te coachen."
+      "questionId": "breakdown",
+      "answer": "Both: region to see if an area lags behind, rep for targeted coaching."
     },
     {
-      "questionId": "fase-indeling",
-      "answer": "Geen concreet antwoord — schat dit zelf in op basis van het transcript en de notities."
+      "questionId": "stages",
+      "answer": "No concrete answer — estimate this yourself based on the transcript and the notes."
     },
     {
-      "questionId": "datakwaliteit",
-      "answer": "Nee, niet in deze eerste versie."
+      "questionId": "monday-number",
+      "answer": "Not for the dashboard itself; the four hours belong in the proposal."
     },
     {
       "questionId": "extra-info",
-      "answer": "Op dit moment staat er ergens rond de 480.000 euro aan openstaande pipeline, verdeeld over zo'n 44 offertes."
+      "answer": ""
     }
   ]
 }

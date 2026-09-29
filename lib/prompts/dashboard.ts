@@ -3,8 +3,9 @@ import { languageInstruction, jsonOnlyInstruction, formatQA, notesBlock, sourceS
 import { DATAVANCE_PLAYBOOK } from "./playbook";
 
 /** Logged with every call so evaluation can compare prompt iterations. Bump on meaningful edits.
- * v1-relabel: picked labels for a fixed generic sales dataset. v2-model: designs a data model. */
-export const PROMPT_VERSION = "dashboard-v2.1-model";
+ * v1-relabel: picked labels for a fixed generic sales dataset. v2-model: designs a data model.
+ * v3-en: English prompts, labels and example. */
+export const PROMPT_VERSION = "dashboard-v3-en";
 
 const SPEC_SHAPE = `{
   "title": string,                       // page title in the client's words, no digits, no company name
@@ -36,35 +37,35 @@ const SPEC_SHAPE = `{
 /** A worked example from a deliberately unrelated domain, so the model learns the shape without
  * copying the test clients. */
 const EXAMPLE = `{
-  "title": "Derving per filiaal",
+  "title": "Waste per branch",
   "layout": "overview",
   "model": {
-    "entity": { "singular": "Filiaal", "plural": "Filialen", "count": 14, "names": ["Bakkerij Centrum", "Bakkerij Noord", "Bakkerij Station"], "sizeSpread": "skewed" },
-    "dimensions": [ { "key": "regio", "label": "Regio", "values": ["Stad", "Randgemeenten"] } ],
+    "entity": { "singular": "Branch", "plural": "Branches", "count": 14, "names": ["Bakery Centre", "Bakery North", "Bakery Station"], "sizeSpread": "skewed" },
+    "dimensions": [ { "key": "region", "label": "Region", "values": ["City", "Suburbs"] } ],
     "period": { "grain": "week", "count": 16 },
     "measures": [
-      { "key": "gebakken", "label": "Gebakken stuks", "unit": "count", "higherIsBetter": true, "typical": 2400, "spread": "medium", "trend": "flat" },
-      { "key": "derving", "label": "Derving", "unit": "count", "higherIsBetter": false, "spread": "medium", "trend": "flat", "relativeTo": { "measure": "gebakken", "min": 0.04, "max": 0.14 } }
+      { "key": "baked", "label": "Items baked", "unit": "count", "higherIsBetter": true, "typical": 2400, "spread": "medium", "trend": "flat" },
+      { "key": "waste", "label": "Waste", "unit": "count", "higherIsBetter": false, "spread": "medium", "trend": "flat", "relativeTo": { "measure": "baked", "min": 0.04, "max": 0.14 } }
     ],
     "derived": [
-      { "key": "derving_pct", "label": "Derving %", "unit": "percent", "higherIsBetter": false, "op": "divide", "a": "derving", "b": "gebakken" },
-      { "key": "derving_eur", "label": "Dervingswaarde", "unit": "euro", "higherIsBetter": false, "op": "multiply", "a": "derving", "factor": 1.8 }
+      { "key": "waste_pct", "label": "Waste %", "unit": "percent", "higherIsBetter": false, "op": "divide", "a": "waste", "b": "baked" },
+      { "key": "waste_eur", "label": "Waste value", "unit": "euro", "higherIsBetter": false, "op": "multiply", "a": "waste", "factor": 1.8 }
     ]
   },
   "anchors": [
-    { "kind": "count", "value": 14, "quote": "we hebben veertien filialen" },
-    { "kind": "threshold", "measure": "derving_pct", "value": 8, "quote": "alles boven de acht procent is echt te veel" }
+    { "kind": "count", "value": 14, "quote": "we have fourteen branches" },
+    { "kind": "threshold", "measure": "waste_pct", "value": 8, "quote": "anything above eight percent is really too much" }
   ],
   "kpis": [
-    { "measure": "derving_eur", "label": "Dervingswaarde", "show": "value" },
-    { "measure": "derving_pct", "label": "Derving %", "show": "value" },
-    { "measure": "derving_pct", "label": "Filialen boven norm", "show": "flagCount", "flag": "threshold" }
+    { "measure": "waste_eur", "label": "Waste value", "show": "value" },
+    { "measure": "waste_pct", "label": "Waste %", "show": "value" },
+    { "measure": "waste_pct", "label": "Branches above target", "show": "flagCount", "flag": "threshold" }
   ],
   "visuals": [
-    { "type": "chart", "title": "Gebakken en derving per week", "x": "period", "series": [ { "measure": "gebakken", "style": "bar" }, { "measure": "derving_pct", "style": "line" } ] },
-    { "type": "table", "title": "Derving per filiaal", "rows": "entity", "columns": ["derving_pct", "derving_eur"], "flag": { "measure": "derving_pct", "rule": "threshold" }, "sortBy": "derving_pct", "sortDir": "desc" }
+    { "type": "chart", "title": "Baked and waste per week", "x": "period", "series": [ { "measure": "baked", "style": "bar" }, { "measure": "waste_pct", "style": "line" } ] },
+    { "type": "table", "title": "Waste per branch", "rows": "entity", "columns": ["waste_pct", "waste_eur"], "flag": { "measure": "waste_pct", "rule": "threshold" }, "sortBy": "waste_pct", "sortDir": "desc" }
   ],
-  "filters": ["regio", "entity"]
+  "filters": ["region", "entity"]
 }`;
 
 export function buildDashboardPrompt(input: {
@@ -79,13 +80,13 @@ export function buildDashboardPrompt(input: {
     "You are a senior consultant at Datavance designing a 1-page proof-of-concept (PoC) Power BI dashboard that shows the client what solving their ONE scoped problem looks like.",
     DATAVANCE_PLAYBOOK,
     "HOW IT WORKS: you design a small data model and the page. The app then generates illustrative sample rows from your model and computes every number on screen (the page is clearly labeled as illustrative sample data). You NEVER write a number that is displayed. The only numbers you write are generation settings (count, typical, relativeTo ranges, factor) and anchor values.",
-    "MODEL: the entity is what the rows are about in the client's world (klant, project, chauffeur, filiaal…). Base measures are what gets counted or booked per entity per period; give a realistic 'typical' value per entity per period for an average entity. Use relativeTo for anything that is a fraction of another measure (costs of revenue, returns of deliveries, hours of capacity) — it keeps margins and balances realistic; your own arithmetic easily produces negative margins. Derived measures: subtract for a margin or net flow, divide with unit percent for a percentage, balance for a running stock (e.g. crates outstanding = balance of delivered − returned), multiply by a constant price for a value in euro (use a price stated in the call if there is one).",
+    "MODEL: the entity is what the rows are about in the client's world (customer, project, driver, branch…). Base measures are what gets counted or booked per entity per period; give a realistic 'typical' value per entity per period for an average entity. Use relativeTo for anything that is a fraction of another measure (costs of revenue, returns of deliveries, hours of capacity) — it keeps margins and balances realistic; your own arithmetic easily produces negative margins. Derived measures: subtract for a margin or net flow, divide with unit percent for a percentage, balance for a running stock (e.g. crates outstanding = balance of delivered − returned), multiply by a constant price for a value in euro (use a price stated in the call if there is one).",
     "TIME: pick the grain of the client's rhythm — weekly meetings or operations → week (12–26), financial reporting → month (12–24).",
-    "ANCHORS: only numbers literally stated in the transcript, the consultant's notes or a concrete account-owner answer. 'quote' is the verbatim fragment (max ~12 words) containing the number, in the original words (digits or written out, e.g. \"vijftien procent\"). Never quote the questions or the proposal. count = number of entities (at most one count anchor — other counts, like a number of offers, are not the entity count); level = total of a measure across all entities in the latest period (for a balance: the balance now); threshold = a norm the client mentioned (percent values as e.g. 15, not 0.15). Anchors that cannot be found verbatim are discarded by the app.",
-    "NORMS: a threshold is a norm the client applies PER ROW (e.g. \"marge per project minstens vijftien procent\"). A total, a count or a figure someone reported (\"hun administratie zegt 950 kratten\") is never a norm. Never invent a norm: if none was stated, flags use vsAverage (compared with the average) or vsPrevious (compared with the previous period).",
-    "ESTIMATE ANSWERS: an answer like \"Geen concreet antwoord — schat dit zelf in…\" or \"Maak je eigen inschatting…\" delegates a design choice to you. It is never a source of numbers or anchors.",
-    "PAGE: layout \"overview\" = up to 3 KPIs, then a wide chart plus a narrow table (or one wide visual). Layout \"openItems\" = up to 2 KPIs with a table below them on the left, and one or two visuals on the right. Charts: x = period for a trend, or entity/dimension for a comparison; 1–3 series with at most two units. Tables: rows = entity or a dimension, up to 4 measure columns, optional ✓/✗ flag column. KPIs answer the question the client actually asked; flagCount KPIs count entities failing a flag (e.g. \"Projecten onder norm\").",
-    "LABELS: in the client's own Dutch words (fust, kratten, ploegbaas…), short, no digits, no company name (the header shows it). Keys: lowercase slugs like \"marge_pct\". Entity names: fictional, never real companies from the call.",
+    "ANCHORS: only numbers literally stated in the transcript, the consultant's notes or a concrete account-owner answer. 'quote' is the verbatim fragment (max ~12 words) containing the number, in the original words (digits or written out, e.g. \"fifteen percent\"). Never quote the questions or the proposal. count = number of entities (at most one count anchor — other counts, like a number of offers, are not the entity count); level = total of a measure across all entities in the latest period (for a balance: the balance now); threshold = a norm the client mentioned (percent values as e.g. 15, not 0.15). Anchors that cannot be found verbatim are discarded by the app.",
+    "NORMS: a threshold is a norm the client applies PER ROW (e.g. \"margin per project at least fifteen percent\"). A total, a count or a figure someone reported (\"their records say 950 crates\") is never a norm. Never invent a norm: if none was stated, flags use vsAverage (compared with the average) or vsPrevious (compared with the previous period).",
+    "ESTIMATE ANSWERS: an answer like \"No concrete answer — estimate this yourself…\" or \"Make your own estimate…\" delegates a design choice to you. It is never a source of numbers or anchors.",
+    "PAGE: layout \"overview\" = up to 3 KPIs, then a wide chart plus a narrow table (or one wide visual). Layout \"openItems\" = up to 2 KPIs with a table below them on the left, and one or two visuals on the right. Charts: x = period for a trend, or entity/dimension for a comparison; 1–3 series with at most two units. Tables: rows = entity or a dimension, up to 4 measure columns, optional ✓/✗ flag column. KPIs answer the question the client actually asked; flagCount KPIs count entities failing a flag (e.g. \"Projects below target\").",
+    "LABELS: in English, using the client's own terms from the call (crates, returnables, foreman…), short, no digits, no company name (the header shows it). Keys: lowercase slugs like \"margin_pct\". Entity names: fictional, never real companies from the call.",
     languageInstruction(),
     jsonOnlyInstruction(),
     `JSON shape:\n${SPEC_SHAPE}`,
@@ -93,15 +94,15 @@ export function buildDashboardPrompt(input: {
   ].join("\n\n");
 
   const user = [
-    `Transcript van het salesgesprek:\n\n${input.transcript}`,
+    `Sales call transcript:\n\n${input.transcript}`,
     notesBlock(input.notes),
     sourceSystemBlock(input.sourceSystem),
-    `Definitief voorstel (alleen voor de scope — geen bron voor ankers):\n\n${JSON.stringify(
+    `Final proposal (for the scope only — not a source for anchors):\n\n${JSON.stringify(
       { situation: input.proposal.situation, goals: input.proposal.goals, scopeDeliverables: input.proposal.scopeDeliverables },
       null,
       2,
     )}`,
-    `Antwoorden van de accountmanager op de dashboardvragen:\n\n${formatQA(input.questions, input.answers)}`,
+    `Account owner's answers to the dashboard questions:\n\n${formatQA(input.questions, input.answers)}`,
   ]
     .filter(Boolean)
     .join("\n\n---\n\n");

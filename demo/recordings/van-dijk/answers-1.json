@@ -2,27 +2,27 @@
   "answers": [
     {
       "questionId": "scope",
-      "answer": "Het wekelijkse samenvoegen: een actueel pipeline-overzicht."
+      "answer": "The up-to-date pipeline overview that is now merged by hand every week."
     },
     {
-      "questionId": "uren-bewijs",
-      "answer": "Schatting van Marloes, maar ze doet het elke vrijdag."
+      "questionId": "hours-per-week",
+      "answer": "Yes, it's Marloes' estimate, but she does it every Friday."
     },
     {
-      "questionId": "formaat-sheets",
-      "answer": "Geen concreet antwoord — schat dit zelf in op basis van het transcript en de notities."
+      "questionId": "sheet-structure",
+      "answer": "No concrete answer — estimate this yourself based on the transcript and the notes."
     },
     {
-      "questionId": "definitie-fases",
-      "answer": "Ongeveer, maar niet helemaal gelijk; dat moeten we gelijk trekken."
+      "questionId": "sheet-access",
+      "answer": "The sheets are in a shared SharePoint folder."
     },
     {
-      "questionId": "eigenaar-sheets",
-      "answer": "Elke rep zelf; Marloes voegt samen."
+      "questionId": "success-metric",
+      "answer": "An overview that is up to date on Monday morning without the four hours of merging."
     },
     {
-      "questionId": "doel-dashboard",
-      "answer": "Allebei: het maandoverleg met de directie én per rep en regio kunnen bijsturen."
+      "questionId": "rep-adoption",
+      "answer": "Yes, they keep their own sheets; that's the whole point of not starting a CRM project."
     },
     {
       "questionId": "extra-info",

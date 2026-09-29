@@ -1,29 +1,29 @@
 {
   "questions": [
     {
-      "id": "belangrijkste-maat",
-      "text": "Welke maat is voor Lisa het belangrijkst: marge per project of marge per ploegbaas?",
-      "hint": "Bepaalt de hoofdvisual van het dashboard."
+      "id": "primary-measure",
+      "text": "Should the dashboard lead with margin percentage per project, or with the euro margin per project?",
+      "hint": "Determines the main KPI on the PoC."
     },
     {
-      "id": "vergelijkingsbasis",
-      "text": "Waarmee vergelijkt Lisa de marge: de vaste 15%-drempel of de vorige week?",
-      "hint": "Bepaalt of het dashboard een trendlijn nodig heeft."
+      "id": "comparison-baseline",
+      "text": "Should each project's margin be shown against the fixed 15% threshold, or against the project's own budget?",
+      "hint": "Decides the reference line in the dashboard."
     },
     {
-      "id": "drempel-per-type",
-      "text": "Geldt de 15%-drempel voor alle projecten of verschilt die per projecttype?",
-      "hint": "Bepaalt of één vaste drempel in het dashboard volstaat."
+      "id": "breakdown-level",
+      "text": "Should the margin be broken down per project only, or also per cost type like hours versus materials?",
+      "hint": "Shapes the drill-down in the PoC."
     },
     {
-      "id": "urenbriefje-velden",
-      "text": "Welke velden staan in het Excel-urenbriefje dat de ploegbazen mailen?",
-      "hint": "Nodig om de normalisatiestap concreet te maken."
+      "id": "bergendaal-number",
+      "text": "Is the Bergen op Zoom project's margin figure known well enough to use as a sample case?",
+      "hint": "A real example makes the PoC land."
     },
     {
-      "id": "bergen-op-zoom",
-      "text": "Kunnen we het project Bergen op Zoom als rekenvoorbeeld in het dashboard gebruiken?",
-      "hint": "Maakt het voorstel herkenbaar en concreet voor Lisa."
+      "id": "alert-visibility",
+      "text": "Should projects below 15% be flagged as a red row, or as a separate alert list at the top?",
+      "hint": "Affects how Lisa spots problems at a glance."
     }
   ]
 }

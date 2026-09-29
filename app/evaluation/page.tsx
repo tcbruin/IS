@@ -10,17 +10,17 @@ import styles from "./page.module.css";
 export const dynamic = "force-dynamic";
 
 const STEP_NAMES: Record<string, string> = {
-  questions1: "Verduidelijkingsvragen",
-  proposal: "Voorstel",
-  questions2: "Dashboardvragen",
-  dashboard: "Dashboardontwerp",
-  coverEmail: "Begeleidende e-mail",
-  ping: "Verbindingstest",
+  questions1: "Clarifying questions",
+  proposal: "Proposal",
+  questions2: "Dashboard questions",
+  dashboard: "Dashboard design",
+  coverEmail: "Cover email",
+  ping: "Connection test",
 };
 
 function num(v: number | null | undefined, decimals = 0): string {
   if (v === null || v === undefined || !Number.isFinite(v)) return "–";
-  return v.toLocaleString("nl-NL", { minimumFractionDigits: decimals, maximumFractionDigits: decimals });
+  return v.toLocaleString("en-GB", { minimumFractionDigits: decimals, maximumFractionDigits: decimals });
 }
 const eur = (v: number | null | undefined, decimals = 2) => (v === null || v === undefined ? "–" : `€ ${num(v, decimals)}`);
 const pct = (v: number | null | undefined) => (v === null || v === undefined ? "–" : `${num(v, 0)}%`);
@@ -45,79 +45,79 @@ export default async function EvaluationPage({ searchParams }: { searchParams: P
   return (
     <div className={styles.page}>
       <Link href="/" className={styles.back}>
-        &larr; Alle leads
+        &larr; All leads
       </Link>
       <header className={styles.header}>
         <div>
-          <h1 className={styles.title}>Evaluatie</h1>
+          <h1 className={styles.title}>Evaluation</h1>
           <p className={styles.subtitle}>
-            Tijd, kosten, kwaliteit en fouten van de app, vergeleken met de handmatige werkwijze. Alles wordt automatisch
-            gemeten tijdens het gebruik.
+            Time, cost, quality and failures of the app, compared with the manual process. Everything is measured
+            automatically during use.
           </p>
         </div>
         <div className={styles.headerActions}>
-          <Link href={includeDemo ? "/evaluatie" : "/evaluatie?demo=1"} className={styles.toggle}>
-            {includeDemo ? "✓ Live demo's meegeteld" : "Live demo's meetellen"}
+          <Link href={includeDemo ? "/evaluation" : "/evaluation?demo=1"} className={styles.toggle}>
+            {includeDemo ? "✓ Live demos included" : "Include live demos"}
           </Link>
-          <a href={`/api/evaluatie/export?type=leads${demoQuery}`} className={styles.csv}>
+          <a href={`/api/evaluation/export?type=leads${demoQuery}`} className={styles.csv}>
             CSV per lead
           </a>
-          <a href={`/api/evaluatie/export?type=events${demoQuery}`} className={styles.csv}>
-            CSV alle metingen
+          <a href={`/api/evaluation/export?type=events${demoQuery}`} className={styles.csv}>
+            CSV all events
           </a>
         </div>
       </header>
 
       {!PRICING_VERIFIED_ON && (
         <StatusBlock tone="attention">
-          AI-kosten zijn berekend met prijzen die nog niet zijn gecontroleerd. Controleer de DeepSeek-prijzen en zet{" "}
-          <code>PRICING_VERIFIED_ON</code> in <code>lib/llmPricing.ts</code> voordat je deze cijfers in het verslag gebruikt.
+          AI costs are calculated with prices that have not been verified yet. Check the DeepSeek prices and set{" "}
+          <code>PRICING_VERIFIED_ON</code> in <code>lib/llmPricing.ts</code> before using these figures in the report.
         </StatusBlock>
       )}
 
       {metrics.length === 0 ? (
         <Card>
           <p className={styles.empty}>
-            Nog geen gemeten leads. Vanaf de eerste nieuwe lead wordt alles automatisch gemeten: tijd per stap, AI-kosten,
-            antwoorden, bewerkingen, scores en fouten.
+            No measured leads yet. From the first new lead on, everything is measured automatically: time per step, AI
+            costs, answers, edits, scores and failures.
           </p>
         </Card>
       ) : (
         <>
           <section className={styles.section}>
-            <h2 className={styles.h2}>Tijd en kosten</h2>
+            <h2 className={styles.h2}>Time and cost</h2>
             <p className={styles.note}>
-              Basis: {s.leadCount} {s.leadCount === 1 ? "lead" : "leads"}, waarvan {s.completedCount} verzonden. Tijden zijn
-              medianen over {s.timeBasis}.
+              Basis: {s.leadCount} {s.leadCount === 1 ? "lead" : "leads"}, of which {s.completedCount} sent. Times are
+              medians over {s.timeBasis}.
             </p>
             <div className={styles.stats}>
               <Stat
-                label="Actieve tijd per lead"
+                label="Active time per lead"
                 value={`${num(s.medianActiveMinutes)} min`}
                 sub={
                   <>
-                    handmatig {num(s.baselineMinutes)} min
+                    manual {num(s.baselineMinutes)} min
                     {s.timeSavedPct !== null && (
-                      <strong className={s.timeSavedPct >= 0 ? styles.good : styles.bad}> · {pct(s.timeSavedPct)} minder</strong>
+                      <strong className={s.timeSavedPct >= 0 ? styles.good : styles.bad}> · {pct(s.timeSavedPct)} less</strong>
                     )}
                   </>
                 }
               />
-              <Stat label="Doorlooptijd per lead" value={`${num(s.medianThroughputMinutes)} min`} sub="kalendertijd, incl. pauzes" />
-              <Stat label="AI-wachttijd per lead" value={`${num(s.medianAiWaitMinutes, 1)} min`} sub="som van alle AI-aanroepen" />
-              <Stat label="AI-kosten per lead" value={eur(s.aiCostPerLead, 3)} sub={`totaal ${eur(s.aiCostTotal, 2)}`} />
+              <Stat label="Throughput time per lead" value={`${num(s.medianThroughputMinutes)} min`} sub="calendar time, incl. breaks" />
+              <Stat label="AI wait time per lead" value={`${num(s.medianAiWaitMinutes, 1)} min`} sub="sum of all AI calls" />
+              <Stat label="AI cost per lead" value={eur(s.aiCostPerLead, 3)} sub={`total ${eur(s.aiCostTotal, 2)}`} />
               <Stat
-                label="Kosten per lead"
+                label="Cost per lead"
                 value={eur(s.costPerLeadWithApp, 0)}
-                sub={`handmatig ${eur(s.baselineCostPerLead, 0)} · uurtarief € ${num(settings.hourlyRateEur)}`}
+                sub={`manual ${eur(s.baselineCostPerLead, 0)} · hourly rate € ${num(settings.hourlyRateEur)}`}
               />
               {s.medianOwnEstimate !== null && (
-                <Stat label="Eigen schatting handmatig" value={`${num(s.medianOwnEstimate)} min`} sub="mediaan van de Terugblik" />
+                <Stat label="Own estimate, manual" value={`${num(s.medianOwnEstimate)} min`} sub="median from the Retrospective" />
               )}
             </div>
 
             <div className={styles.chart}>
-              <div className={styles.chartTitle}>Actieve minuten per lead t.o.v. de handmatige baseline</div>
+              <div className={styles.chartTitle}>Active minutes per lead vs. the manual baseline</div>
               {metrics.map((m) => (
                 <div key={m.leadId} className={styles.barRow}>
                   <span className={styles.barLabel} title={m.company}>
@@ -128,49 +128,49 @@ export default async function EvaluationPage({ searchParams }: { searchParams: P
                     <span
                       className={styles.baseline}
                       style={{ left: `${(100 * settings.baselineMinutesPerLead) / maxMinutes}%` }}
-                      title="Handmatige baseline"
+                      title="Manual baseline"
                     />
                   </span>
                   <span className={styles.barValue}>{num(m.activeMinutes)} min</span>
                 </div>
               ))}
               <div className={styles.legend}>
-                <span className={styles.legendBar} /> met de app <span className={styles.legendLine} /> handmatig ({num(settings.baselineMinutesPerLead)} min)
+                <span className={styles.legendBar} /> with the app <span className={styles.legendLine} /> manual ({num(settings.baselineMinutesPerLead)} min)
               </div>
             </div>
           </section>
 
           <section className={styles.section}>
-            <h2 className={styles.h2}>Kwaliteit</h2>
+            <h2 className={styles.h2}>Quality</h2>
             <div className={styles.stats}>
               {(["questions", "proposal", "dashboard", "email"] as const).map((k) => (
                 <Stat
                   key={k}
-                  label={`Score ${{ questions: "vragen", proposal: "voorstel", dashboard: "dashboard", email: "e-mail" }[k]}`}
+                  label={`Score ${{ questions: "questions", proposal: "proposal", dashboard: "dashboard", email: "email" }[k]}`}
                   value={s.ratings[k].mean === null ? "–" : `${num(s.ratings[k].mean, 1)} / 5`}
-                  sub={`${s.ratings[k].n} ${s.ratings[k].n === 1 ? "beoordeling" : "beoordelingen"}`}
+                  sub={`${s.ratings[k].n} ${s.ratings[k].n === 1 ? "rating" : "ratings"}`}
                 />
               ))}
               <Stat
-                label="Vragen beantwoord"
+                label="Questions answered"
                 value={pct(s.answeredPct)}
-                sub={`${pct(s.estimatedPct)} door AI ingeschat · ${pct(s.blankPct)} leeg`}
+                sub={`${pct(s.estimatedPct)} estimated by AI · ${pct(s.blankPct)} blank`}
               />
-              <Stat label="Feedbackrondes" value={num(s.avgFeedbackRounds, 1)} sub="AI-rondes met opmerkingen, gemiddeld" />
-              <Stat label="Handmatig gewijzigd" value={pct(s.avgManualEditPct)} sub="van de AI-tekst, gemiddeld" />
-              <Stat label="AI in één keer goed" value={pct(s.firstAttemptPct)} sub={`${s.aiCalls} AI-aanroepen`} />
+              <Stat label="Feedback rounds" value={num(s.avgFeedbackRounds, 1)} sub="AI rounds with comments, average" />
+              <Stat label="Manually edited" value={pct(s.avgManualEditPct)} sub="of the AI text, average" />
+              <Stat label="AI right first time" value={pct(s.firstAttemptPct)} sub={`${s.aiCalls} AI calls`} />
             </div>
 
             <table className={styles.table}>
-              <caption>Promptversies van de verduidelijkingsvragen (iteratie)</caption>
+              <caption>Prompt versions of the clarifying questions (iteration)</caption>
               <thead>
                 <tr>
-                  <th>Versie</th>
+                  <th>Version</th>
                   <th className={styles.num}>Leads</th>
-                  <th className={styles.num}>Gem. vraaglengte</th>
-                  <th className={styles.num}>Beantwoord</th>
-                  <th className={styles.num}>Ingeschat</th>
-                  <th className={styles.num}>Leeg</th>
+                  <th className={styles.num}>Avg. question length</th>
+                  <th className={styles.num}>Answered</th>
+                  <th className={styles.num}>Estimated</th>
+                  <th className={styles.num}>Blank</th>
                 </tr>
               </thead>
               <tbody>
@@ -178,7 +178,7 @@ export default async function EvaluationPage({ searchParams }: { searchParams: P
                   <tr key={v.version}>
                     <td>{v.version}</td>
                     <td className={styles.num}>{v.leads}</td>
-                    <td className={styles.num}>{v.avgQuestionChars === null ? "–" : `${num(v.avgQuestionChars)} tekens`}</td>
+                    <td className={styles.num}>{v.avgQuestionChars === null ? "–" : `${num(v.avgQuestionChars)} chars`}</td>
                     <td className={styles.num}>{pct(v.answeredPct)}</td>
                     <td className={styles.num}>{pct(v.estimatedPct)}</td>
                     <td className={styles.num}>{pct(v.blankPct)}</td>
@@ -189,18 +189,18 @@ export default async function EvaluationPage({ searchParams }: { searchParams: P
           </section>
 
           <section className={styles.section}>
-            <h2 className={styles.h2}>Per AI-stap</h2>
+            <h2 className={styles.h2}>Per AI step</h2>
             <table className={styles.table}>
               <thead>
                 <tr>
-                  <th>Stap</th>
-                  <th className={styles.num}>Aanroepen</th>
-                  <th className={styles.num}>Duur (mediaan)</th>
-                  <th className={styles.num}>Duur (p90)</th>
-                  <th className={styles.num}>Tokens in / uit</th>
-                  <th className={styles.num}>Kosten</th>
-                  <th className={styles.num}>Opnieuw</th>
-                  <th className={styles.num}>Mislukt</th>
+                  <th>Step</th>
+                  <th className={styles.num}>Calls</th>
+                  <th className={styles.num}>Duration (median)</th>
+                  <th className={styles.num}>Duration (p90)</th>
+                  <th className={styles.num}>Tokens in / out</th>
+                  <th className={styles.num}>Cost</th>
+                  <th className={styles.num}>Retries</th>
+                  <th className={styles.num}>Failed</th>
                 </tr>
               </thead>
               <tbody>
@@ -228,13 +228,13 @@ export default async function EvaluationPage({ searchParams }: { searchParams: P
               <thead>
                 <tr>
                   <th>Lead</th>
-                  <th className={styles.num}>Actief</th>
-                  <th className={styles.num}>Doorloop</th>
-                  <th className={styles.num}>AI-kosten</th>
+                  <th className={styles.num}>Active</th>
+                  <th className={styles.num}>Throughput</th>
+                  <th className={styles.num}>AI cost</th>
                   <th className={styles.num}>Feedback</th>
-                  <th className={styles.num}>Handmatig</th>
+                  <th className={styles.num}>Manual</th>
                   <th className={styles.num}>Scores</th>
-                  <th className={styles.num}>Fouten</th>
+                  <th className={styles.num}>Failures</th>
                 </tr>
               </thead>
               <tbody>
@@ -245,7 +245,7 @@ export default async function EvaluationPage({ searchParams }: { searchParams: P
                       <td>
                         <Link href={`/leads/${m.leadId}`}>{m.company}</Link>
                         {m.demo && <span className={styles.tag}>demo</span>}
-                        {m.sent && <span className={styles.tagDone}>verzonden</span>}
+                        {m.sent && <span className={styles.tagDone}>sent</span>}
                       </td>
                       <td className={styles.num}>{num(m.activeMinutes)} min</td>
                       <td className={styles.num}>{num(m.throughputMinutes)} min</td>
@@ -264,9 +264,9 @@ export default async function EvaluationPage({ searchParams }: { searchParams: P
           </section>
 
           <section className={styles.section}>
-            <h2 className={styles.h2}>Foutenlog</h2>
+            <h2 className={styles.h2}>Failure log</h2>
             {s.failures.length === 0 ? (
-              <p className={styles.note}>Nog geen fouten gemeld of automatisch gedetecteerd.</p>
+              <p className={styles.note}>No failures reported or automatically detected yet.</p>
             ) : (
               <>
                 <div className={styles.chart}>
@@ -283,19 +283,19 @@ export default async function EvaluationPage({ searchParams }: { searchParams: P
                 <table className={styles.table}>
                   <thead>
                     <tr>
-                      <th>Wanneer</th>
+                      <th>When</th>
                       <th>Lead</th>
-                      <th>Bron</th>
-                      <th>Stap</th>
-                      <th>Categorie</th>
-                      <th>Ernst</th>
-                      <th>Toelichting</th>
+                      <th>Source</th>
+                      <th>Step</th>
+                      <th>Category</th>
+                      <th>Severity</th>
+                      <th>Note</th>
                     </tr>
                   </thead>
                   <tbody>
                     {s.failures.slice(0, 50).map((f, i) => (
                       <tr key={i}>
-                        <td>{new Date(f.at).toLocaleString("nl-NL", { dateStyle: "short", timeStyle: "short" })}</td>
+                        <td>{new Date(f.at).toLocaleString("en-GB", { dateStyle: "short", timeStyle: "short" })}</td>
                         <td>{f.company}</td>
                         <td>{f.source}</td>
                         <td>{STEP_NAMES[f.step] ?? f.step}</td>
@@ -313,9 +313,9 @@ export default async function EvaluationPage({ searchParams }: { searchParams: P
       )}
 
       <section className={styles.section}>
-        <h2 className={styles.h2}>Aannames</h2>
+        <h2 className={styles.h2}>Assumptions</h2>
         <p className={styles.note}>
-          Deze aannames bepalen de vergelijking; noem ze in het verslag. Huidige baseline: {settings.baselineSource}.
+          These assumptions drive the comparison; state them in the report. Current baseline: {settings.baselineSource}.
         </p>
         <Card>
           <SettingsForm settings={settings} />

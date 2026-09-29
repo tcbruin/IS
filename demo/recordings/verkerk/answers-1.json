@@ -2,27 +2,27 @@
   "answers": [
     {
       "questionId": "scope",
-      "answer": "Het actuele fustsaldo per klant — daar zit het geld en de discussie."
+      "answer": "The current crate balance per customer — that's where the money and the discussion are."
     },
     {
-      "questionId": "ritme",
-      "answer": "Wekelijks, na het overtypen van de bonnetjes op vrijdag."
+      "questionId": "typing-hours",
+      "answer": "Yes, five hours a week is Sven's own estimate and a fair number to use."
     },
     {
-      "questionId": "bron-aanlevering",
-      "answer": "Voorlopig blijft de Excel handmatig bijgewerkt; we lezen die wekelijks in."
+      "questionId": "afas-export",
+      "answer": "No concrete answer — estimate this yourself based on the transcript and the notes."
     },
     {
-      "questionId": "datakwaliteit",
-      "answer": "Geen concreet antwoord — schat dit zelf in op basis van het transcript en de notities."
+      "questionId": "excel-structure",
+      "answer": "Yes, one row per slip with customer, date, delivered and returned crates."
     },
     {
-      "questionId": "succesdefinitie",
-      "answer": "Minder discussie met klanten bij de kwartaalafstemming, en daardoor minder afboekingen."
+      "questionId": "overview-rhythm",
+      "answer": "Weekly, after the slips are typed in on Friday."
     },
     {
-      "questionId": "delen-kees",
-      "answer": "Alleen intern voor Nienke en Sven, eventueel een export voor het kwartaalgesprek."
+      "questionId": "kees-view",
+      "answer": "Internal for Nienke and Sven only, with an export per customer for the quarterly meeting."
     },
     {
       "questionId": "extra-info",

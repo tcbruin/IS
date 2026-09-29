@@ -1,7 +1,7 @@
 import { promises as fs } from "fs";
 import path from "path";
 import { leadDir } from "./paths";
-import { AI_ESTIMATE_SENTINEL, EXTRA_INFO_QUESTION, type Answer, type Question } from "./validation";
+import { isAiEstimateAnswer, EXTRA_INFO_QUESTION, type Answer, type Question } from "./validation";
 import type { TelemetryEvent, TelemetryEventInput } from "./telemetryEvents";
 
 function eventsFile(leadId: string): string {
@@ -15,7 +15,7 @@ export async function logEvent(leadId: string, event: TelemetryEventInput): Prom
   try {
     await fs.appendFile(eventsFile(leadId), `${JSON.stringify(line)}\n`, "utf-8");
   } catch (err) {
-    console.warn(`Telemetry: kon event niet opslaan voor ${leadId}:`, (err as Error).message);
+    console.warn(`Telemetry: could not save event for ${leadId}:`, (err as Error).message);
   }
 }
 
@@ -52,7 +52,7 @@ export function questionStats(questions: Question[]) {
 export function answerStats(answers: Answer[]) {
   const regular = answers.filter((a) => a.questionId !== EXTRA_INFO_QUESTION.id);
   const extra = answers.find((a) => a.questionId === EXTRA_INFO_QUESTION.id);
-  const estimated = regular.filter((a) => a.answer === AI_ESTIMATE_SENTINEL).length;
+  const estimated = regular.filter((a) => isAiEstimateAnswer(a.answer)).length;
   const blank = regular.filter((a) => !a.answer.trim()).length;
   return {
     total: regular.length,

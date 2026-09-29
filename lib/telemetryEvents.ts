@@ -8,7 +8,7 @@ import type { LeadState } from "./validation";
  * and are therefore zod-validated.
  */
 
-export const STEP_KEYS = ["gesprek", "voorstel", "dashboard", "versturen"] as const;
+export const STEP_KEYS = ["call", "proposal", "dashboard", "send"] as const;
 export const stepKeySchema = z.enum(STEP_KEYS);
 export type StepKey = z.infer<typeof stepKeySchema>;
 
@@ -17,13 +17,13 @@ export type LLMStep = "questions1" | "proposal" | "questions2" | "dashboard" | "
 export const RATED_ARTIFACTS = ["questions", "proposal", "dashboard", "email"] as const;
 
 export const FAILURE_CATEGORIES = [
-  "Verzonnen feit",
-  "Verkeerde scope",
-  "Onjuiste inschatting",
-  "Toon/stijl",
-  "Onvolledig",
-  "Technisch",
-  "Anders",
+  "Invented fact",
+  "Wrong scope",
+  "Incorrect estimate",
+  "Tone/style",
+  "Incomplete",
+  "Technical",
+  "Other",
 ] as const;
 
 export const clientEventSchema = z.discriminatedUnion("type", [
@@ -35,7 +35,7 @@ export const clientEventSchema = z.discriminatedUnion("type", [
     type: z.literal("failure_report"),
     step: stepKeySchema,
     category: z.enum(FAILURE_CATEGORIES),
-    severity: z.enum(["klein", "groot"]),
+    severity: z.enum(["minor", "major"]),
     section: z.string().max(40).optional(),
     note: z.string().max(2000).optional(),
   }),

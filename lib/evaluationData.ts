@@ -4,7 +4,7 @@ import { readEvents } from "./telemetry";
 import { leadMetrics, stepMetrics, summarize } from "./evaluation";
 
 /**
- * Loads everything /evaluatie and the CSV export need. Counted: leads created since the
+ * Loads everything /evaluation and the CSV export need. Counted: leads created since the
  * measurement started (they have a lead_created event — older leads miss half their history).
  * Replayed demo leads never count (their AI timings are fake); live demo leads only on request.
  */

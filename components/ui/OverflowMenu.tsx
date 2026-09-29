@@ -5,7 +5,7 @@ import styles from "./OverflowMenu.module.css";
 
 /** A quiet "⋯" menu for rare or destructive actions, so they don't compete with the page's
  * primary action. Native <details>; closes on outside click. */
-export function OverflowMenu({ children, label = "Meer acties" }: { children: ReactNode; label?: string }) {
+export function OverflowMenu({ children, label = "More actions" }: { children: ReactNode; label?: string }) {
   const ref = useRef<HTMLDetailsElement>(null);
 
   useEffect(() => {

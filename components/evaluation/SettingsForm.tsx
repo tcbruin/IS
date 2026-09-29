@@ -50,16 +50,16 @@ export function SettingsForm({ settings }: { settings: Settings }) {
 
   return (
     <form onSubmit={save} className={styles.form}>
-      {field("baselineMinutesPerLead", "Handmatige baseline (minuten per lead)")}
-      {field("baselineSource", "Bron van de baseline", "text")}
-      {field("hourlyRateEur", "Uurtarief consultant (€)")}
-      {field("usdToEur", "Wisselkoers USD → EUR")}
+      {field("baselineMinutesPerLead", "Manual baseline (minutes per lead)")}
+      {field("baselineSource", "Baseline source", "text")}
+      {field("hourlyRateEur", "Consultant hourly rate (€)")}
+      {field("usdToEur", "Exchange rate USD → EUR")}
       <div className={styles.actions}>
         <button type="submit" className={styles.save} disabled={status === "saving"}>
-          {status === "saving" ? "Opslaan…" : "Aannames opslaan"}
+          {status === "saving" ? "Saving…" : "Save assumptions"}
         </button>
-        {status === "saved" && <span className={styles.ok}>✓ Opgeslagen</span>}
-        {status === "error" && <span className={styles.err}>Opslaan mislukt</span>}
+        {status === "saved" && <span className={styles.ok}>✓ Saved</span>}
+        {status === "error" && <span className={styles.err}>Could not save</span>}
       </div>
     </form>
   );

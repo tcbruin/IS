@@ -1,24 +1,24 @@
 {
   "answers": [
     {
-      "questionId": "belangrijkste-maat",
-      "answer": "Marge per project."
+      "questionId": "primary-measure",
+      "answer": "Margin percentage per project."
     },
     {
-      "questionId": "vergelijkingsbasis",
-      "answer": "De vaste drempel van vijftien procent."
+      "questionId": "comparison-baseline",
+      "answer": "The fixed fifteen percent threshold."
     },
     {
-      "questionId": "drempel-per-type",
-      "answer": "Voor alle projecten dezelfde grens als start."
+      "questionId": "breakdown-level",
+      "answer": "Per project, with hours and materials as separate cost columns."
     },
     {
-      "questionId": "urenbriefje-velden",
-      "answer": "Geen concreet antwoord — schat dit zelf in op basis van het transcript en de notities."
+      "questionId": "bergendaal-number",
+      "answer": "No, use fictional project names."
     },
     {
-      "questionId": "bergen-op-zoom",
-      "answer": "Nee, gebruik fictieve projectnamen."
+      "questionId": "alert-visibility",
+      "answer": "No concrete answer — estimate this yourself based on the transcript and the notes."
     },
     {
       "questionId": "extra-info",

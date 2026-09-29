@@ -16,10 +16,10 @@ export function handleApiError(err: unknown): NextResponse {
   }
   if (err instanceof ZodError) {
     return NextResponse.json(
-      { error: "Ongeldige aanvraag.", details: err.issues },
+      { error: "Invalid request.", details: err.issues },
       { status: 400 },
     );
   }
   console.error(err);
-  return NextResponse.json({ error: "Er ging iets onverwachts mis." }, { status: 500 });
+  return NextResponse.json({ error: "Something unexpected went wrong." }, { status: 500 });
 }

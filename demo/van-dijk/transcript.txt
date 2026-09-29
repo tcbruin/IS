@@ -1,33 +1,33 @@
-Ruben (Datavance): Leuk dat we even kunnen sparren, Marloes. Vertel eens, wat speelt er bij jullie op het gebied van sales-overzicht?
+Ruben (Datavance): Great that we can have a chat, Marloes. So tell me, what's going on at your end when it comes to sales overview?
 
-Marloes (Van Dijk Techniek): Ja, dus wij zijn groothandel in industriele onderdelen, we hebben een man of acht buitendienst die elk hun eigen regio bedienen. Elke rep houdt zijn eigen pipeline bij in een Excel-sheetje - openstaande offertes, verwachte waarde, verwachte closing-datum, dat soort dingen.
+Marloes (Van Dijk Techniek): Yes, so we're a wholesaler in industrial parts, we have about eight field sales reps who each cover their own region. Every rep keeps his own pipeline in a little Excel sheet - open quotes, expected value, expected closing date, that kind of thing.
 
-Ruben: Oke, en hoe komt dat bij jou samen?
+Ruben: Okay, and how does that all come together on your side?
 
-Marloes: Nou, dat is precies het probleem. Elke vrijdagmiddag stuur ik iedereen een reminder om hun sheet bij te werken, en dan ga ik handmatig alles kopieren naar een overkoepelend Excel-bestand. Dat kost me elke week zo'n vier uur. En dan is het op maandag eigenlijk alweer verouderd, want er is in het weekend niemand die het bijwerkt en maandagochtend zijn er alweer nieuwe gesprekken geweest.
+Marloes: Well, that's exactly the problem. Every Friday afternoon I send everyone a reminder to update their sheet, and then I manually copy everything into an overarching Excel file. That takes me about four hours every week. And by Monday it's actually already out of date, because nobody updates it over the weekend and by Monday morning there have already been new conversations.
 
-Ruben: Vier uur per week, dat is fors. En wat gaat er mis als het niet lukt om het op tijd te doen?
+Ruben: Four hours a week, that's a lot. And what goes wrong if you don't manage to do it in time?
 
-Marloes: Dan heb ik simpelweg geen actueel beeld voor het maandoverleg met de directie. Ik krijg dan de vraag "waar staan we ten opzichte van target" en dan moet ik eigenlijk zeggen "ik weet het niet precies, laat me het checken". Dat is niet handig.
+Marloes: Then I simply don't have an up-to-date picture for the monthly meeting with the management team. I get asked "where are we against target" and then I actually have to say "I don't know exactly, let me check". That's not great.
 
-Ruben: Helder. En heb je uberhaupt inzicht in waar deals vastlopen? Dus in welke fase het meeste verloren gaat?
+Ruben: Clear. And do you have any insight at all into where deals get stuck? So in which stage the most gets lost?
 
-Marloes: Nee, eigenlijk niet. Ik zie pas dat een deal verloren is als een rep dat handmatig aangeeft in zijn sheetje, en soms vergeten ze dat gewoon. Dus het echte win rate cijfer, daar durf ik niet voor mijn hand in het vuur te steken.
+Marloes: No, not really. I only see that a deal has been lost when a rep marks it manually in his sheet, and sometimes they just forget. So the real win rate figure, I wouldn't stake my life on it.
 
-Ruben: En qua systemen, gebruiken jullie iets naast Excel?
+Ruben: And in terms of systems, do you use anything besides Excel?
 
-Marloes: We hebben Exact Online, maar dat gebruiken we puur voor facturatie en de boekhouding. Daar zit geen CRM-functionaliteit in die we gebruiken. Sommige reps noteren dingen ook gewoon in hun mail of op papier tijdens een klantbezoek.
+Marloes: We have Exact Online, but we use that purely for invoicing and accounting. There's no CRM functionality in there that we use. Some reps also just note things down in their email or on paper during a customer visit.
 
-Ruben: Als je zou mogen dromen, wat wil je dan elke maandag klaar hebben liggen zonder dat jij daar nog handwerk voor hoeft te doen?
+Ruben: If you could dream, what would you want to have ready every Monday without you having to do any manual work for it?
 
-Marloes: Gewoon een overzicht - hoeveel staat er open per fase, wat is de verwachte omzet, hoe lopen we ten opzichte van target, en het liefst ook per rep en per regio zodat ik kan zien wie er misschien een duwtje in de rug nodig heeft.
+Marloes: Just an overview - how much is open per stage, what's the expected revenue, how are we doing against target, and ideally also per rep and per region so I can see who might need a bit of a push.
 
-Ruben: En dat maandoverleg met de directie, hoe belangrijk is dat precies?
+Ruben: And that monthly meeting with management, how important is it exactly?
 
-Marloes: Heel belangrijk. Dat is het moment waarop we bijsturen. Als ik daar met verouderde cijfers zit, sturen we eigenlijk blind.
+Marloes: Very important. That's the moment when we adjust course. If I'm sitting there with outdated figures, we're basically flying blind.
 
-Ruben: Helder verhaal. Even puur om te scopen - als we nu een keuze moeten maken tussen bijvoorbeeld een volledig CRM-traject optuigen, of eerst beginnen met puur het inzichtelijk maken van wat er al is - wat zou voor jullie het meest waardevol zijn om als eerste stap te doen?
+Ruben: Clear story. Just for scoping purposes - if we now had to choose between, say, setting up a full CRM project, or first starting purely with making visible what's already there - what would be most valuable for you to do as a first step?
 
-Marloes: Ik denk echt het tweede. Een heel CRM-traject, daar is mijn team nog niet aan toe, dat voelt als een grote stap. Ik wil eerst gewoon inzicht in wat we al hebben, zonder dat de reps hun manier van werken meteen moeten omgooien.
+Marloes: I really think the second one. A whole CRM project, my team isn't ready for that yet, it feels like a big step. I first just want insight into what we already have, without the reps having to change their way of working right away.
 
-Ruben: Duidelijk. Dan pak ik dat mee als scope: een dashboard dat de bestaande sheets samenbrengt tot een actueel pipeline-overzicht, zonder dat we nu al een heel CRM gaan bouwen.
+Ruben: Clear. Then I'll take that as the scope: a dashboard that brings the existing sheets together into an up-to-date pipeline overview, without building a whole CRM right now.
