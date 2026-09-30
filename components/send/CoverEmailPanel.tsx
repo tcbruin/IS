@@ -7,6 +7,7 @@ import { GenerateButton } from "@/components/ui/GenerateButton";
 import { track } from "@/components/telemetry/track";
 import type { CoverEmail } from "@/lib/validation";
 import styles from "./CoverEmailPanel.module.css";
+import { useLanguage } from "@/components/i18n/LanguageProvider";
 
 export function CoverEmailPanel({
   leadId,
@@ -15,6 +16,7 @@ export function CoverEmailPanel({
   leadId: string;
   initialEmail: CoverEmail | null;
 }) {
+  const { text } = useLanguage();
   const router = useRouter();
   // Derived from the prop, not snapshotted into local state at mount: router.refresh() delivers
   // the newly-generated initialEmail to this SAME component instance without unmounting it, so
@@ -32,11 +34,11 @@ export function CoverEmailPanel({
         const res = await fetch(`/api/leads/${leadId}/send/draft-email`, { method: "POST" });
         if (!res.ok) {
           const body = await res.json().catch(() => ({}));
-          throw new Error(body.error ?? "Could not draft the email.");
+          throw new Error(body.error ?? text("Could not draft the email.", "De e-mail kon niet worden opgesteld."));
         }
         router.refresh();
       } catch (err) {
-        setError(err instanceof Error ? err.message : "Something went wrong.");
+        setError(err instanceof Error ? err.message : text("Something went wrong.", "Er is iets misgegaan."));
       }
     })();
     // Only ever fires once, on first mount without an existing draft — router.refresh() (on
@@ -46,7 +48,7 @@ export function CoverEmailPanel({
 
   async function handleCopy() {
     if (!initialEmail) return;
-    await navigator.clipboard.writeText(`Subject: ${initialEmail.subject}\n\n${initialEmail.body}`);
+    await navigator.clipboard.writeText(`${text("Subject", "Onderwerp")}: ${initialEmail.subject}\n\n${initialEmail.body}`);
     void track(leadId, { type: "email_copied" });
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
@@ -57,7 +59,7 @@ export function CoverEmailPanel({
   }
 
   if (generating) {
-    return <p style={{ margin: 0, opacity: 0.75 }}>The AI is drafting a short cover email...</p>;
+    return <p style={{ margin: 0, opacity: 0.75 }}>{text("The AI is drafting a short cover email...", "De AI stelt een korte begeleidende e-mail op...")}</p>;
   }
 
   if (!initialEmail) return null;
@@ -65,21 +67,21 @@ export function CoverEmailPanel({
   return (
     <div className={styles.panel}>
       <div className={styles.field}>
-        <div className={styles.label}>Subject</div>
+        <div className={styles.label}>{text("Subject", "Onderwerp")}</div>
         <div className={styles.subject}>{initialEmail.subject}</div>
       </div>
       <div className={styles.field}>
-        <div className={styles.label}>Message</div>
+        <div className={styles.label}>{text("Message", "Bericht")}</div>
         <div className={styles.body}>{initialEmail.body}</div>
       </div>
       <div className={styles.actions}>
         <Button variant="secondary" onClick={handleCopy}>
-          {copied ? "Copied!" : "Copy to clipboard"}
+          {copied ? text("Copied!", "Gekopieerd!") : text("Copy to clipboard", "Naar klembord kopiëren")}
         </Button>
         <GenerateButton
           url={`/api/leads/${leadId}/send/draft-email`}
-          label="Regenerate"
-          busyLabel="Working..."
+          label={text("Regenerate", "Opnieuw genereren")}
+          busyLabel={text("Working...", "Bezig...")}
           variant="secondary"
         />
       </div>

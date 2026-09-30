@@ -40,11 +40,10 @@ export const COLORS = {
 export const PX_PER_MM = 96 / 25.4;
 
 /** English long date, e.g. "24 September 2026". */
-export function formatDocumentDate(iso: string): string {
-  const months = [
-    "January", "February", "March", "April", "May", "June",
-    "July", "August", "September", "October", "November", "December",
-  ];
-  const d = new Date(iso);
-  return `${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()}`;
+export function formatDocumentDate(iso: string, locale: "en" | "nl" = "en"): string {
+  return new Date(iso).toLocaleDateString(locale === "nl" ? "nl-NL" : "en-GB", {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  });
 }

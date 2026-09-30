@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/Button";
+import { useLanguage } from "@/components/i18n/LanguageProvider";
 
 export function GenerateButton({
   url,
@@ -30,6 +31,7 @@ export function GenerateButton({
   confirmMessage?: string;
   disabled?: boolean;
 }) {
+  const { text } = useLanguage();
   const router = useRouter();
   const [submitting, setSubmitting] = useState(autoTrigger);
   const [elapsed, setElapsed] = useState(0);
@@ -58,7 +60,7 @@ export function GenerateButton({
       });
       if (!res.ok) {
         const data = await res.json().catch(() => ({}));
-        throw new Error(data.error ?? "Action failed.");
+        throw new Error(data.error ?? text("Action failed.", "Actie is mislukt."));
       }
       if (redirectTo) {
         router.push(redirectTo);
@@ -67,7 +69,7 @@ export function GenerateButton({
       // navigation and would otherwise keep showing the pre-action state.
       router.refresh();
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Something went wrong.");
+      setError(err instanceof Error ? err.message : text("Something went wrong.", "Er is iets misgegaan."));
     } finally {
       // Some callers (e.g. "Regenerate") stay mounted in the exact same spot after a
       // successful router.refresh() — without this, the button would stay stuck on its busy
@@ -87,7 +89,7 @@ export function GenerateButton({
   return (
     <div>
       <Button variant={variant} onClick={handleClick} disabled={submitting || disabled}>
-        {submitting ? `${busyLabel ?? "Working..."}${elapsed > 0 ? ` ${elapsed} s` : ""}` : label}
+        {submitting ? `${busyLabel ?? text("Working...", "Bezig...")}${elapsed > 0 ? ` ${elapsed} s` : ""}` : label}
       </Button>
       {error && <p style={{ color: "var(--color-rood)", margin: "8px 0 0" }}>{error}</p>}
     </div>

@@ -2,6 +2,7 @@ import { promises as fs } from "fs";
 import path from "path";
 import type { DashboardRecord } from "./validation";
 import { escapeHtml } from "./dashboardEngine";
+import type { Locale } from "./i18n";
 
 /**
  * Standalone, offline, interactive HTML version of a dashboard. It inlines the SAME engine
@@ -13,7 +14,9 @@ export async function renderDashboardExport(input: {
   record: DashboardRecord;
   companyName: string;
   logoBase64: string;
+  locale?: Locale;
 }): Promise<string> {
+  const locale = input.locale ?? "en";
   const [engineSource, css] = await Promise.all([
     fs.readFile(path.join(process.cwd(), "lib", "dashboardEngine.js"), "utf-8"),
     fs.readFile(path.join(process.cwd(), "components", "dashboard", "canvas.css"), "utf-8"),
@@ -33,7 +36,7 @@ export async function renderDashboardExport(input: {
   const title = escapeHtml(input.record.spec.title);
 
   return `<!doctype html>
-<html lang="en">
+<html lang="${locale}">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -51,13 +54,13 @@ ${css}
   <div class="dv-header"></div>
   <img class="dv-logo" alt="Datavance" src="data:image/png;base64,${input.logoBase64}">
   <div class="dv-divider"></div>
-  <div class="dv-titles"><div class="dv-eyebrow">Illustrative sample data · ${company}</div><h1 class="dv-title">${title}</h1></div>
-  <div class="dv-meta"><div class="dv-meta-label">Generated</div><div class="dv-meta-value" id="dv-generated"></div></div>
+  <div class="dv-titles"><div class="dv-eyebrow">${locale === "nl" ? "Illustratieve voorbeelddata" : "Illustrative sample data"} · ${company}</div><h1 class="dv-title">${title}</h1></div>
+  <div class="dv-meta"><div class="dv-meta-label">${locale === "nl" ? "Gegenereerd" : "Generated"}</div><div class="dv-meta-value" id="dv-generated"></div></div>
   <div class="dv-filterbar" id="dv-filterbar"></div>
   <div class="dv-content" id="dv-content"></div>
   <div class="dv-footer"></div>
 </div></div>
-<p class="dv-note">All figures in this dashboard are illustrative sample data, not real data from ${company}. It shows what the insight will look like.</p>
+<p class="dv-note">${locale === "nl" ? `Alle cijfers in dit dashboard zijn illustratieve voorbeelddata, geen echte gegevens van ${company}. Het laat zien hoe het inzicht eruit zal zien.` : `All figures in this dashboard are illustrative sample data, not real data from ${company}. It shows what the insight will look like.`}</p>
 <script>
 (function () {
 "use strict";
@@ -67,11 +70,12 @@ var ds = generateDataset(DATA.spec, DATA.seed, DATA.generatedAt);
 var filters = defaultFilters(ds);
 var bar = document.getElementById("dv-filterbar");
 var content = document.getElementById("dv-content");
-document.getElementById("dv-generated").textContent = formatDateTime(DATA.generatedAt);
+document.getElementById("dv-generated").textContent = ${locale === "nl" ? 'new Date(DATA.generatedAt).toLocaleString("nl-NL", { dateStyle: "medium", timeStyle: "short" })' : "formatDateTime(DATA.generatedAt)"};
 function render() {
   var view = buildView(DATA.spec, ds, filters);
   bar.innerHTML = renderFilterBarHtml(view, filters);
   content.innerHTML = renderContentHtml(view);
+  ${locale === "nl" ? 'bar.innerHTML = bar.innerHTML.replace(/>All /g, ">Alle ").replace(/>All</g, ">Alle<"); content.innerHTML = content.innerHTML.replace(/>Total/g, ">Totaal").replace(/vs avg\\./g, "t.o.v. gem.");' : ""}
 }
 bar.addEventListener("change", function (e) { filters = applyFilterChange(filters, e.target); render(); });
 bar.addEventListener("click", function (e) { if (e.target.closest("[data-reset]")) { filters = defaultFilters(ds); render(); } });

@@ -6,14 +6,15 @@ import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { TextArea } from "@/components/ui/Form";
 import { StepActions } from "@/components/ui/StepActions";
-import { AI_ESTIMATE_SENTINEL, EXTRA_INFO_QUESTION, isAiEstimateAnswer, type Answer, type Question } from "@/lib/validation";
+import { aiEstimateSentinel, EXTRA_INFO_QUESTION, isAiEstimateAnswer, type Answer, type Question } from "@/lib/validation";
+import { useLanguage } from "@/components/i18n/LanguageProvider";
 import styles from "./QuestionForm.module.css";
 
 export function QuestionForm({
   questions,
   submitUrl,
   initialAnswers,
-  submitLabel = "Save answers",
+  submitLabel,
   redirectTo,
   back,
   extraActions,
@@ -32,6 +33,7 @@ export function QuestionForm({
   /** Demo leads only: recorded answers (matched by question id) and the scenario briefing. */
   demoFill?: { answers: Answer[] | null; briefing: string };
 }) {
+  const { locale, text } = useLanguage();
   const router = useRouter();
   const [values, setValues] = useState<Record<string, string>>(() =>
     Object.fromEntries(
@@ -58,7 +60,7 @@ export function QuestionForm({
     try {
       const answers = questions.map((q) => ({
         questionId: q.id,
-        answer: estimateFlags[q.id] ? AI_ESTIMATE_SENTINEL : (values[q.id]?.trim() ?? ""),
+        answer: estimateFlags[q.id] ? aiEstimateSentinel(locale) : (values[q.id]?.trim() ?? ""),
       }));
       const res = await fetch(submitUrl, {
         method: "POST",
@@ -67,13 +69,13 @@ export function QuestionForm({
       });
       if (!res.ok) {
         const body = await res.json().catch(() => ({}));
-        throw new Error(body.error ?? "Could not save the answers.");
+        throw new Error(body.error ?? text("Could not save the answers.", "De antwoorden konden niet worden opgeslagen."));
       }
       if (redirectTo) router.push(redirectTo);
       // Also after a push: the lead layout's step bar stays mounted across client navigation.
       router.refresh();
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Something went wrong.");
+      setError(err instanceof Error ? err.message : text("Something went wrong.", "Er is iets misgegaan."));
     } finally {
       // Resubmits without redirect keep this form mounted — reset so it never sticks on "Working".
       setSubmitting(false);
@@ -123,7 +125,7 @@ export function QuestionForm({
                   id={fieldId}
                   value={values[q.id] ?? ""}
                   onChange={(e) => setValues({ ...values, [q.id]: e.target.value })}
-                  placeholder={estimating ? "The AI will make a reasoned estimate here." : isExtraInfo ? "Optional" : "Short is fine"}
+                  placeholder={estimating ? text("The AI will make a reasoned estimate here.", "De AI maakt hier een onderbouwde inschatting.") : isExtraInfo ? text("Optional", "Optioneel") : text("Short is fine", "Een kort antwoord is prima")}
                   disabled={estimating}
                   rows={2}
                 />
@@ -134,7 +136,7 @@ export function QuestionForm({
                       checked={estimating}
                       onChange={(e) => setEstimateFlags({ ...estimateFlags, [q.id]: e.target.checked })}
                     />
-                    Don't know — let the AI estimate
+                    {text("Don't know — let the AI estimate", "Weet ik niet — laat de AI inschatten")}
                   </label>
                 )}
               </li>
@@ -146,12 +148,12 @@ export function QuestionForm({
       <StepActions back={back}>
         {demoFill && (
           <Button type="button" variant="secondary" onClick={fillDemo}>
-            Fill in demo answers
+            {text("Fill in demo answers", "Demo-antwoorden invullen")}
           </Button>
         )}
         {extraActions}
         <Button type="submit" disabled={submitting}>
-          {submitting ? "Working..." : submitLabel}
+          {submitting ? text("Working...", "Bezig...") : (submitLabel ?? text("Save answers", "Antwoorden opslaan"))}
         </Button>
       </StepActions>
     </form>

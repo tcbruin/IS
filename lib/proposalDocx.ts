@@ -21,7 +21,7 @@ import {
   convertMillimetersToTwip,
 } from "docx";
 import type { ProposalContent } from "./validation";
-import { PROPOSAL_SECTIONS } from "./proposalSections";
+import { getProposalSections } from "./proposalSections";
 import { splitParagraphs } from "./proposalDocument";
 import { COLORS, FONTS, PAGE, TYPE } from "./proposalLayout";
 
@@ -50,13 +50,15 @@ export async function buildProposalDocx(input: {
   versionNumber: number;
   logoPng: Buffer;
   fonts: { body: Buffer; heading: Buffer };
+  locale?: "en" | "nl";
 }): Promise<Buffer> {
   const { content, companyName } = input;
+  const locale = input.locale ?? "en";
   const logo = pngSize(input.logoPng);
   const logoHeightPx = 20;
 
   const sectionChildren: (Paragraph | Table)[] = [];
-  for (const section of PROPOSAL_SECTIONS) {
+  for (const section of getProposalSections(locale)) {
     sectionChildren.push(new Paragraph({ heading: HeadingLevel.HEADING_1, children: [new TextRun(section.label)] }));
 
     if (section.kind === "text") {
@@ -104,8 +106,8 @@ export async function buildProposalDocx(input: {
   }
 
   const doc = new Document({
-    title: `Proposal for ${companyName}`,
-    subject: "Proposal",
+    title: `${locale === "nl" ? "Voorstel voor" : "Proposal for"} ${companyName}`,
+    subject: locale === "nl" ? "Voorstel" : "Proposal",
     creator: "Datavance",
     lastModifiedBy: "Datavance",
     description: `Version v${input.versionNumber}`,
@@ -117,7 +119,7 @@ export async function buildProposalDocx(input: {
     styles: {
       default: {
         document: {
-          run: { font: FONTS.body, size: hp(TYPE.bodyPt), color: COLORS.text, language: { value: "en-GB" } },
+          run: { font: FONTS.body, size: hp(TYPE.bodyPt), color: COLORS.text, language: { value: locale === "nl" ? "nl-NL" : "en-GB" } },
           paragraph: { spacing: { after: 160, line: Math.round(240 * TYPE.lineHeight) } },
         },
         heading1: {
@@ -191,9 +193,9 @@ export async function buildProposalDocx(input: {
                 tabStops: [{ type: TabStopType.RIGHT, position: CONTENT_WIDTH_TWIP }],
                 spacing: { after: 0 },
                 children: [
-                  new TextRun({ text: `Datavance — Confidential — ${companyName}`, size: hp(TYPE.runningPt), color: COLORS.muted }),
+                  new TextRun({ text: `Datavance — ${locale === "nl" ? "Vertrouwelijk" : "Confidential"} — ${companyName}`, size: hp(TYPE.runningPt), color: COLORS.muted }),
                   new TextRun({
-                    children: ["\tPage ", PageNumber.CURRENT, " of ", PageNumber.TOTAL_PAGES],
+                    children: [locale === "nl" ? "\tPagina " : "\tPage ", PageNumber.CURRENT, locale === "nl" ? " van " : " of ", PageNumber.TOTAL_PAGES],
                     size: hp(TYPE.runningPt),
                     color: COLORS.muted,
                   }),
@@ -205,7 +207,7 @@ export async function buildProposalDocx(input: {
         children: [
           new Paragraph({
             spacing: { after: 60 },
-            children: [new TextRun({ text: `Proposal for ${companyName}`, font: FONTS.heading, size: hp(TYPE.titlePt) })],
+            children: [new TextRun({ text: `${locale === "nl" ? "Voorstel voor" : "Proposal for"} ${companyName}`, font: FONTS.heading, size: hp(TYPE.titlePt) })],
           }),
           new Paragraph({
             spacing: { after: 360 },

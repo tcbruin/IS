@@ -1,5 +1,8 @@
+"use client";
+
 import Link from "next/link";
-import { STEPS, getStepHref, getStepStatus, type StepKey } from "@/lib/workflow";
+import { getSteps, getStepHref, getStepStatus, type StepKey } from "@/lib/workflow";
+import { useLanguage } from "@/components/i18n/LanguageProvider";
 import type { LeadState } from "@/lib/validation";
 import styles from "./StepIndicator.module.css";
 
@@ -19,9 +22,11 @@ export function StepIndicator({
   interactive?: boolean;
   size?: "default" | "compact";
 }) {
+  const { locale } = useLanguage();
+  const steps = getSteps(locale);
   return (
     <ol className={[styles.row, size === "compact" ? styles.compact : ""].join(" ")}>
-      {STEPS.map((step) => {
+      {steps.map((step) => {
         const status = getStepStatus(step, state);
         const linkable = interactive && status !== "future";
         const inner = (

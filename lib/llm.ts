@@ -23,6 +23,7 @@ import { getRecording } from "./demo";
 import { getSettings } from "./settings";
 import type { LLMStep } from "./telemetryEvents";
 import type { ProposalExample } from "./exampleLibrary";
+import type { Locale } from "./i18n";
 
 export class LLMError extends Error {
   constructor(message: string) {
@@ -233,10 +234,10 @@ async function callLLM<T>(opts: {
 }
 
 export async function generateClarifyingQuestions(
-  input: { transcript: string; notes?: string; sourceSystem?: string },
+  input: { transcript: string; notes?: string; sourceSystem?: string; locale?: Locale },
   ctx: LLMContext,
 ): Promise<Question[]> {
-  const { system, user } = buildQuestions1Prompt(input.transcript, input.notes, input.sourceSystem);
+  const { system, user } = buildQuestions1Prompt(input.transcript, input.notes, input.sourceSystem, input.locale);
   const result = await callLLM<QuestionsResponse>({
     ctx,
     step: "questions1",
@@ -258,6 +259,7 @@ export async function generateProposal(
     priorDraft?: ProposalContent;
     feedback?: string;
     examples?: ProposalExample[];
+    locale?: Locale;
   },
   ctx: LLMContext,
 ): Promise<{ content: ProposalContent; warnings: string[] }> {
@@ -279,6 +281,7 @@ export async function generateDashboardQuestions(
     notes?: string;
     sourceSystem?: string;
     proposal: ProposalContent;
+    locale?: Locale;
   },
   ctx: LLMContext,
 ): Promise<Question[]> {
@@ -304,6 +307,7 @@ export async function generateDashboard(
     proposal: ProposalContent;
     questions: Question[];
     answers: Answer[];
+    locale?: Locale;
   },
   ctx: LLMContext,
   build: { seed: string; generatedAt: string },
@@ -341,6 +345,7 @@ export async function generateCoverEmail(
     proposalIntro: string;
     proposalNextSteps: string;
     dashboardTitle: string;
+    locale?: Locale;
   },
   ctx: LLMContext,
 ): Promise<CoverEmail> {

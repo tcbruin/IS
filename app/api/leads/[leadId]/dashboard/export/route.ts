@@ -5,6 +5,7 @@ import { getDashboard, getLead } from "@/lib/leadStore";
 import { renderDashboardExport } from "@/lib/dashboardExport";
 import { slugify } from "@/lib/slugify";
 import { handleApiError } from "@/lib/apiError";
+import { getLocale } from "@/lib/i18n-server";
 
 export async function GET(
   _request: Request,
@@ -12,6 +13,7 @@ export async function GET(
 ) {
   try {
     const { leadId } = await params;
+    const locale = await getLocale();
     const [lead, record, logoBuffer] = await Promise.all([
       getLead(leadId),
       getDashboard(leadId),
@@ -22,6 +24,7 @@ export async function GET(
       record,
       companyName: lead.companyName,
       logoBase64: logoBuffer.toString("base64"),
+      locale,
     });
 
     return new NextResponse(html, {

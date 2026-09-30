@@ -14,10 +14,27 @@ export const PROPOSAL_SECTIONS = [
 
 export type ProposalSectionKey = (typeof PROPOSAL_SECTIONS)[number]["key"];
 
+const DUTCH_LABELS: Record<ProposalSectionKey, string> = {
+  situation: "Situatie",
+  goals: "Doelen",
+  approach: "Aanpak",
+  scopeDeliverables: "Scope & op te leveren onderdelen",
+  timeline: "Planning",
+  investment: "Investering",
+  nextSteps: "Volgende stappen",
+};
+
+export function getProposalSections(locale: "en" | "nl" = "en") {
+  return PROPOSAL_SECTIONS.map((section) => ({
+    ...section,
+    label: locale === "nl" ? DUTCH_LABELS[section.key] : section.label,
+  }));
+}
+
 /** Composes per-section comments (keyed by ProposalSectionKey, empty/whitespace-only entries
  * ignored) into the single feedback string the proposal API already accepts. */
-export function composeSectionFeedback(comments: Partial<Record<ProposalSectionKey, string>>): string {
-  return PROPOSAL_SECTIONS.map(({ key, label }) => {
+export function composeSectionFeedback(comments: Partial<Record<ProposalSectionKey, string>>, locale: "en" | "nl" = "en"): string {
+  return getProposalSections(locale).map(({ key, label }) => {
     const text = comments[key]?.trim();
     return text ? `${label}: ${text}` : null;
   })
@@ -33,7 +50,7 @@ export function splitSectionFeedback(feedback: string | null | undefined): Recor
   for (const chunk of feedback.split(/\n\s*\n/)) {
     const text = chunk.trim();
     if (!text) continue;
-    const section = PROPOSAL_SECTIONS.find(({ label }) => text.startsWith(`${label}:`));
+    const section = [...PROPOSAL_SECTIONS, ...getProposalSections("nl")].find(({ label }) => text.startsWith(`${label}:`));
     const key = section ? section.key : "general";
     const body = section ? text.slice(section.label.length + 1).trim() : text;
     out[key] = out[key] ? `${out[key]}\n\n${body}` : body;

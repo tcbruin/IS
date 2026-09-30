@@ -4,6 +4,8 @@ import { isStateAtLeast } from "@/lib/workflow";
 import { DashboardView } from "@/components/dashboard/DashboardView";
 import { PrintButton } from "@/components/ui/PrintButton";
 import styles from "./page.module.css";
+import { getLocale } from "@/lib/i18n-server";
+import { pick } from "@/lib/i18n";
 
 /** Print view: "Save as PDF" gives a single page exactly the size of the canvas. */
 export default async function DashboardPrintPage({
@@ -12,6 +14,7 @@ export default async function DashboardPrintPage({
   params: Promise<{ leadId: string }>;
 }) {
   const { leadId } = await params;
+  const locale = await getLocale();
   const lead = await getLead(leadId);
   if (!isStateAtLeast(lead.state, "dashboard_generated")) {
     redirect(`/leads/${leadId}`);
@@ -29,7 +32,7 @@ export default async function DashboardPrintPage({
       </div>
       <DashboardView record={record} companyName={lead.companyName} />
       <p className={["no-print", styles.note].join(" ")}>
-        All figures are illustrative sample data, not real data from {lead.companyName}.
+        {pick(locale, `All figures are illustrative sample data, not real data from ${lead.companyName}.`, `Alle cijfers zijn illustratieve voorbeelddata, geen echte gegevens van ${lead.companyName}.`)}
       </p>
     </div>
   );

@@ -11,6 +11,8 @@ import { AnswersSummary } from "@/components/questions/AnswersSummary";
 import { IntakeStep } from "@/components/questions/IntakeStep";
 import { QUESTIONS1_PRINCIPLES, notesInput, sourceSystemInput, transcriptInput } from "@/lib/aiContext";
 import { getDemoAnswers, getScenario } from "@/lib/demo";
+import { getLocale } from "@/lib/i18n-server";
+import { localeTag, pick } from "@/lib/i18n";
 
 export default async function QuestionsPage({
   params,
@@ -21,19 +23,21 @@ export default async function QuestionsPage({
 }) {
   const { leadId } = await params;
   const { edit } = await searchParams;
+  const locale = await getLocale();
   const lead = await getLead(leadId);
   const [transcript, notes] = await Promise.all([getTranscriptText(leadId), getConsultantNotes(leadId)]);
 
   const contextPanel = (
     <AIContextPanel
-      inputs={[transcriptInput(), notesInput(notes), sourceSystemInput(lead.sourceSystem)]}
+      inputs={[transcriptInput(locale), notesInput(notes, undefined, locale), sourceSystemInput(lead.sourceSystem, locale)]}
       principles={QUESTIONS1_PRINCIPLES}
+      locale={locale}
     />
   );
   const wordCount = transcript.split(/\s+/).filter(Boolean).length;
   const transcriptDisclosure = (
     <details className="disclosure">
-      <summary>View transcript (±{wordCount.toLocaleString("en-GB")} words)</summary>
+      <summary>{pick(locale, "View transcript", "Transcript bekijken")} (±{wordCount.toLocaleString(localeTag(locale))} {pick(locale, "words", "woorden")})</summary>
       <Card>
         <p style={{ whiteSpace: "pre-wrap", margin: 0, fontSize: 16 }}>{transcript}</p>
       </Card>
@@ -44,8 +48,8 @@ export default async function QuestionsPage({
   if (lead.state === "transcript_uploaded") {
     return (
       <div className="page-stack">
-        <StepIntro title="Transcript & notes">
-          Add your own notes where needed. The AI will then ask a few short questions.
+        <StepIntro title={pick(locale, "Transcript & notes", "Transcript & notities")}>
+          {pick(locale, "Add your own notes where needed. The AI will then ask a few short questions.", "Voeg waar nodig je eigen notities toe. De AI stelt daarna enkele korte vragen.")}
         </StepIntro>
         {contextPanel}
         {transcriptDisclosure}
@@ -66,14 +70,14 @@ export default async function QuestionsPage({
       : undefined;
     return (
       <div className="page-stack">
-        <StepIntro title="Answer questions">
-          Short answers are fine. If you don't know something, let the AI estimate it.
+        <StepIntro title={pick(locale, "Answer questions", "Vragen beantwoorden")}>
+          {pick(locale, "Short answers are fine. If you don't know something, let the AI estimate it.", "Korte antwoorden zijn prima. Weet je iets niet, laat de AI dan een inschatting maken.")}
         </StepIntro>
         {contextPanel}
         <QuestionForm
           questions={questions}
           submitUrl={`/api/leads/${leadId}/answers`}
-          submitLabel="Save and create proposal →"
+          submitLabel={pick(locale, "Save and create proposal →", "Opslaan en voorstel maken →")}
           redirectTo={`/leads/${leadId}/proposal`}
           demoFill={demoFill}
         />
@@ -90,21 +94,19 @@ export default async function QuestionsPage({
     const hasLaterWork = lead.state !== "questions1_answered";
     return (
       <div className="page-stack">
-        <StepIntro title="Edit answers" />
+        <StepIntro title={pick(locale, "Edit answers", "Antwoorden bewerken")} />
         {hasLaterWork && (
           <StatusBlock tone="attention">
-            After saving, the AI regenerates the proposal based on your new answers. You will
-            then need to review the current proposal{lead.state !== "proposal_generated" ? " and dashboard" : ""}{" "}
-            again.
+            {pick(locale, <>After saving, the AI regenerates the proposal based on your new answers. You will then need to review the current proposal{lead.state !== "proposal_generated" ? " and dashboard" : ""} again.</>, <>Na het opslaan maakt de AI het voorstel opnieuw op basis van je nieuwe antwoorden. Je moet daarna het huidige voorstel{lead.state !== "proposal_generated" ? " en dashboard" : ""} opnieuw beoordelen.</>)}
           </StatusBlock>
         )}
         <QuestionForm
           questions={questions}
           submitUrl={`/api/leads/${leadId}/answers`}
           initialAnswers={answers}
-          submitLabel="Save and regenerate proposal →"
+          submitLabel={pick(locale, "Save and regenerate proposal →", "Opslaan en voorstel opnieuw maken →")}
           redirectTo={`/leads/${leadId}/proposal`}
-          back={{ href: `/leads/${leadId}/questions`, label: "Cancel" }}
+          back={{ href: `/leads/${leadId}/questions`, label: pick(locale, "Cancel", "Annuleren") }}
         />
       </div>
     );
@@ -112,21 +114,21 @@ export default async function QuestionsPage({
 
   return (
     <div className="page-stack">
-      <StepIntro title="Your answers" />
+      <StepIntro title={pick(locale, "Your answers", "Jouw antwoorden")} />
       {contextPanel}
-      <AnswersSummary questions={questions} answers={answers} />
+      <AnswersSummary questions={questions} answers={answers} locale={locale} />
       {transcriptDisclosure}
       <details className="disclosure">
-        <summary>Consultant notes</summary>
+        <summary>{pick(locale, "Consultant notes", "Notities van consultant")}</summary>
         <Card variant="creme">
           <NotesEditor leadId={leadId} initialNotes={notes ?? ""} />
         </Card>
       </details>
       <StepActions>
         <LinkButton href={`/leads/${leadId}/questions?edit=1`} variant="secondary">
-          Edit answers
+          {pick(locale, "Edit answers", "Antwoorden bewerken")}
         </LinkButton>
-        <LinkButton href={`/leads/${leadId}/proposal`}>Continue to proposal &rarr;</LinkButton>
+        <LinkButton href={`/leads/${leadId}/proposal`}>{pick(locale, "Continue to proposal", "Verder naar voorstel")} &rarr;</LinkButton>
       </StepActions>
     </div>
   );

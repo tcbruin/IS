@@ -4,6 +4,7 @@ import { isStateAtLeast, WorkflowError } from "@/lib/workflow";
 import { generateCoverEmail, llmContext } from "@/lib/llm";
 import { handleApiError } from "@/lib/apiError";
 import { logEvent } from "@/lib/telemetry";
+import { getLocale } from "@/lib/i18n-server";
 
 export async function POST(
   _request: Request,
@@ -11,6 +12,7 @@ export async function POST(
 ) {
   try {
     const { leadId } = await params;
+    const locale = await getLocale();
     const lead = await getLead(leadId);
     if (!isStateAtLeast(lead.state, "dashboard_generated")) {
       throw new WorkflowError("The proposal and dashboard must be completed first.");
@@ -28,6 +30,7 @@ export async function POST(
         proposalIntro: finalProposal.content.coverIntro,
         proposalNextSteps: finalProposal.content.nextSteps,
         dashboardTitle: dashboard.spec.title,
+        locale,
       },
       llmContext(lead),
     );

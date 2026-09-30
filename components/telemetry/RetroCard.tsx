@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { track } from "./track";
 import styles from "./RetroCard.module.css";
+import { useLanguage } from "@/components/i18n/LanguageProvider";
 
 const ITEMS = [
   { key: "questions", label: "Questions" },
@@ -26,6 +27,13 @@ export function RetroCard({
   initialEstimate: number | null;
   defaultEstimate: number;
 }) {
+  const { locale, text } = useLanguage();
+  const items = locale === "nl" ? [
+    { key: "questions", label: "Vragen" },
+    { key: "proposal", label: "Voorstel" },
+    { key: "dashboard", label: "Dashboard" },
+    { key: "email", label: "E-mail" },
+  ] as const : ITEMS;
   const [ratings, setRatings] = useState(initialRatings);
   const [estimate, setEstimate] = useState(String(initialEstimate ?? defaultEstimate));
   const [savedEstimate, setSavedEstimate] = useState(initialEstimate !== null);
@@ -46,13 +54,13 @@ export function RetroCard({
 
   return (
     <div className={styles.card}>
-      <h3 className={styles.title}>Retrospective</h3>
-      <p className={styles.intro}>How useful was what the AI produced? (1 = unusable, 5 = usable as is)</p>
+      <h3 className={styles.title}>{text("Retrospective", "Terugblik")}</h3>
+      <p className={styles.intro}>{text("How useful was what the AI produced? (1 = unusable, 5 = usable as is)", "Hoe bruikbaar was wat de AI opleverde? (1 = onbruikbaar, 5 = direct bruikbaar)")}</p>
       <div className={styles.grid}>
-        {ITEMS.map((item) => (
+        {items.map((item) => (
           <div key={item.key} className={styles.row}>
             <span className={styles.label}>{item.label}</span>
-            <span className={styles.stars} role="radiogroup" aria-label={`Score ${item.label}`}>
+            <span className={styles.stars} role="radiogroup" aria-label={`${text("Score", "Beoordeling")} ${item.label}`}>
               {[1, 2, 3, 4, 5].map((n) => (
                 <button
                   key={n}
@@ -61,7 +69,7 @@ export function RetroCard({
                   aria-checked={ratings[item.key] === n}
                   className={[styles.star, (ratings[item.key] ?? 0) >= n ? styles.on : ""].join(" ")}
                   onClick={() => rate(item.key, n)}
-                  title={`${n} of 5`}
+                  title={text(`${n} of 5`, `${n} van 5`)}
                 >
                   ★
                 </button>
@@ -72,7 +80,7 @@ export function RetroCard({
       </div>
 
       <label className={styles.estimate}>
-        <span>How long would this have taken without the app?</span>
+        <span>{text("How long would this have taken without the app?", "Hoe lang had dit zonder de app geduurd?")}</span>
         <span className={styles.estimateInput}>
           <input
             type="number"
@@ -84,12 +92,12 @@ export function RetroCard({
             }}
             onBlur={saveEstimate}
           />
-          minutes {savedEstimate && <span className={styles.saved}>✓ saved</span>}
+          {text("minutes", "minuten")} {savedEstimate && <span className={styles.saved}>✓ {text("saved", "opgeslagen")}</span>}
         </span>
       </label>
 
       <label className={styles.comment}>
-        <span>Comment (optional)</span>
+        <span>{text("Comment (optional)", "Opmerking (optioneel)")}</span>
         <textarea
           rows={2}
           value={comment}
@@ -97,7 +105,7 @@ export function RetroCard({
             setComment(e.target.value);
             setCommentSaved(false);
           }}
-          placeholder="What stood out, what should improve?"
+          placeholder={text("What stood out, what should improve?", "Wat viel op en wat kan beter?")}
         />
       </label>
       {comment.trim() && (
@@ -110,7 +118,7 @@ export function RetroCard({
           }}
           disabled={commentSaved}
         >
-          {commentSaved ? "✓ Saved" : "Save comment"}
+          {commentSaved ? `✓ ${text("Saved", "Opgeslagen")}` : text("Save comment", "Opmerking opslaan")}
         </button>
       )}
     </div>

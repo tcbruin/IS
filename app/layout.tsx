@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { Epilogue, Manrope } from "next/font/google";
+import { LanguageProvider } from "@/components/i18n/LanguageProvider";
+import { getLocale } from "@/lib/i18n-server";
 import "./globals.css";
 
 const epilogue = Epilogue({
@@ -21,10 +23,13 @@ export const metadata: Metadata = {
   description: "From sales call to proposal and proof-of-concept dashboard.",
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  const locale = await getLocale();
   return (
-    <html lang="en">
-      <body className={`${epilogue.variable} ${manrope.variable}`}>{children}</body>
+    <html lang={locale}>
+      <body className={`${epilogue.variable} ${manrope.variable}`}>
+        <LanguageProvider initialLocale={locale}>{children}</LanguageProvider>
+      </body>
     </html>
   );
 }

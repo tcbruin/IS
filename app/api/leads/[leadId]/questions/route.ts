@@ -8,9 +8,10 @@ import {
 } from "@/lib/leadStore";
 import { assertTransition } from "@/lib/workflow";
 import { generateClarifyingQuestions, llmContext } from "@/lib/llm";
-import { EXTRA_INFO_QUESTION, normalizeQuestionIds } from "@/lib/validation";
+import { extraInfoQuestion, normalizeQuestionIds } from "@/lib/validation";
 import { handleApiError } from "@/lib/apiError";
 import { logEvent, questionStats } from "@/lib/telemetry";
+import { getLocale } from "@/lib/i18n-server";
 
 export async function POST(
   _request: Request,
@@ -18,6 +19,7 @@ export async function POST(
 ) {
   try {
     const { leadId } = await params;
+    const locale = await getLocale();
     const lead = await getLead(leadId);
     assertTransition(lead.state, "generateQuestions1");
 
@@ -26,10 +28,10 @@ export async function POST(
       getConsultantNotes(leadId),
     ]);
     const generated = await generateClarifyingQuestions(
-      { transcript, notes: notes ?? undefined, sourceSystem: lead.sourceSystem },
+      { transcript, notes: notes ?? undefined, sourceSystem: lead.sourceSystem, locale },
       llmContext(lead),
     );
-    const questions = [...normalizeQuestionIds(generated), EXTRA_INFO_QUESTION];
+    const questions = [...normalizeQuestionIds(generated), extraInfoQuestion(locale)];
 
     await writeQuestions(leadId, 1, questions);
     await transitionLead(leadId, "generateQuestions1");

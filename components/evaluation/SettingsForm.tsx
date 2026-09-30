@@ -4,9 +4,11 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import type { Settings } from "@/lib/settings";
 import styles from "./SettingsForm.module.css";
+import { useLanguage } from "@/components/i18n/LanguageProvider";
 
 /** The assumptions behind the comparison — editable, because they belong in the report. */
 export function SettingsForm({ settings }: { settings: Settings }) {
+  const { text } = useLanguage();
   const router = useRouter();
   const [values, setValues] = useState({
     baselineMinutesPerLead: String(settings.baselineMinutesPerLead),
@@ -50,16 +52,16 @@ export function SettingsForm({ settings }: { settings: Settings }) {
 
   return (
     <form onSubmit={save} className={styles.form}>
-      {field("baselineMinutesPerLead", "Manual baseline (minutes per lead)")}
-      {field("baselineSource", "Baseline source", "text")}
-      {field("hourlyRateEur", "Consultant hourly rate (€)")}
-      {field("usdToEur", "Exchange rate USD → EUR")}
+      {field("baselineMinutesPerLead", text("Manual baseline (minutes per lead)", "Handmatige nulmeting (minuten per lead)"))}
+      {field("baselineSource", text("Baseline source", "Bron van nulmeting"), "text")}
+      {field("hourlyRateEur", text("Consultant hourly rate (€)", "Uurtarief consultant (€)"))}
+      {field("usdToEur", text("Exchange rate USD → EUR", "Wisselkoers USD → EUR"))}
       <div className={styles.actions}>
         <button type="submit" className={styles.save} disabled={status === "saving"}>
-          {status === "saving" ? "Saving…" : "Save assumptions"}
+          {status === "saving" ? text("Saving…", "Opslaan…") : text("Save assumptions", "Aannames opslaan")}
         </button>
-        {status === "saved" && <span className={styles.ok}>✓ Saved</span>}
-        {status === "error" && <span className={styles.err}>Could not save</span>}
+        {status === "saved" && <span className={styles.ok}>✓ {text("Saved", "Opgeslagen")}</span>}
+        {status === "error" && <span className={styles.err}>{text("Could not save", "Opslaan is mislukt")}</span>}
       </div>
     </form>
   );

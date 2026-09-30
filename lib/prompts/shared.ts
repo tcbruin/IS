@@ -1,7 +1,10 @@
 import type { Answer, Question } from "../validation";
+import type { Locale } from "../i18n";
 
-export function languageInstruction(): string {
-  return "Write all output text in English.";
+export function languageInstruction(locale: Locale = "en"): string {
+  return locale === "nl"
+    ? "Write all output text in natural, professional Dutch (Netherlands). Keep product and company names unchanged."
+    : "Write all output text in English.";
 }
 
 export function jsonOnlyInstruction(): string {

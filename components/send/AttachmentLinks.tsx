@@ -2,6 +2,7 @@
 
 import { track } from "@/components/telemetry/track";
 import styles from "./AttachmentLinks.module.css";
+import { useLanguage } from "@/components/i18n/LanguageProvider";
 
 type Kind = "proposalDocx" | "proposalPdf" | "dashboardPdf" | "dashboardHtml";
 
@@ -14,9 +15,16 @@ const ATTACHMENTS: { kind: Kind; title: string; detail: string; path: (id: strin
 
 /** The attachments to send, as quiet tiles. Opening one is logged for the evaluation. */
 export function AttachmentLinks({ leadId }: { leadId: string }) {
+  const { locale } = useLanguage();
+  const attachments = locale === "nl" ? [
+    { ...ATTACHMENTS[0], title: "Voorstel", detail: "Word (.docx)" },
+    { ...ATTACHMENTS[1], title: "Voorstel", detail: "PDF via afdrukweergave" },
+    { ...ATTACHMENTS[2], title: "PoC-dashboard", detail: "PDF via afdrukweergave" },
+    { ...ATTACHMENTS[3], title: "PoC-dashboard", detail: "Interactief, werkt offline (.html)" },
+  ] : ATTACHMENTS;
   return (
     <div className={styles.grid}>
-      {ATTACHMENTS.map((a) => (
+      {attachments.map((a) => (
         <a
           key={a.kind}
           href={a.path(leadId)}

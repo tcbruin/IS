@@ -6,6 +6,7 @@ import { formatDocumentDate } from "@/lib/proposalLayout";
 import { ProposalDocument } from "@/components/proposal/ProposalDocument";
 import { PrintButton } from "@/components/ui/PrintButton";
 import styles from "./page.module.css";
+import { getLocale } from "@/lib/i18n-server";
 
 /** Print view of the final proposal — the same A4 pages as on screen; "Save as PDF" in
  * the browser's print dialog gives the PDF attachment. */
@@ -15,6 +16,7 @@ export default async function ProposalPrintPage({
   params: Promise<{ leadId: string }>;
 }) {
   const { leadId } = await params;
+  const locale = await getLocale();
   const lead = await getLead(leadId);
   if (!isStateAtLeast(lead.state, "proposal_finalized")) {
     redirect(`/leads/${leadId}`);
@@ -28,7 +30,7 @@ export default async function ProposalPrintPage({
       </div>
       <ProposalDocument
         companyName={lead.companyName}
-        dateLabel={formatDocumentDate(finalVersion.createdAt)}
+        dateLabel={formatDocumentDate(finalVersion.createdAt, locale)}
         doc={toEditorDoc(finalVersion.content)}
         editable={false}
       />

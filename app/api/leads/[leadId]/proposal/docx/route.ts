@@ -6,6 +6,7 @@ import { buildProposalDocx } from "@/lib/proposalDocx";
 import { formatDocumentDate } from "@/lib/proposalLayout";
 import { slugify } from "@/lib/slugify";
 import { handleApiError } from "@/lib/apiError";
+import { getLocale } from "@/lib/i18n-server";
 
 let assets: Promise<{ logoPng: Buffer; fonts: { body: Buffer; heading: Buffer } }> | null = null;
 
@@ -25,6 +26,7 @@ export async function GET(
 ) {
   try {
     const { leadId } = await params;
+    const locale = await getLocale();
     const [lead, current] = await Promise.all([getLead(leadId), getProposalCurrent(leadId)]);
     if (current.latestVersion === 0) throw new NotFoundError("There is no proposal yet.");
 
@@ -41,14 +43,15 @@ export async function GET(
     const buffer = await buildProposalDocx({
       content: version.content,
       companyName: lead.companyName,
-      dateLabel: formatDocumentDate(version.createdAt),
+      dateLabel: formatDocumentDate(version.createdAt, locale),
       versionNumber: version.version,
+      locale,
       ...(await loadAssets()),
     });
 
     const suffix = isFinal ? "" : `-draft-v${version.version}`;
-    const asciiName = `proposal-datavance-${slugify(lead.companyName, "client")}${suffix}.docx`;
-    const prettyName = `Proposal ${lead.companyName} - Datavance${isFinal ? "" : ` (draft v${version.version})`}.docx`;
+    const asciiName = `${locale === "nl" ? "voorstel" : "proposal"}-datavance-${slugify(lead.companyName, "client")}${suffix}.docx`;
+    const prettyName = `${locale === "nl" ? "Voorstel" : "Proposal"} ${lead.companyName} - Datavance${isFinal ? "" : ` (${locale === "nl" ? "concept" : "draft"} v${version.version})`}.docx`;
 
     return new NextResponse(new Uint8Array(buffer), {
       status: 200,

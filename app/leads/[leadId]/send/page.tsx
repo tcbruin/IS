@@ -12,9 +12,12 @@ import { RetroCard } from "@/components/telemetry/RetroCard";
 import { readEvents } from "@/lib/telemetry";
 import { getSettings } from "@/lib/settings";
 import styles from "./page.module.css";
+import { getLocale } from "@/lib/i18n-server";
+import { localeTag, pick } from "@/lib/i18n";
 
 export default async function SendPage({ params }: { params: Promise<{ leadId: string }> }) {
   const { leadId } = await params;
+  const locale = await getLocale();
   const lead = await getLead(leadId);
 
   if (!isStateAtLeast(lead.state, "dashboard_generated")) {
@@ -33,35 +36,35 @@ export default async function SendPage({ params }: { params: Promise<{ leadId: s
 
   return (
     <div className="page-stack">
-      <StepIntro title="Send">
-        Download the attachments, copy the email into your mail client, then mark as sent.
+      <StepIntro title={pick(locale, "Send", "Versturen")}>
+        {pick(locale, "Download the attachments, copy the email into your mail client, then mark as sent.", "Download de bijlagen, kopieer de e-mail naar je e-mailprogramma en markeer daarna als verzonden.")}
       </StepIntro>
 
       <Card>
         <h3 className={styles.sectionTitle}>
-          <span className={styles.number}>1</span> Attachments
+          <span className={styles.number}>1</span> {pick(locale, "Attachments", "Bijlagen")}
         </h3>
         <AttachmentLinks leadId={leadId} />
       </Card>
 
       <Card>
         <h3 className={styles.sectionTitle}>
-          <span className={styles.number}>2</span> Cover email
+          <span className={styles.number}>2</span> {pick(locale, "Cover email", "Begeleidende e-mail")}
         </h3>
         <CoverEmailPanel leadId={leadId} initialEmail={coverEmail} />
       </Card>
 
       <Card>
         <h3 className={styles.sectionTitle}>
-          <span className={styles.number}>3</span> Finish
+          <span className={styles.number}>3</span> {pick(locale, "Finish", "Afronden")}
         </h3>
         {isSent ? (
           <StatusBlock tone="done">
-            Sent{sentAt ? ` on ${new Date(sentAt).toLocaleDateString("en-GB")}` : ""}.
+            {pick(locale, "Sent", "Verzonden")}{sentAt ? ` ${pick(locale, "on", "op")} ${new Date(sentAt).toLocaleDateString(localeTag(locale))}` : ""}.
           </StatusBlock>
         ) : (
           <p className={styles.muted}>
-            The app does not send anything itself — mark as sent once you have emailed it to the client.
+            {pick(locale, "The app does not send anything itself — mark as sent once you have emailed it to the client.", "De app verstuurt zelf niets — markeer als verzonden zodra je het naar de klant hebt gemaild.")}
           </p>
         )}
       </Card>
@@ -77,7 +80,7 @@ export default async function SendPage({ params }: { params: Promise<{ leadId: s
 
       <StepActions back={{ href: `/leads/${leadId}/dashboard`, label: "Dashboard" }}>
         {!isSent && (
-          <GenerateButton url={`/api/leads/${leadId}/send`} label="Mark as sent" busyLabel="Working..." />
+          <GenerateButton url={`/api/leads/${leadId}/send`} label={pick(locale, "Mark as sent", "Markeren als verzonden")} busyLabel={pick(locale, "Working...", "Bezig...")} />
         )}
       </StepActions>
     </div>

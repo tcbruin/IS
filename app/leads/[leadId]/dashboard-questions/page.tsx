@@ -17,6 +17,8 @@ import { StepIntro } from "@/components/ui/StepIntro";
 import { QuestionForm } from "@/components/questions/QuestionForm";
 import { AnswersSummary } from "@/components/questions/AnswersSummary";
 import { getDemoAnswers, getScenario } from "@/lib/demo";
+import { getLocale } from "@/lib/i18n-server";
+import { pick } from "@/lib/i18n";
 
 export default async function DashboardQuestionsPage({
   params,
@@ -27,6 +29,7 @@ export default async function DashboardQuestionsPage({
 }) {
   const { leadId } = await params;
   const { edit } = await searchParams;
+  const locale = await getLocale();
   const lead = await getLead(leadId);
 
   if (!isStateAtLeast(lead.state, "proposal_finalized")) {
@@ -40,27 +43,28 @@ export default async function DashboardQuestionsPage({
   const contextPanel = (
     <AIContextPanel
       inputs={[
-        transcriptInput(),
-        notesInput(notes, { href: `/leads/${leadId}/questions` }),
-        sourceSystemInput(lead.sourceSystem),
-        finalProposalInput(finalProposal.version, `/leads/${leadId}/proposal`),
+        transcriptInput(locale),
+        notesInput(notes, { href: `/leads/${leadId}/questions` }, locale),
+        sourceSystemInput(lead.sourceSystem, locale),
+        finalProposalInput(finalProposal.version, `/leads/${leadId}/proposal`, locale),
       ]}
       principles={QUESTIONS2_PRINCIPLES}
+      locale={locale}
     />
   );
-  const backToProposal = { href: `/leads/${leadId}/proposal`, label: "Proposal" };
+  const backToProposal = { href: `/leads/${leadId}/proposal`, label: pick(locale, "Proposal", "Voorstel") };
 
   if (lead.state === "proposal_finalized") {
     return (
       <div className="page-stack">
-        <StepIntro title="Dashboard questions" />
+        <StepIntro title={pick(locale, "Dashboard questions", "Dashboardvragen")} />
         {contextPanel}
         <AutoGenerateCard
-          title="The AI prepares the dashboard"
-          description="Based on the final proposal, the AI asks a few short questions to tailor the dashboard to this problem."
+          title={pick(locale, "The AI prepares the dashboard", "De AI bereidt het dashboard voor")}
+          description={pick(locale, "Based on the final proposal, the AI asks a few short questions to tailor the dashboard to this problem.", "Op basis van het definitieve voorstel stelt de AI enkele korte vragen om het dashboard op dit vraagstuk af te stemmen.")}
           url={`/api/leads/${leadId}/dashboard-questions`}
-          label="Generate questions"
-          busyLabel="Analyzing proposal..."
+          label={pick(locale, "Generate questions", "Vragen genereren")}
+          busyLabel={pick(locale, "Analyzing proposal...", "Voorstel analyseren...")}
         />
         <StepActions back={backToProposal} />
       </div>
@@ -78,14 +82,14 @@ export default async function DashboardQuestionsPage({
       : undefined;
     return (
       <div className="page-stack">
-        <StepIntro title="Dashboard questions">
-          Short answers are fine. If you don't know something, let the AI estimate it.
+        <StepIntro title={pick(locale, "Dashboard questions", "Dashboardvragen")}>
+          {pick(locale, "Short answers are fine. If you don't know something, let the AI estimate it.", "Korte antwoorden zijn prima. Weet je iets niet, laat de AI dan een inschatting maken.")}
         </StepIntro>
         {contextPanel}
         <QuestionForm
           questions={questions}
           submitUrl={`/api/leads/${leadId}/dashboard-answers`}
-          submitLabel="Save and build dashboard →"
+          submitLabel={pick(locale, "Save and build dashboard →", "Opslaan en dashboard bouwen →")}
           redirectTo={`/leads/${leadId}/dashboard`}
           back={backToProposal}
           demoFill={demoFill}
@@ -102,19 +106,19 @@ export default async function DashboardQuestionsPage({
     const hasLaterWork = lead.state !== "questions2_answered";
     return (
       <div className="page-stack">
-        <StepIntro title="Edit dashboard answers" />
+        <StepIntro title={pick(locale, "Edit dashboard answers", "Dashboardantwoorden bewerken")} />
         {hasLaterWork && (
           <StatusBlock tone="attention">
-            After saving, the AI rebuilds the dashboard based on your new answers.
+            {pick(locale, "After saving, the AI rebuilds the dashboard based on your new answers.", "Na het opslaan bouwt de AI het dashboard opnieuw op basis van je nieuwe antwoorden.")}
           </StatusBlock>
         )}
         <QuestionForm
           questions={questions}
           submitUrl={`/api/leads/${leadId}/dashboard-answers`}
           initialAnswers={answers}
-          submitLabel="Save and rebuild dashboard →"
+          submitLabel={pick(locale, "Save and rebuild dashboard →", "Opslaan en dashboard opnieuw bouwen →")}
           redirectTo={`/leads/${leadId}/dashboard`}
-          back={{ href: `/leads/${leadId}/dashboard-questions`, label: "Cancel" }}
+          back={{ href: `/leads/${leadId}/dashboard-questions`, label: pick(locale, "Cancel", "Annuleren") }}
         />
       </div>
     );
@@ -122,14 +126,14 @@ export default async function DashboardQuestionsPage({
 
   return (
     <div className="page-stack">
-      <StepIntro title="Your dashboard answers" />
+      <StepIntro title={pick(locale, "Your dashboard answers", "Jouw dashboardantwoorden")} />
       {contextPanel}
-      <AnswersSummary questions={questions} answers={answers} />
+      <AnswersSummary questions={questions} answers={answers} locale={locale} />
       <StepActions back={backToProposal}>
         <LinkButton href={`/leads/${leadId}/dashboard-questions?edit=1`} variant="secondary">
-          Edit answers
+          {pick(locale, "Edit answers", "Antwoorden bewerken")}
         </LinkButton>
-        <LinkButton href={`/leads/${leadId}/dashboard`}>Continue to dashboard &rarr;</LinkButton>
+        <LinkButton href={`/leads/${leadId}/dashboard`}>{pick(locale, "Continue to dashboard", "Verder naar dashboard")} &rarr;</LinkButton>
       </StepActions>
     </div>
   );

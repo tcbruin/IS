@@ -3,8 +3,10 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Button } from "./Button";
+import { useLanguage } from "@/components/i18n/LanguageProvider";
 
 export function DeleteLeadButton({ leadId }: { leadId: string }) {
+  const { text } = useLanguage();
   const router = useRouter();
   const [confirming, setConfirming] = useState(false);
   const [deleting, setDeleting] = useState(false);
@@ -12,7 +14,7 @@ export function DeleteLeadButton({ leadId }: { leadId: string }) {
   if (!confirming) {
     return (
       <Button variant="danger" onClick={() => setConfirming(true)}>
-        Delete lead
+        {text("Delete lead", "Lead verwijderen")}
       </Button>
     );
   }
@@ -25,12 +27,12 @@ export function DeleteLeadButton({ leadId }: { leadId: string }) {
 
   return (
     <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
-      <span>Are you sure?</span>
+      <span>{text("Are you sure?", "Weet je het zeker?")}</span>
       <Button variant="danger" onClick={handleDelete} disabled={deleting}>
-        {deleting ? "Deleting..." : "Yes, delete"}
+        {deleting ? text("Deleting...", "Verwijderen...") : text("Yes, delete", "Ja, verwijderen")}
       </Button>
       <Button variant="secondary" onClick={() => setConfirming(false)} disabled={deleting}>
-        Cancel
+        {text("Cancel", "Annuleren")}
       </Button>
     </div>
   );

@@ -1,6 +1,7 @@
 import { z } from "zod";
 import { slugify } from "./slugify";
 import { dashboardSpecSchema } from "./dashboardSpec";
+import type { Locale } from "./i18n";
 
 export const LEAD_STATES = [
   "transcript_uploaded",
@@ -71,6 +72,10 @@ export const AI_ESTIMATE_SENTINEL =
 const LEGACY_AI_ESTIMATE_SENTINEL =
   "Geen concreet antwoord — schat dit zelf in op basis van het transcript en de notities.";
 
+export function aiEstimateSentinel(locale: Locale): string {
+  return locale === "nl" ? LEGACY_AI_ESTIMATE_SENTINEL : AI_ESTIMATE_SENTINEL;
+}
+
 export function isAiEstimateAnswer(answer: string): boolean {
   return answer === AI_ESTIMATE_SENTINEL || answer === LEGACY_AI_ESTIMATE_SENTINEL;
 }
@@ -83,6 +88,12 @@ export const EXTRA_INFO_QUESTION: Question = {
   id: "extra-info",
   text: "Anything else the AI should know? (optional)",
 };
+
+export function extraInfoQuestion(locale: Locale): Question {
+  return locale === "nl"
+    ? { id: EXTRA_INFO_QUESTION.id, text: "Moet de AI nog iets anders weten? (optioneel)" }
+    : EXTRA_INFO_QUESTION;
+}
 
 /** AI-generated ids aren't trustworthy: slugify them, make them unique and keep the fixed
  * extra-info id reserved, so answers can always be matched to their question by id. */

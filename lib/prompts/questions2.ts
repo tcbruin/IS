@@ -8,6 +8,7 @@ import {
   sourceSystemBlock,
 } from "./shared";
 import { DATAVANCE_PLAYBOOK } from "./playbook";
+import type { Locale } from "../i18n";
 
 /** Logged with every call so evaluation can compare prompt iterations. Bump on meaningful edits.
  * v1-lang: long multi-part questions. v2-kort: one topic, ≤20 words, hint, slug ids.
@@ -19,6 +20,7 @@ export function buildQuestions2Prompt(input: {
   notes?: string;
   sourceSystem?: string;
   proposal: ProposalContent;
+  locale?: Locale;
 }): { system: string; user: string } {
   const system = [
     "You are a senior consultant at Datavance about to design a 1-page proof-of-concept (PoC) dashboard to send alongside a finalized client proposal.",
@@ -30,7 +32,7 @@ export function buildQuestions2Prompt(input: {
       : "",
     "The account owner answering these has the exact same transcript and notes you do — they cannot supply facts nobody has. Every question must be answerable either from something they actually know, or as a reasoned judgment call/assumption they're willing to make — never phrase a question as if it demands a hard fact that plausibly doesn't exist anywhere yet.",
     shortQuestionRules(),
-    languageInstruction(),
+    languageInstruction(input.locale),
     jsonOnlyInstruction(),
     QUESTIONS_JSON_SHAPE,
   ]

@@ -16,6 +16,7 @@ import { getProposalExamples } from "@/lib/exampleLibrary";
 import { parseSectionFeedback } from "@/lib/proposalSections";
 import { handleApiError } from "@/lib/apiError";
 import { logEvent } from "@/lib/telemetry";
+import { getLocale } from "@/lib/i18n-server";
 
 const bodySchema = z.object({ feedback: z.string().optional() });
 
@@ -25,6 +26,7 @@ export async function POST(
 ) {
   try {
     const { leadId } = await params;
+    const locale = await getLocale();
     const lead = await getLead(leadId);
     assertTransition(lead.state, "generateProposal");
 
@@ -50,6 +52,7 @@ export async function POST(
         priorDraft: priorVersion?.content,
         feedback,
         examples,
+        locale,
       },
       llmContext(lead),
     );

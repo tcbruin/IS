@@ -1,6 +1,7 @@
 import type { Answer, ProposalContent, Question } from "../validation";
 import { languageInstruction, jsonOnlyInstruction, formatQA, notesBlock, sourceSystemBlock } from "./shared";
 import { DATAVANCE_PLAYBOOK } from "./playbook";
+import type { Locale } from "../i18n";
 
 /** Logged with every call so evaluation can compare prompt iterations. Bump on meaningful edits. */
 export const PROMPT_VERSION = "proposal-v3-en";
@@ -25,6 +26,7 @@ export function buildProposalPrompt(input: {
   priorDraft?: ProposalContent;
   feedback?: string;
   examples?: { companyName: string; content: ProposalContent }[];
+  locale?: Locale;
 }): { system: string; user: string } {
   const system = [
     "You are a senior consultant at Datavance writing a client-facing sales proposal.",
@@ -41,7 +43,7 @@ export function buildProposalPrompt(input: {
     input.examples?.length
       ? "Example proposals from other, unrelated clients are included below for tone/structure calibration only — never copy their client-specific facts, numbers, or names into the new proposal."
       : "",
-    languageInstruction(),
+    languageInstruction(input.locale),
     jsonOnlyInstruction(),
     `JSON shape:\n${PROPOSAL_JSON_SHAPE}`,
   ]

@@ -11,11 +11,12 @@ import {
   type ParaField,
   type TextField,
 } from "@/lib/proposalDocument";
-import { PROPOSAL_SECTIONS, type ProposalSectionKey } from "@/lib/proposalSections";
+import { getProposalSections, type ProposalSectionKey } from "@/lib/proposalSections";
 import { PAGE, TYPE } from "@/lib/proposalLayout";
 import { DocText } from "./DocText";
 import { usePagination } from "./usePagination";
 import styles from "./ProposalDocument.module.css";
+import { useLanguage } from "@/components/i18n/LanguageProvider";
 
 const PLACEHOLDERS: Record<ParaField, string> = {
   coverIntro: "Type the introduction here…",
@@ -25,6 +26,16 @@ const PLACEHOLDERS: Record<ParaField, string> = {
   nextSteps: "Describe the next steps…",
   goals: "Goal…",
   scopeDeliverables: "Deliverable…",
+};
+
+const DUTCH_PLACEHOLDERS: Record<ParaField, string> = {
+  coverIntro: "Typ hier de introductie…",
+  situation: "Beschrijf de huidige situatie…",
+  approach: "Beschrijf de aanpak…",
+  investment: "Beschrijf de investering…",
+  nextSteps: "Beschrijf de volgende stappen…",
+  goals: "Doel…",
+  scopeDeliverables: "Op te leveren onderdeel…",
 };
 
 /** Layout numbers from lib/proposalLayout.ts, exposed to the CSS as custom properties. */
@@ -86,6 +97,9 @@ export function ProposalDocument({
   invalidSections?: Set<string>;
   onStats?: (stats: { pageCount: number }) => void;
 }) {
+  const { locale, text } = useLanguage();
+  const placeholders = locale === "nl" ? DUTCH_PLACEHOLDERS : PLACEHOLDERS;
+  const sections = getProposalSections(locale);
   const flowRef = useRef<HTMLDivElement>(null);
   const pageCount = usePagination(flowRef);
 
@@ -126,7 +140,7 @@ export function ProposalDocument({
           value={p.text}
           editable={editable}
           editKey={paraKey(field, p.id)}
-          placeholder={PLACEHOLDERS[field]}
+          placeholder={placeholders[field]}
           onChange={(value) => onAction?.({ type: "setText", field, id: p.id, text: value })}
           onKeyDown={paraKeyDown(field, p.id, i, false)}
         />
@@ -150,7 +164,7 @@ export function ProposalDocument({
           value={p.text}
           editable={editable}
           editKey={paraKey(field, p.id)}
-          placeholder={PLACEHOLDERS[field]}
+          placeholder={placeholders[field]}
           onChange={(text) => onAction?.({ type: "setText", field, id: p.id, text })}
           onKeyDown={paraKeyDown(field, p.id, i, true)}
         />
@@ -165,7 +179,7 @@ export function ProposalDocument({
           value={phase.name}
           editable={editable}
           editKey={phaseKey(phase.id, "name")}
-          placeholder="Phase name…"
+          placeholder={text("Phase name…", "Naam van fase…")}
           className={styles.phaseName}
           onChange={(text) => onAction?.({ type: "setPhase", id: phase.id, key: "name", text })}
           onKeyDown={(e) => {
@@ -183,7 +197,7 @@ export function ProposalDocument({
           value={phase.description}
           editable={editable}
           editKey={phaseKey(phase.id, "description")}
-          placeholder="What happens in this phase…"
+          placeholder={text("What happens in this phase…", "Wat gebeurt er in deze fase…")}
           onChange={(text) => onAction?.({ type: "setPhase", id: phase.id, key: "description", text })}
           onKeyDown={(e) => {
             const t = e.currentTarget;
@@ -199,7 +213,7 @@ export function ProposalDocument({
             className={styles.addPhase}
             onClick={() => onAction?.({ type: "addPhase", afterId: phase.id })}
           >
-            + Add phase
+            {text("+ Add phase", "+ Fase toevoegen")}
           </button>
         )}
       </Block>
@@ -215,7 +229,7 @@ export function ProposalDocument({
           "--canvas-h": `calc(${pageCount} * var(--page-h) + ${pageCount - 1} * var(--page-gap))`,
         } as CSSProperties
       }
-      lang="en"
+      lang={locale}
     >
       {Array.from({ length: pageCount }, (_, k) => (
         <div
@@ -232,9 +246,9 @@ export function ProposalDocument({
             <span>{companyName}</span>
           </div>
           <div className={styles.runningFooter}>
-            <span>Datavance — Confidential — {companyName}</span>
+            <span>Datavance — {text("Confidential", "Vertrouwelijk")} — {companyName}</span>
             <span>
-              Page {k + 1} of {pageCount}
+              {text("Page", "Pagina")} {k + 1} {text("of", "van")} {pageCount}
             </span>
           </div>
         </div>
@@ -242,12 +256,12 @@ export function ProposalDocument({
 
       <div ref={flowRef} className={[styles.flow, editable ? styles.editable : ""].join(" ")}>
         <Block keep className={styles.titleBlock}>
-          <h1 className={styles.title}>Proposal for {companyName}</h1>
+          <h1 className={styles.title}>{text("Proposal for", "Voorstel voor")} {companyName}</h1>
           <div className={styles.date}>{dateLabel}</div>
         </Block>
         {textField("coverIntro", styles.intro)}
 
-        {PROPOSAL_SECTIONS.map((section) => (
+        {sections.map((section) => (
           <div key={section.key} className={styles.section}>
             <Block
               keep
@@ -287,6 +301,7 @@ function CommentBalloon({
   value: string;
   onChange: (value: string) => void;
 }) {
+  const { text } = useLanguage();
   const [open, setOpen] = useState(false);
   const hasText = value.trim().length > 0;
 
@@ -294,7 +309,7 @@ function CommentBalloon({
     return (
       <div className={styles.gutter}>
         <button type="button" className={styles.commentTrigger} onClick={() => setOpen(true)}>
-          + Comment for the AI
+          {text("+ Comment for the AI", "+ Opmerking voor de AI")}
         </button>
       </div>
     );
@@ -303,12 +318,12 @@ function CommentBalloon({
   return (
     <div className={[styles.gutter, styles.gutterOpen].join(" ")}>
       <div className={styles.balloon}>
-        <div className={styles.balloonLabel}>Comment · {label}</div>
+        <div className={styles.balloonLabel}>{text("Comment", "Opmerking")} · {label}</div>
         <textarea
           className={styles.balloonInput}
           value={value}
           autoFocus={!hasText}
-          placeholder="What should the AI do differently here?"
+          placeholder={text("What should the AI do differently here?", "Wat moet de AI hier anders doen?")}
           onChange={(e) => onChange(e.target.value)}
           rows={3}
         />
@@ -320,7 +335,7 @@ function CommentBalloon({
             setOpen(false);
           }}
         >
-          Remove
+          {text("Remove", "Verwijderen")}
         </button>
       </div>
     </div>

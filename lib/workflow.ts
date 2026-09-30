@@ -1,5 +1,6 @@
 import { LEAD_STATES, type LeadState } from "./validation";
 import type { StepKey } from "./telemetryEvents";
+import { pick, type Locale } from "./i18n";
 
 export type { StepKey };
 
@@ -101,6 +102,39 @@ export const STEPS: Step[] = [
   },
 ];
 
+const DUTCH_STEP_COPY: Record<StepKey, { label: string; description: string; substeps: Record<string, string> }> = {
+  call: {
+    label: "Gesprek",
+    description: "Transcript en notities; de AI stelt verduidelijkende vragen die jij beantwoordt.",
+    substeps: { transcript: "Transcript & notities", questions: "Vragen beantwoorden" },
+  },
+  proposal: {
+    label: "Voorstel",
+    description: "De AI schrijft een concept; jij bewerkt het, vraagt wijzigingen aan en maakt het definitief.",
+    substeps: { draft: "Concept", edit: "Bewerken & feedback", final: "Definitief" },
+  },
+  dashboard: {
+    label: "Dashboard",
+    description: "Na enkele vragen bouwt de AI een PoC-dashboard voor dit vraagstuk.",
+    substeps: { "dashboard-questions": "Dashboardvragen", dashboard: "Dashboard" },
+  },
+  send: {
+    label: "Versturen",
+    description: "Bereid de bijlagen en begeleidende e-mail voor en markeer daarna als verzonden.",
+    substeps: { attachments: "Bijlagen & e-mail", sent: "Verzonden" },
+  },
+};
+
+export function getSteps(locale: Locale = "en"): Step[] {
+  if (locale === "en") return STEPS;
+  return STEPS.map((step) => ({
+    ...step,
+    label: DUTCH_STEP_COPY[step.key].label,
+    description: DUTCH_STEP_COPY[step.key].description,
+    substeps: step.substeps.map((sub) => ({ ...sub, label: DUTCH_STEP_COPY[step.key].substeps[sub.key] ?? sub.label })),
+  }));
+}
+
 export type StepStatus = "done" | "active" | "future";
 
 export function getStepStatus(item: { from: LeadState; doneAt: LeadState }, state: LeadState): StepStatus {
@@ -130,9 +164,9 @@ export function getStepHref(leadId: string, step: Step, state: LeadState): strin
 }
 
 /** Short "where is this lead" label for the lead list, e.g. "Proposal · Edit & feedback". */
-export function describeStatus(state: LeadState): string {
-  const step = STEPS.find((s) => getStepStatus(s, state) === "active");
-  if (!step) return "Sent";
+export function describeStatus(state: LeadState, locale: Locale = "en"): string {
+  const step = getSteps(locale).find((s) => getStepStatus(s, state) === "active");
+  if (!step) return pick(locale, "Sent", "Verzonden");
   const sub = step.substeps.find((s) => getStepStatus(s, state) === "active") ?? step.substeps[0];
   return `${step.label} · ${sub.label}`;
 }

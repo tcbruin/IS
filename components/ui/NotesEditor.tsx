@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Button } from "./Button";
 import { TextArea } from "./Form";
+import { useLanguage } from "@/components/i18n/LanguageProvider";
 
 export function NotesEditor({
   leadId,
@@ -15,6 +16,7 @@ export function NotesEditor({
   /** Lets a parent block actions that would ignore unsaved notes (e.g. generating questions). */
   onEditingChange?: (editing: boolean) => void;
 }) {
+  const { text } = useLanguage();
   const router = useRouter();
   const [editing, setEditingState] = useState(false);
   const [notes, setNotes] = useState(initialNotes);
@@ -37,12 +39,12 @@ export function NotesEditor({
       });
       if (!res.ok) {
         const body = await res.json().catch(() => ({}));
-        throw new Error(body.error ?? "Could not save.");
+        throw new Error(body.error ?? text("Could not save.", "Opslaan is mislukt."));
       }
       setEditing(false);
       router.refresh();
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Something went wrong.");
+      setError(err instanceof Error ? err.message : text("Something went wrong.", "Er is iets misgegaan."));
     } finally {
       setSaving(false);
     }
@@ -54,10 +56,10 @@ export function NotesEditor({
         {initialNotes ? (
           <p style={{ whiteSpace: "pre-wrap", marginTop: 0 }}>{initialNotes}</p>
         ) : (
-          <p style={{ opacity: 0.6, marginTop: 0 }}>No notes yet.</p>
+          <p style={{ opacity: 0.6, marginTop: 0 }}>{text("No notes yet.", "Nog geen notities.")}</p>
         )}
         <Button variant="secondary" onClick={() => setEditing(true)}>
-          {initialNotes ? "Edit notes" : "Add notes"}
+          {initialNotes ? text("Edit notes", "Notities bewerken") : text("Add notes", "Notities toevoegen")}
         </Button>
       </div>
     );
@@ -74,7 +76,7 @@ export function NotesEditor({
       {error && <p style={{ color: "var(--color-rood)" }}>{error}</p>}
       <div style={{ display: "flex", gap: 8, marginTop: 10 }}>
         <Button onClick={save} disabled={saving}>
-          {saving ? "Saving..." : "Save notes"}
+          {saving ? text("Saving...", "Opslaan...") : text("Save notes", "Notities opslaan")}
         </Button>
         <Button
           variant="secondary"
@@ -84,7 +86,7 @@ export function NotesEditor({
           }}
           disabled={saving}
         >
-          Cancel
+          {text("Cancel", "Annuleren")}
         </Button>
       </div>
     </div>

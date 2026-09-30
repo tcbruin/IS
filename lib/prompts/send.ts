@@ -1,5 +1,6 @@
 import { languageInstruction, jsonOnlyInstruction } from "./shared";
 import { DATAVANCE_PLAYBOOK } from "./playbook";
+import type { Locale } from "../i18n";
 
 /** Logged with every call so evaluation can compare prompt iterations. Bump on meaningful edits. */
 export const PROMPT_VERSION = "email-v3-en";
@@ -15,6 +16,7 @@ export function buildCoverEmailPrompt(input: {
   proposalIntro: string;
   proposalNextSteps: string;
   dashboardTitle: string;
+  locale?: Locale;
 }): { system: string; user: string } {
   const system = [
     "You are a senior consultant at Datavance writing a short cover email to send a client their finalized proposal and a proof-of-concept (PoC) dashboard together.",
@@ -24,7 +26,7 @@ export function buildCoverEmailPrompt(input: {
     "Never invent a send date, meeting time, or the consultant's own name — end the email with the literal placeholder \"[Your name]\" instead of a name, since that isn't known here.",
     "The company is always written as \"Datavance\" (lowercase v), never \"DataVance\".",
     "Keep it short and concrete — no filler, no generic consultant-speak, this is a real business email, not marketing copy.",
-    languageInstruction(),
+    languageInstruction(input.locale),
     jsonOnlyInstruction(),
     `JSON shape:\n${COVER_EMAIL_JSON_SHAPE}`,
   ].join("\n");

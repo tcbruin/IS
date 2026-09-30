@@ -1,6 +1,7 @@
 import type { Answer, ProposalContent, Question } from "../validation";
 import { languageInstruction, jsonOnlyInstruction, formatQA, notesBlock, sourceSystemBlock } from "./shared";
 import { DATAVANCE_PLAYBOOK } from "./playbook";
+import type { Locale } from "../i18n";
 
 /** Logged with every call so evaluation can compare prompt iterations. Bump on meaningful edits.
  * v1-relabel: picked labels for a fixed generic sales dataset. v2-model: designs a data model.
@@ -75,6 +76,7 @@ export function buildDashboardPrompt(input: {
   proposal: ProposalContent;
   questions: Question[];
   answers: Answer[];
+  locale?: Locale;
 }): { system: string; user: string } {
   const system = [
     "You are a senior consultant at Datavance designing a 1-page proof-of-concept (PoC) Power BI dashboard that shows the client what solving their ONE scoped problem looks like.",
@@ -87,7 +89,7 @@ export function buildDashboardPrompt(input: {
     "ESTIMATE ANSWERS: an answer like \"No concrete answer — estimate this yourself…\" or \"Make your own estimate…\" delegates a design choice to you. It is never a source of numbers or anchors.",
     "PAGE: layout \"overview\" = up to 3 KPIs, then a wide chart plus a narrow table (or one wide visual). Layout \"openItems\" = up to 2 KPIs with a table below them on the left, and one or two visuals on the right. Charts: x = period for a trend, or entity/dimension for a comparison; 1–3 series with at most two units. Tables: rows = entity or a dimension, up to 4 measure columns, optional ✓/✗ flag column. KPIs answer the question the client actually asked; flagCount KPIs count entities failing a flag (e.g. \"Projects below target\").",
     "LABELS: in English, using the client's own terms from the call (crates, returnables, foreman…), short, no digits, no company name (the header shows it). Keys: lowercase slugs like \"margin_pct\". Entity names: fictional, never real companies from the call.",
-    languageInstruction(),
+    languageInstruction(input.locale),
     jsonOnlyInstruction(),
     `JSON shape:\n${SPEC_SHAPE}`,
     `Example for an unrelated client (bakery chain with too much waste):\n${EXAMPLE}`,
