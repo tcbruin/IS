@@ -7,6 +7,7 @@
  * (ISO date) before any cost figure goes into a report. The evaluation page warns while null.
  */
 export const PRICING_VERIFIED_ON: string | null = null;
+export const PRICING_SOURCE_URL = "https://api-docs.deepseek.com/quick_start/pricing";
 
 type ModelPrice = { inputCacheHit: number; inputCacheMiss: number; output: number };
 
@@ -24,9 +25,10 @@ export function llmCostUsd(input: {
 }): number | null {
   const price = PRICES_USD_PER_MTOK[input.model];
   if (!price) return null;
-  const cacheMiss = Math.max(0, input.promptTokens - input.cacheHitTokens);
+  const cacheHit = Math.max(0, Math.min(input.promptTokens, input.cacheHitTokens));
+  const cacheMiss = Math.max(0, input.promptTokens - cacheHit);
   return (
-    (input.cacheHitTokens * price.inputCacheHit +
+    (cacheHit * price.inputCacheHit +
       cacheMiss * price.inputCacheMiss +
       input.completionTokens * price.output) /
     1_000_000

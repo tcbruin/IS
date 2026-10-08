@@ -81,6 +81,8 @@ export const QUESTIONS1_PRINCIPLES: string[] = [
 
 export const PROPOSAL_PRINCIPLES: string[] = [
   "Scopes the proposal to that one problem — no broad approach.",
+  "Opens with Situation, Complication, one Question and Datavance's Answer — as a natural story, without framework labels.",
+  "Targets 350–400 words in four compact blocks on one A4 page.",
   "Never makes up a specific amount — the investment stays a placeholder until a scoping call.",
   "Writes short and concrete, without vague buzzwords.",
 ];

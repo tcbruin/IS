@@ -3,6 +3,7 @@ import { ZodError } from "zod";
 import { NotFoundError } from "./leadStore";
 import { WorkflowError } from "./workflow";
 import { LLMError } from "./llm";
+import { ProposalLengthError } from "./proposalCompactness";
 
 export function handleApiError(err: unknown): NextResponse {
   if (err instanceof WorkflowError) {
@@ -13,6 +14,9 @@ export function handleApiError(err: unknown): NextResponse {
   }
   if (err instanceof LLMError) {
     return NextResponse.json({ error: err.message }, { status: 502 });
+  }
+  if (err instanceof ProposalLengthError) {
+    return NextResponse.json({ error: err.message, code: "proposal_too_long", details: err.issues }, { status: 422 });
   }
   if (err instanceof ZodError) {
     return NextResponse.json(

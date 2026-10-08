@@ -42,7 +42,7 @@ export async function POST(
       getProposalExamples(2, lead.companyName),
     ]);
 
-    const { content, warnings } = await generateProposal(
+    const { content, warnings, warningCategories } = await generateProposal(
       {
         transcript,
         notes: notes ?? undefined,
@@ -72,6 +72,7 @@ export async function POST(
       withFeedback: Boolean(feedback?.trim()),
       commentedSections: parseSectionFeedback(feedback),
       warnings: warnings.length,
+      warningCategories,
     });
 
     return NextResponse.json(version);

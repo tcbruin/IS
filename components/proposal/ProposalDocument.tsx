@@ -45,13 +45,13 @@ const PAGE_VARS = {
   "--page-margin": `${PAGE.marginMm}mm`,
   "--header-top": `${PAGE.headerMm}mm`,
   "--footer-bottom": `${PAGE.footerMm}mm`,
-  "--body-pt": `${TYPE.bodyPt}pt`,
+  "--body-pt": `calc(${TYPE.bodyPt}pt * var(--fit-scale, 1))`,
   "--body-lh": `${TYPE.lineHeight}`,
-  "--intro-pt": `${TYPE.introPt}pt`,
-  "--title-pt": `${TYPE.titlePt}pt`,
-  "--date-pt": `${TYPE.datePt}pt`,
-  "--heading-pt": `${TYPE.headingPt}pt`,
-  "--phase-pt": `${TYPE.phasePt}pt`,
+  "--intro-pt": `calc(${TYPE.introPt}pt * var(--fit-scale, 1))`,
+  "--title-pt": `calc(${TYPE.titlePt}pt * var(--fit-scale, 1))`,
+  "--date-pt": `calc(${TYPE.datePt}pt * var(--fit-scale, 1))`,
+  "--heading-pt": `calc(${TYPE.headingPt}pt * var(--fit-scale, 1))`,
+  "--phase-pt": `calc(${TYPE.phasePt}pt * var(--fit-scale, 1))`,
   "--running-pt": `${TYPE.runningPt}pt`,
 } as CSSProperties;
 
@@ -84,6 +84,7 @@ export function ProposalDocument({
   onCommentChange,
   invalidSections,
   onStats,
+  fitToPage = false,
 }: {
   companyName: string;
   dateLabel: string;
@@ -96,12 +97,13 @@ export function ProposalDocument({
   onCommentChange?: (key: ProposalSectionKey, value: string) => void;
   invalidSections?: Set<string>;
   onStats?: (stats: { pageCount: number }) => void;
+  fitToPage?: boolean;
 }) {
   const { locale, text } = useLanguage();
   const placeholders = locale === "nl" ? DUTCH_PLACEHOLDERS : PLACEHOLDERS;
   const sections = getProposalSections(locale);
   const flowRef = useRef<HTMLDivElement>(null);
-  const pageCount = usePagination(flowRef);
+  const pageCount = usePagination(flowRef, fitToPage);
 
   useEffect(() => {
     onStats?.({ pageCount });
@@ -254,7 +256,7 @@ export function ProposalDocument({
         </div>
       ))}
 
-      <div ref={flowRef} className={[styles.flow, editable ? styles.editable : ""].join(" ")}>
+      <div ref={flowRef} style={PAGE_VARS} className={[styles.flow, editable ? styles.editable : ""].join(" ")}>
         <Block keep className={styles.titleBlock}>
           <h1 className={styles.title}>{text("Proposal for", "Voorstel voor")} {companyName}</h1>
           <div className={styles.date}>{dateLabel}</div>
@@ -265,9 +267,9 @@ export function ProposalDocument({
           <div key={section.key} className={styles.section}>
             <Block
               keep
-              className={[styles.heading, invalidSections?.has(section.key) ? styles.invalid : ""].join(" ")}
+              className={[section.heading ? styles.heading : styles.commentAnchor, invalidSections?.has(section.key) ? styles.invalid : ""].join(" ")}
             >
-              <h2 className={styles.headingText}>{section.label}</h2>
+              {section.heading && <h2 className={styles.headingText}>{section.heading}</h2>}
               {comments && onCommentChange && (
                 <CommentBalloon
                   label={section.label}

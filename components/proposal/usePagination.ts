@@ -4,7 +4,7 @@ import { useCallback, useEffect, useLayoutEffect, useState, type RefObject } fro
 import { PAGE, PX_PER_MM } from "@/lib/proposalLayout";
 
 const PAGE_H = PAGE.heightMm * PX_PER_MM;
-const CONTENT_TOP = PAGE.marginMm * PX_PER_MM;
+const CONTENT_TOP = PAGE.topMarginMm * PX_PER_MM;
 const CONTENT_BOTTOM = (PAGE.heightMm - PAGE.marginMm) * PX_PER_MM;
 const CONTENT_H = CONTENT_BOTTOM - CONTENT_TOP;
 
@@ -71,12 +71,26 @@ function paginate(flow: HTMLElement): number {
   return page + 1;
 }
 
-export function usePagination(flowRef: RefObject<HTMLElement | null>): number {
+export function usePagination(flowRef: RefObject<HTMLElement | null>, fitToPage = false): number {
   const [pageCount, setPageCount] = useState(1);
 
   const run = useCallback(() => {
-    if (flowRef.current) setPageCount(paginate(flowRef.current));
-  }, [flowRef]);
+    const flow = flowRef.current;
+    if (!flow) return;
+    flow.style.setProperty("--fit-scale", "1");
+    if (fitToPage) {
+      let scale = 1;
+      for (let attempt = 0; attempt < 12; attempt++) {
+        const height = Array.from(flow.querySelectorAll<HTMLElement>("[data-pblock]"))
+          .reduce((sum, block) => sum + block.getBoundingClientRect().height
+            - (parseFloat(getComputedStyle(block).paddingTop) || 0), 0);
+        if (height <= CONTENT_H) break;
+        scale *= Math.min(0.95, CONTENT_H / height * 0.98);
+        flow.style.setProperty("--fit-scale", String(scale));
+      }
+    }
+    setPageCount(paginate(flow));
+  }, [flowRef, fitToPage]);
 
   // After every render: text changes alter block heights.
   useLayoutEffect(() => {

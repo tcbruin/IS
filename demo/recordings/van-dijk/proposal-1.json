@@ -1,39 +1,28 @@
 {
-  "coverIntro": "Van Dijk Techniek is a wholesaler in industrial parts with eight field sales reps, each covering their own region. This proposal focuses on one concrete problem: the weekly pipeline overview that Marloes now merges by hand every Friday, which is already out of date by Monday morning.",
-  "situation": "Every rep keeps his own pipeline in a small Excel sheet: open quotes, expected value, expected closing date. Every Friday afternoon Marloes sends a reminder, then manually copies all eight sheets into one overarching Excel file. That takes her about four hours every week. By Monday it is already stale, because nothing is updated over the weekend and new conversations have happened by Monday morning. The result: in the Monday 9:00 management meeting she cannot answer 'where are we against target' with current figures. There is also no view of where deals get stuck; lost deals are only visible if a rep remembers to mark them, so the real win rate is not reliable. Exact Online is used only for invoicing and accounting, with no CRM functionality in use, and some reps note things down in email or on paper. The sheets live in a shared SharePoint folder. Reps vary in how disciplined they are about keeping their sheet up to date, so data quality will not be perfect at the start.",
+  "coverIntro": "Van Dijk Techniek's eight sales representatives maintain separate pipeline sheets. Marloes spends four hours merging them, yet Monday's overview is already outdated. How can management start the week with a current pipeline? Datavance connects the existing SharePoint sheets to one automatically refreshed Power BI dashboard. The dashboard keeps the representatives' working method intact while bringing stages, expected revenue and progress against target together. Management can compare regions and representatives, see missing information and use one consistent overview in the Monday 9:00 meeting.",
+  "situation": "Separate Excel sheets make pipeline status, stalled deals and progress against target unreliable. The sheets live in SharePoint and vary in structure and completeness. Exact Online handles accounting; there is no CRM functionality in use.",
   "goals": [
-    "Have an up-to-date pipeline overview ready every Monday morning without Marloes spending four hours merging sheets",
-    "See how much is open per stage, the expected revenue, and progress against target",
-    "Break the overview down per rep and per region, so it is visible who might need a push",
-    "Walk into the Monday 9:00 management meeting with current figures instead of 'let me check'",
-    "Keep the reps working in their own Excel sheets, without a CRM project"
+    "Start Monday with a current pipeline",
+    "Compare stages, representatives and regions"
   ],
-  "approach": "We connect the eight reps' Excel sheets in the shared SharePoint folder to a Power BI dashboard that automatically brings the pipeline together. The reps keep filling in their own sheet exactly as they do now; nothing changes in their way of working. The sheets are read automatically from SharePoint every week, with a normalisation step so that differences in column structure and naming between reps do not cause problems. The dashboard shows open value per stage, expected revenue, progress against the 4.8 million target, and a breakdown per rep and per region. Where a sheet is incomplete or a deal has no expected closing date, the overview flags it as an open item instead of silently dropping it. The refresh runs automatically, so the overview is ready before the Monday 9:00 meeting without Marloes touching it.",
+  "approach": "We read and standardise the existing SharePoint sheets automatically, then show pipeline stages, expected revenue and progress against target in Power BI. Representatives keep their existing Excel workflow. We normalise column names and stage definitions, flag incomplete sheets and missing closing dates, and retain those deals as open items. The overview breaks results down by representative and region and refreshes before the Monday 9:00 management meeting.",
   "scopeDeliverables": [
-    "Connection to the reps' Excel sheets in the shared SharePoint folder, with automatic weekly reading",
-    "Normalisation step so that differences in column structure and naming between the eight reps' sheets are handled consistently",
-    "Power BI dashboard with open value per stage, expected revenue, and progress against the 4.8 million target",
-    "Breakdown per rep and per region",
-    "Flagging of incomplete sheets or deals without an expected closing date as open items, instead of silent omission",
-    "Automatic weekly refresh, ready before the Monday 9:00 management meeting",
-    "Short guide for Marloes on the weekly cycle so the automatic processing keeps working"
+    "SharePoint and Excel connection. Reads the eight representatives' existing files automatically from their shared folder.",
+    "Consistent pipeline data model. Aligns columns, stage definitions and expected closing dates without silently dropping incomplete deals.",
+    "Dashboard with weekly refresh and data flags. Shows expected revenue and progress against the 4.8 million target, by representative and region."
   ],
   "timeline": {
     "phases": [
       {
-        "name": "Week 1: scoping and data connection",
-        "description": "Set up the connection to the SharePoint folder, inventory the column structure of the eight sheets, and define the normalisation rules and the fixed format."
+        "name": "Week 1",
+        "description": "Connect sheets and align pipeline stages. Agree the column structure, normalisation rules and definitions used by the representatives."
       },
       {
-        "name": "Week 2-3: build dashboard",
-        "description": "Build the Power BI dashboard with open value per stage, expected revenue, progress against target, and the breakdown per rep and per region, including the open-item flags."
-      },
-      {
-        "name": "Week 4: test and deliver",
-        "description": "Run one full weekly cycle with the real sheets, adjust based on feedback from Marloes, and deliver before the next Monday 9:00 management meeting."
+        "name": "Weeks 2–4",
+        "description": "Build, test and deliver the dashboard. Run a full weekly cycle with real sheets and adjust the dashboard with Marloes before handover."
       }
     ]
   },
-  "investment": "This project is scoped as one clearly defined problem - the up-to-date pipeline overview that is now merged by hand every week - at a fixed price. We will confirm the exact investment after a short scoping call in which we go through the SharePoint folder, the sheet structure and the desired breakdown together.",
-  "nextSteps": "Approval of this proposal, followed by a short scoping call (about 30 minutes) with Marloes to go through the SharePoint folder, the sheet structure and the desired breakdown per rep and region. After that we start straight away in week 1."
+  "investment": "One fixed price for this scoped problem, confirmed after the scoping call. The call confirms sheet structure, source access and the desired breakdown before work starts.",
+  "nextSteps": "Approve the proposal, then schedule a 30-minute scoping call with Marloes. Review source access and definitions together so the weekly overview uses one consistent set of stages before the first weekly refresh runs."
 }

@@ -5,20 +5,22 @@
 export const PAGE = {
   widthMm: 210,
   heightMm: 297,
-  marginMm: 25,
+  marginMm: 18,
+  /** Extra clearance beneath the running header and its divider. */
+  topMarginMm: 27,
   /** Distance of the running header/footer from the page edge. */
   headerMm: 12.5,
   footerMm: 12.5,
 } as const;
 
 export const TYPE = {
-  bodyPt: 11,
-  lineHeight: 1.45,
-  introPt: 12.5,
-  titlePt: 24,
+  bodyPt: 10.5,
+  lineHeight: 1.2,
+  introPt: 10.5,
+  titlePt: 20,
   datePt: 10,
-  headingPt: 15,
-  phasePt: 11.5,
+  headingPt: 12,
+  phasePt: 10.5,
   runningPt: 8.5,
 } as const;
 

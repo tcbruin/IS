@@ -1,13 +1,13 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { loadEvaluation } from "@/lib/evaluationData";
-import { PRICING_VERIFIED_ON } from "@/lib/llmPricing";
+import { PRICING_SOURCE_URL, PRICING_VERIFIED_ON } from "@/lib/llmPricing";
 import { Card } from "@/components/ui/Card";
 import { StatusBlock } from "@/components/ui/StatusBlock";
 import { SettingsForm } from "@/components/evaluation/SettingsForm";
 import styles from "./page.module.css";
 import { getLocale } from "@/lib/i18n-server";
-import { pick } from "@/lib/i18n";
+import { pick, localeTag } from "@/lib/i18n";
 
 export const dynamic = "force-dynamic";
 
@@ -20,13 +20,6 @@ const STEP_NAMES: Record<string, string> = {
   ping: "Connection test",
 };
 
-function num(v: number | null | undefined, decimals = 0): string {
-  if (v === null || v === undefined || !Number.isFinite(v)) return "–";
-  return v.toLocaleString("en-GB", { minimumFractionDigits: decimals, maximumFractionDigits: decimals });
-}
-const eur = (v: number | null | undefined, decimals = 2) => (v === null || v === undefined ? "–" : `€ ${num(v, decimals)}`);
-const pct = (v: number | null | undefined) => (v === null || v === undefined ? "–" : `${num(v, 0)}%`);
-
 function Stat({ label, value, sub }: { label: string; value: string; sub?: ReactNode }) {
   return (
     <div className={styles.stat}>
@@ -37,9 +30,19 @@ function Stat({ label, value, sub }: { label: string; value: string; sub?: React
   );
 }
 
-export default async function EvaluationPage({ searchParams }: { searchParams: Promise<{ demo?: string }> }) {
+export default async function EvaluationPage({ searchParams }: { searchParams: Promise<{ demo?: string; mode?: string }> }) {
   const locale = await getLocale();
   const t = <T,>(english: T, dutch: T) => pick(locale, english, dutch);
+  const num = (v: number | null | undefined, decimals = 0) => v == null || !Number.isFinite(v) ? "–" : v.toLocaleString(localeTag(locale), { minimumFractionDigits: decimals, maximumFractionDigits: decimals });
+  const eur = (v: number | null | undefined, decimals = 2) => v == null ? "–" : `€ ${num(v, decimals)}`;
+  const pct = (v: number | null | undefined) => v == null ? "–" : `${num(v)}%`;
+  const failureCategory = (value: string) => locale === "nl" ? ({
+    "AI call failed": "AI-aanroep mislukt", "Invalid AI response, retried": "Ongeldig AI-antwoord, opnieuw geprobeerd",
+    "Proposal length/readability": "Lengte/leesbaarheid voorstel", "Proposal warning": "Waarschuwing voorstel",
+    "Guardrail: amount in investment": "Controle: bedrag in investering", "Guardrail: figure from the call not used": "Controle: cijfer uit gesprek niet gebruikt",
+    "Invented fact": "Verzonnen feit", "Wrong scope": "Verkeerde scope", "Incorrect estimate": "Onjuiste schatting",
+    "Tone/style": "Toon/stijl", "Incomplete": "Onvolledig", "Technical": "Technisch", "Other": "Overig",
+  } as Record<string, string>)[value] ?? value : value;
   const stepNames: Record<string, string> = locale === "nl" ? {
     questions1: "Verduidelijkende vragen",
     proposal: "Voorstel",
@@ -48,9 +51,12 @@ export default async function EvaluationPage({ searchParams }: { searchParams: P
     coverEmail: "Begeleidende e-mail",
     ping: "Verbindingstest",
   } : STEP_NAMES;
-  const includeDemo = (await searchParams).demo === "1";
-  const { metrics, summary: s, steps, settings } = await loadEvaluation({ includeDemo });
-  const demoQuery = includeDemo ? "&demo=1" : "";
+  const params = await searchParams;
+  const includeDemo = params.demo === "1";
+  const requestedMode = params.mode === "demo" || params.mode === "actual" ? params.mode : undefined;
+  const { mode, metrics, summary: s, steps, settings } = await loadEvaluation({ includeDemo, mode: requestedMode });
+  const isDemo = mode === "demo";
+  const demoQuery = `&mode=${mode}${!isDemo && includeDemo ? "&demo=1" : ""}`;
   const maxMinutes = Math.max(settings.baselineMinutesPerLead, ...metrics.map((m) => m.activeMinutes), 1);
   const maxFailures = Math.max(1, ...s.failuresByCategory.map(([, n]) => n));
 
@@ -63,13 +69,15 @@ export default async function EvaluationPage({ searchParams }: { searchParams: P
         <div>
           <h1 className={styles.title}>{t("Evaluation", "Evaluatie")}</h1>
           <p className={styles.subtitle}>
-            {t("Time, cost, quality and failures of the app, compared with the manual process. Everything is measured automatically during use.", "Tijd, kosten, kwaliteit en fouten van de app, vergeleken met het handmatige proces. Alles wordt tijdens het gebruik automatisch gemeten.")}
+            {t("Time, cost, quality and failures compared with the manual process. Choose illustrative demo results or actual measurements.", "Tijd, kosten, kwaliteit en fouten vergeleken met het handmatige proces. Kies illustratieve demoresultaten of echte metingen.")}
           </p>
         </div>
         <div className={styles.headerActions}>
-          <Link href={includeDemo ? "/evaluation" : "/evaluation?demo=1"} className={styles.toggle}>
+          <Link href="/evaluation?mode=demo" className={styles.toggle} aria-current={isDemo ? "page" : undefined}>{t("Demo", "Demo")}</Link>
+          <Link href={`/evaluation?mode=actual${includeDemo ? "&demo=1" : ""}`} className={styles.toggle} aria-current={!isDemo ? "page" : undefined}>{t("Actual results", "Echte resultaten")}</Link>
+          {!isDemo && <Link href={includeDemo ? "/evaluation?mode=actual" : "/evaluation?mode=actual&demo=1"} className={styles.toggle}>
             {includeDemo ? t("✓ Live demos included", "✓ Live-demo's inbegrepen") : t("Include live demos", "Live-demo's meenemen")}
-          </Link>
+          </Link>}
           <a href={`/api/evaluation/export?type=leads${demoQuery}`} className={styles.csv}>
             {t("CSV per lead", "CSV per lead")}
           </a>
@@ -79,12 +87,14 @@ export default async function EvaluationPage({ searchParams }: { searchParams: P
         </div>
       </header>
 
-      {!PRICING_VERIFIED_ON && (
-        <StatusBlock tone="attention">
-          {t("AI costs are calculated with prices that have not been verified yet. Check the DeepSeek prices and set", "AI-kosten zijn berekend met prijzen die nog niet zijn gecontroleerd. Controleer de DeepSeek-prijzen en stel")} {" "}
-          <code>PRICING_VERIFIED_ON</code> {t("in", "in")} <code>lib/llmPricing.ts</code> {t("before using these figures in the report.", "in voordat je deze cijfers in het rapport gebruikt.")}
-        </StatusBlock>
-      )}
+      {isDemo && <StatusBlock tone="neutral">{t("Illustrative demo data—not measured results. These six sample leads make no API calls and do not change your actual leads or settings.", "Illustratieve demodata—geen gemeten resultaten. Deze zes voorbeeldleads doen geen API-aanroepen en wijzigen je echte leads of instellingen niet.")}</StatusBlock>}
+      <p className={styles.note}>
+        {PRICING_VERIFIED_ON
+          ? t(`AI price table verified on ${PRICING_VERIFIED_ON}.`, `AI-prijstabel gecontroleerd op ${PRICING_VERIFIED_ON}.`)
+          : t("AI costs are estimates using an unverified price table, not invoiced charges.", "AI-kosten zijn schattingen met een ongecontroleerde prijstabel, geen gefactureerde bedragen.")}
+        {" "}<a href={PRICING_SOURCE_URL} target="_blank" rel="noreferrer">{t("Official pricing source", "Officiële prijsbron")}</a>
+      </p>
+      {!s.pricingComplete && <StatusBlock tone="attention">{t("Some model prices are unavailable. Known AI spend is shown as a subtotal; totals and savings requiring missing prices are unavailable.", "Sommige modelprijzen zijn onbekend. Bekende AI-kosten staan als subtotaal; totalen en besparingen waarvoor prijzen ontbreken zijn niet beschikbaar.")}</StatusBlock>}
 
       {metrics.length === 0 ? (
         <Card>
@@ -97,7 +107,7 @@ export default async function EvaluationPage({ searchParams }: { searchParams: P
           <section className={styles.section}>
             <h2 className={styles.h2}>{t("Time and cost", "Tijd en kosten")}</h2>
             <p className={styles.note}>
-              {t("Basis", "Basis")}: {s.leadCount} {s.leadCount === 1 ? "lead" : "leads"}, {t("of which", "waarvan")} {s.completedCount} {t("sent. Times are medians over", "verzonden. Tijden zijn medianen over")} {s.timeBasis}.
+              {t("Basis", "Basis")}: {s.leadCount} {s.leadCount === 1 ? "lead" : "leads"}, {t("of which", "waarvan")} {s.completedCount} {t("sent. Time and cost medians use", "verzonden. Tijd- en kostenmedianen gebruiken")} {s.provisional ? t("all leads (provisional; none completed yet)", "alle leads (voorlopig; nog geen afgeronde leads)") : t("completed leads", "afgeronde leads")}.
             </p>
             <div className={styles.stats}>
               <Stat
@@ -114,12 +124,16 @@ export default async function EvaluationPage({ searchParams }: { searchParams: P
               />
               <Stat label={t("Throughput time per lead", "Doorlooptijd per lead")} value={`${num(s.medianThroughputMinutes)} min`} sub={t("calendar time, incl. breaks", "kalendertijd, incl. onderbrekingen")} />
               <Stat label={t("AI wait time per lead", "AI-wachttijd per lead")} value={`${num(s.medianAiWaitMinutes, 1)} min`} sub={t("sum of all AI calls", "som van alle AI-aanroepen")} />
-              <Stat label={t("AI cost per lead", "AI-kosten per lead")} value={eur(s.aiCostPerLead, 3)} sub={`${t("total", "totaal")} ${eur(s.aiCostTotal, 2)}`} />
+              <Stat label={t("AI usage per lead", "AI-gebruik per lead")} value={eur(s.aiCostPerLead, 3)} sub={t("token-based estimate", "schatting op basis van tokens")} />
+              <Stat label={t("All-lead AI spend", "AI-kosten alle leads")} value={eur(s.pricingComplete ? s.aiCostTotal : s.knownAiCostTotal, 3)} sub={s.pricingComplete ? t("includes failed calls and shortening calls", "inclusief mislukte en inkortingsaanroepen") : t("known subtotal; incomplete pricing", "bekend subtotaal; prijzen ontbreken")} />
+              <Stat label={t("Manual baseline cost", "Handmatige referentiekosten")} value={eur(s.baselineCostPerLead)} sub={`${num(settings.baselineMinutesPerLead)} min × € ${num(settings.hourlyRateEur)}/${t("hour", "uur")}`} />
+              <Stat label={t("Consultant time per lead", "Consultanttijd per lead")} value={eur(s.humanCostPerLead)} sub={t("active time × hourly rate", "actieve tijd × uurtarief")} />
               <Stat
-                label={t("Cost per lead", "Kosten per lead")}
-                value={eur(s.costPerLeadWithApp, 0)}
-                sub={`${t("manual", "handmatig")} ${eur(s.baselineCostPerLead, 0)} · ${t("hourly rate", "uurtarief")} € ${num(settings.hourlyRateEur)}`}
+                label={t("Total app cost per lead", "Totale appkosten per lead")}
+                value={eur(s.costPerLeadWithApp)}
+                sub={t("median of time + AI cost per lead", "mediaan van tijd + AI-kosten per lead")}
               />
+              <Stat label={t("Savings per lead", "Besparing per lead")} value={eur(s.savingsEur)} sub={`${pct(s.savingsPct)} ${t("compared with manual baseline", "ten opzichte van handmatig")}`} />
               {s.medianOwnEstimate !== null && (
                 <Stat label={t("Own estimate, manual", "Eigen inschatting, handmatig")} value={`${num(s.medianOwnEstimate)} min`} sub={t("median from the Retrospective", "mediaan uit de terugblik")} />
               )}
@@ -222,7 +236,7 @@ export default async function EvaluationPage({ searchParams }: { searchParams: P
                     <td className={styles.num}>
                       {num(st.avgPromptTokens)} / {num(st.avgCompletionTokens)}
                     </td>
-                    <td className={styles.num}>{eur(st.costEur, 3)}</td>
+                    <td className={styles.num}>{eur(st.pricingComplete ? st.costEur : st.knownCostEur, 3)}{!st.pricingComplete && ` (${t("subtotal", "subtotaal")})`}</td>
                     <td className={styles.num}>{st.retries}</td>
                     <td className={styles.num}>{st.failures}</td>
                   </tr>
@@ -240,6 +254,9 @@ export default async function EvaluationPage({ searchParams }: { searchParams: P
                   <th className={styles.num}>{t("Active", "Actief")}</th>
                   <th className={styles.num}>{t("Throughput", "Doorlooptijd")}</th>
                   <th className={styles.num}>{t("AI cost", "AI-kosten")}</th>
+                  <th className={styles.num}>{t("Time cost", "Tijdkosten")}</th>
+                  <th className={styles.num}>{t("Total cost", "Totale kosten")}</th>
+                  <th className={styles.num}>{t("Savings", "Besparing")}</th>
                   <th className={styles.num}>Feedback</th>
                   <th className={styles.num}>{t("Manual", "Handmatig")}</th>
                   <th className={styles.num}>Scores</th>
@@ -252,13 +269,16 @@ export default async function EvaluationPage({ searchParams }: { searchParams: P
                   return (
                     <tr key={m.leadId}>
                       <td>
-                        <Link href={`/leads/${m.leadId}`}>{m.company}</Link>
+                        {isDemo ? m.company : <Link href={`/leads/${m.leadId}`}>{m.company}</Link>}
                         {m.demo && <span className={styles.tag}>demo</span>}
                         {m.sent && <span className={styles.tagDone}>{t("sent", "verzonden")}</span>}
                       </td>
                       <td className={styles.num}>{num(m.activeMinutes)} min</td>
                       <td className={styles.num}>{num(m.throughputMinutes)} min</td>
                       <td className={styles.num}>{eur(m.aiCostEur, 3)}</td>
+                      <td className={styles.num}>{eur(m.consultantCostEur)}</td>
+                      <td className={styles.num}>{eur(m.totalCostEur)}</td>
+                      <td className={styles.num}>{m.sent ? eur(m.savingsEur) : t("In progress", "In uitvoering")}</td>
                       <td className={styles.num}>{m.feedbackRounds}</td>
                       <td className={styles.num}>{m.manualEditPct === null ? "–" : pct(m.manualEditPct)}</td>
                       <td className={styles.num}>
@@ -281,7 +301,7 @@ export default async function EvaluationPage({ searchParams }: { searchParams: P
                 <div className={styles.chart}>
                   {s.failuresByCategory.map(([category, n]) => (
                     <div key={category} className={styles.barRow}>
-                      <span className={styles.barLabel}>{category}</span>
+                      <span className={styles.barLabel}>{failureCategory(category)}</span>
                       <span className={styles.barTrack}>
                         <span className={styles.barRed} style={{ width: `${(100 * n) / maxFailures}%` }} />
                       </span>
@@ -304,12 +324,12 @@ export default async function EvaluationPage({ searchParams }: { searchParams: P
                   <tbody>
                     {s.failures.slice(0, 50).map((f, i) => (
                       <tr key={i}>
-                        <td>{new Date(f.at).toLocaleString("en-GB", { dateStyle: "short", timeStyle: "short" })}</td>
+                        <td>{new Date(f.at).toLocaleString(localeTag(locale), { dateStyle: "short", timeStyle: "short", timeZone: "Europe/Amsterdam" })}</td>
                         <td>{f.company}</td>
-                        <td>{f.source}</td>
+                        <td>{f.source === "manual" ? t("manual", "handmatig") : t("automatic", "automatisch")}</td>
                         <td>{stepNames[f.step] ?? f.step}</td>
-                        <td>{f.category}</td>
-                        <td>{f.severity}</td>
+                        <td>{failureCategory(f.category)}</td>
+                        <td>{f.severity === "major" ? t("major", "ernstig") : t("minor", "klein")}</td>
                         <td className={styles.noteCell}>{f.note}</td>
                       </tr>
                     ))}
@@ -327,7 +347,11 @@ export default async function EvaluationPage({ searchParams }: { searchParams: P
           {t("These assumptions drive the comparison; state them in the report. Current baseline:", "Deze aannames sturen de vergelijking; neem ze op in het rapport. Huidige nulmeting:")} {settings.baselineSource}.
         </p>
         <Card>
-          <SettingsForm settings={settings} />
+          {isDemo ? <div className={styles.stats}>
+            <Stat label={t("Manual baseline", "Handmatige nulmeting")} value={`${num(settings.baselineMinutesPerLead)} min`} />
+            <Stat label={t("Hourly rate", "Uurtarief")} value={eur(settings.hourlyRateEur)} />
+            <Stat label={t("USD → EUR assumption", "Aanname USD → EUR")} value={num(settings.usdToEur, 2)} />
+          </div> : <SettingsForm settings={settings} />}
         </Card>
       </section>
     </div>

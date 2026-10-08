@@ -299,6 +299,14 @@ export function ProposalWorkspace({
       )}
       {mode === "final" && <StatusBlock tone="done">{text(`This proposal is final (v${version.version}).`, `Dit voorstel is definitief (v${version.version}).`)}</StatusBlock>}
       {version.warnings.length > 0 && <StatusBlock tone="attention">{version.warnings.join(" ")}</StatusBlock>}
+      {pageCount > 1 && (
+        <StatusBlock tone="attention">
+          {text(
+            `This proposal is ${pageCount} pages. Datavance proposals should fit on one A4 page; shorten the text before sharing it. You can still save, finalize, and export your changes.`,
+            `Dit voorstel is ${pageCount} pagina's. Datavance-voorstellen horen op één A4-pagina te passen; kort de tekst in voordat je het deelt. Je kunt je wijzigingen wel opslaan, definitief maken en exporteren.`,
+          )}
+        </StatusBlock>
+      )}
       {conflict !== null && (
         <StatusBlock tone="attention">
           {text(`A newer version exists (v${conflict}).`, `Er bestaat een nieuwere versie (v${conflict}).`)}{" "}
@@ -421,6 +429,7 @@ export function ProposalWorkspace({
           onCommentChange={(key, value) => setComments((c) => ({ ...c, [key]: value }))}
           invalidSections={issues?.sections}
           onStats={onStats}
+          fitToPage
         />
       </div>
 

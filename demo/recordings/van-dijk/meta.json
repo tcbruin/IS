@@ -4,7 +4,7 @@
   "model": "deepseek-chat",
   "promptVersions": {
     "questions1": "q1-v3-en",
-    "proposal": "proposal-v3-en",
+    "proposal": "proposal-v5-four-blocks",
     "questions2": "q2-v3-en",
     "dashboard": "dashboard-v3-en",
     "coverEmail": "email-v3-en"

@@ -55,6 +55,22 @@
   background: var(--color-creme);
 }
 
+.toggle[aria-current="page"] {
+  background: var(--color-petrol);
+  color: var(--color-wit);
+}
+
+.section {
+  overflow-x: auto;
+}
+
+@media (max-width: 640px) {
+  .barRow {
+    grid-template-columns: 120px 1fr 65px;
+    gap: 6px;
+  }
+}
+
 .empty {
   margin: 0;
   opacity: 0.8;

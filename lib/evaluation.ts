@@ -57,8 +57,14 @@ export type LeadMetrics = {
   throughputMinutes: number;
   aiWaitMinutes: number;
   aiCalls: number;
-  aiCostEur: number;
+  aiCostEur: number | null;
+  knownAiCostEur: number;
   aiCostKnown: boolean;
+  consultantCostEur: number;
+  baselineCostEur: number;
+  totalCostEur: number | null;
+  savingsEur: number | null;
+  savingsPct: number | null;
   feedbackRounds: number;
   manualVersions: number;
   manualEditPct: number | null;
@@ -98,12 +104,24 @@ export function leadMetrics(lead: Lead, events: TelemetryEvent[], settings: Sett
     else if (c.attempts > 1) failures.push({ ...base, at: c.at, source: "automatic", step: c.step, category: "Invalid AI response, retried", severity: "minor", note: `${c.attempts} attempts` });
   }
   for (const v of versions) {
-    if (v.source === "ai" && v.warnings > 0) failures.push({ ...base, at: v.at, source: "automatic", step: "proposal", category: "Guardrail: amount in investment", severity: "minor", note: `v${v.version}` });
+    if (v.source === "ai" && v.warnings > 0) {
+      const categories = v.warningCategories?.length ? [...new Set(v.warningCategories)] : ["general"];
+      for (const category of categories) failures.push({ ...base, at: v.at, source: "automatic", step: "proposal",
+        category: category === "pricing" ? "Guardrail: amount in investment" : category === "length" ? "Proposal length/readability" : "Proposal warning",
+        severity: "minor", note: `v${v.version}` });
+    }
   }
   for (const d of ofType(events, "dashboard_generated")) {
     if (d.warnings > 0) failures.push({ ...base, at: d.at, source: "automatic", step: "dashboard", category: "Guardrail: figure from the call not used", severity: "minor", note: `${d.warnings} note(s)` });
   }
 
+  const aiCostKnown = costs.every((c) => c !== null);
+  const knownAiCostEur = costs.reduce<number>((a, c) => a + (c ?? 0), 0) * settings.usdToEur;
+  const aiCostEur = aiCostKnown ? knownAiCostEur : null;
+  const consultantCostEur = (active + intake) / 3600 * settings.hourlyRateEur;
+  const baselineCostEur = settings.baselineMinutesPerLead / 60 * settings.hourlyRateEur;
+  const totalCostEur = aiCostEur === null ? null : consultantCostEur + aiCostEur;
+  const savingsEur = totalCostEur === null ? null : baselineCostEur - totalCostEur;
   return {
     leadId: lead.id,
     company: lead.companyName,
@@ -114,8 +132,8 @@ export function leadMetrics(lead: Lead, events: TelemetryEvent[], settings: Sett
     throughputMinutes: (new Date(endAt).getTime() - new Date(firstAt).getTime()) / 60000,
     aiWaitMinutes: llm.reduce((a, c) => a + c.durationMs, 0) / 60000,
     aiCalls: llm.length,
-    aiCostEur: costs.reduce<number>((a, c) => a + (c ?? 0), 0) * settings.usdToEur,
-    aiCostKnown: costs.every((c) => c !== null),
+    aiCostEur, knownAiCostEur, aiCostKnown, consultantCostEur, baselineCostEur, totalCostEur, savingsEur,
+    savingsPct: savingsEur === null ? null : 100 * savingsEur / baselineCostEur,
     feedbackRounds: versions.filter((v) => v.source === "ai" && v.withFeedback).length,
     manualVersions: manual.length,
     manualEditPct: last(manual.filter((m) => m.changedPctVsAi != null))?.changedPctVsAi ?? null,
@@ -137,7 +155,9 @@ export type StepMetrics = {
   p90Seconds: number | null;
   avgPromptTokens: number | null;
   avgCompletionTokens: number | null;
-  costEur: number;
+  costEur: number | null;
+  knownCostEur: number;
+  pricingComplete: boolean;
   retries: number;
   failures: number;
 };
@@ -148,6 +168,8 @@ export function stepMetrics(allEvents: TelemetryEvent[], settings: Settings): St
   return steps.map((step) => {
     const list = calls.filter((c) => c.step === step);
     const durations = list.map((c) => c.durationMs / 1000);
+    const costs = list.map(llmCostUsd);
+    const knownCostEur = costs.reduce<number>((a, c) => a + (c ?? 0), 0) * settings.usdToEur;
     return {
       step,
       calls: list.length,
@@ -155,7 +177,9 @@ export function stepMetrics(allEvents: TelemetryEvent[], settings: Settings): St
       p90Seconds: percentile(durations, 90),
       avgPromptTokens: mean(list.map((c) => c.promptTokens)),
       avgCompletionTokens: mean(list.map((c) => c.completionTokens)),
-      costEur: list.reduce((a, c) => a + (llmCostUsd(c) ?? 0), 0) * settings.usdToEur,
+      costEur: costs.every((c) => c !== null) ? knownCostEur : null,
+      knownCostEur,
+      pricingComplete: costs.every((c) => c !== null),
       retries: list.filter((c) => c.attempts > 1).length,
       failures: list.filter((c) => !c.ok).length,
     };
@@ -194,13 +218,20 @@ export function summarize(leads: LeadMetrics[], allEvents: TelemetryEvent[], set
   const failuresByCategory = new Map<string, number>();
   for (const f of failures) failuresByCategory.set(f.category, (failuresByCategory.get(f.category) ?? 0) + 1);
 
-  const aiCostPerLead = median(leads.map((l) => l.aiCostEur));
+  const pricingComplete = leads.every((l) => l.aiCostKnown);
+  const cohortPricingComplete = timeBase.every((l) => l.aiCostKnown);
+  const aiCostPerLead = cohortPricingComplete ? median(timeBase.map((l) => l.aiCostEur!)) : null;
   const baselineCost = (settings.baselineMinutesPerLead / 60) * settings.hourlyRateEur;
   const humanCost = medianActive !== null ? (medianActive / 60) * settings.hourlyRateEur : null;
+  const costPerLeadWithApp = cohortPricingComplete ? median(timeBase.map((l) => l.totalCostEur!)) : null;
+  const savingsEur = costPerLeadWithApp === null ? null : baselineCost - costPerLeadWithApp;
 
   return {
     leadCount: leads.length,
     completedCount: completed.length,
+    provisional: completed.length === 0,
+    pricingComplete,
+    cohortPricingComplete,
     timeBasis: completed.length ? "completed leads" : "all leads (none completed yet)",
     medianActiveMinutes: medianActive,
     medianThroughputMinutes: median(timeBase.map((l) => l.throughputMinutes)),
@@ -209,10 +240,13 @@ export function summarize(leads: LeadMetrics[], allEvents: TelemetryEvent[], set
     timeSavedPct: medianActive !== null ? 100 * (1 - medianActive / settings.baselineMinutesPerLead) : null,
     medianOwnEstimate: median(leads.map((l) => l.baselineEstimate).filter((m): m is number => m !== null)),
     aiCostPerLead,
-    aiCostTotal: leads.reduce((a, l) => a + l.aiCostEur, 0),
+    aiCostTotal: pricingComplete ? leads.reduce((a, l) => a + l.knownAiCostEur, 0) : null,
+    knownAiCostTotal: leads.reduce((a, l) => a + l.knownAiCostEur, 0),
     humanCostPerLead: humanCost,
     baselineCostPerLead: baselineCost,
-    costPerLeadWithApp: humanCost !== null ? humanCost + (aiCostPerLead ?? 0) : null,
+    costPerLeadWithApp,
+    savingsEur,
+    savingsPct: savingsEur === null ? null : 100 * savingsEur / baselineCost,
     ratings,
     answeredPct: answeredTotal ? (100 * leads.reduce((a, l) => a + l.answered, 0)) / answeredTotal : null,
     estimatedPct: answeredTotal ? (100 * leads.reduce((a, l) => a + l.estimated, 0)) / answeredTotal : null,

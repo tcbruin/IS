@@ -7,6 +7,8 @@ const DUTCH_PRINCIPLES: Record<string, string> = {
   "Doesn't ask questions the transcript, notes, or source system already answer.": "Stelt geen vragen die het transcript, de notities of het bronsysteem al beantwoorden.",
   "Focuses on the gaps that improve the proposal most: how it works today, how much time it takes, which systems are involved.": "Richt zich op de hiaten die het voorstel het meest verbeteren: hoe het nu werkt, hoeveel tijd het kost en welke systemen betrokken zijn.",
   "Scopes the proposal to that one problem — no broad approach.": "Beperkt het voorstel tot dat ene probleem — geen brede aanpak.",
+  "Opens with Situation, Complication, one Question and Datavance's Answer — as a natural story, without framework labels.": "Opent met Situatie, Complicatie, één Vraag en het Antwoord van Datavance — als natuurlijk verhaal, zonder methodieklabels.",
+  "Targets 350–400 words in four compact blocks on one A4 page.": "Streeft naar 350–400 woorden in vier compacte blokken op één A4-pagina.",
   "Never makes up a specific amount — the investment stays a placeholder until a scoping call.": "Verzint nooit een concreet bedrag — de investering blijft een tijdelijke tekst tot het scopegesprek.",
   "Writes short and concrete, without vague buzzwords.": "Schrijft kort en concreet, zonder vage modewoorden.",
   "Uses previously approved proposals for tone and structure only — client details from them are never copied.": "Gebruikt eerder goedgekeurde voorstellen alleen voor toon en structuur — klantdetails worden nooit overgenomen.",

@@ -1,37 +1,28 @@
 {
-  "coverIntro": "Kramer Bouwservice B.V. runs six to seven renovation and small-scale new-build projects at the same time, spread across Noord-Brabant and a bit of Zeeland. This proposal focuses on one concrete problem: during a running project Lisa has no up-to-date margin per project, so course-correcting only happens after the project is already finished.",
-  "situation": "Every site foreman keeps his own timesheet in a small Excel file and emails it to Lisa every week. Lisa pastes those sheets into a per-project overview by hand and links the purchase invoices - timber, concrete, installation materials - that come in through the accounts by hand as well. That costs her three to four hours every Monday. The result lags by definition: on a project in Bergen op Zoom it only became clear after completion that underestimated material costs had left barely any margin. A month earlier they could still have cut back on extra hours or discussed additional work with the client. An ERP module is not an option: it requires the foremen to type their hours straight into the system, and they are up on the scaffolding, not behind a laptop. The Excel file works for them; the merging on Lisa's end is the problem.",
+  "coverIntro": "Kramer Bouwservice runs several projects simultaneously. Lisa currently sees each project's margin only after manually combining timesheets and invoices, often too late to intervene. How can Kramer steer margins while work is underway? Datavance connects the existing files and Exact Online in one current margin dashboard. The dashboard combines booked hours, revenue and purchases without asking foremen to change how they record their time. It gives Lisa and Erik a shared basis for Monday's review and flags margins below the agreed 15% threshold.",
+  "situation": "Foremen email weekly Excel timesheets; Lisa combines them with Exact Online purchases for Monday's meeting. The weekly merge costs Lisa three to four hours. An ERP timesheet module would disrupt the foremen's existing work on site.",
   "goals": [
-    "Have an up-to-date margin overview per project every Monday morning before the meeting with Erik, without manual cutting and pasting",
-    "Course-correct on margin during a running project instead of finding out afterwards that a project was not profitable",
-    "Flag projects that drop below 15% margin early",
-    "Free up the three to four hours every Monday now spent on merging for other work"
+    "See current project margins every Monday",
+    "Flag projects below 15% margin early"
   ],
-  "approach": "We connect Exact Online - which already holds the purchase invoices and the accounts - to a Power BI dashboard that automatically calculates the margin per project: revenue minus booked hours and purchases. The site foremen keep working the way they are used to; their Excel timesheets remain the source for hours on site. Each foreman emails his own sheet weekly as he does now, and those sheets are read automatically into hours per project, with a normalisation step so that small differences between foremen in columns and project codes are not a problem. Lisa no longer merges anything herself. The dashboard shows the margin per project against one fixed threshold of 15%, and flags projects that drop below it. This way Lisa sees at a glance every Monday morning which projects need attention, before the meeting with Erik starts.",
+  "approach": "We retain the foremen's Excel workflow, standardise their files automatically and combine hours with revenue and purchases from Exact Online in Power BI. The calculation uses revenue minus booked hours and purchases per project. We align project codes and normalise differences between the foremen's spreadsheets before combining the data. A weekly refresh prepares the overview before Lisa's Monday meeting with Erik, while the fixed threshold makes exceptions immediately visible.",
   "scopeDeliverables": [
-    "Connection to Exact Online for purchase invoices and accounts per project",
-    "Automatic processing of the site foremen's weekly Excel timesheets into hours per project, including a normalisation step for consistent reading",
-    "Power BI dashboard with margin per project (revenue minus booked hours and purchases), with one fixed margin threshold of 15%",
-    "Alert flag for projects that drop below the threshold",
-    "Weekly automatic refresh, ready before the Monday-morning meeting",
-    "Short guide for Lisa on submitting the timesheets weekly so the processing keeps working"
+    "Exact Online connection for project finances. Includes purchase invoices and account data matched to project codes.",
+    "Automated processing of weekly timesheets. Normalises columns and project references while retaining the emailed Excel format.",
+    "Margin dashboard with 15% alerts. Shows current margins per project, weekly refresh and exception flags for Monday's meeting."
   ],
   "timeline": {
     "phases": [
       {
-        "name": "Week 1: scoping and data connection",
-        "description": "Set up the Exact Online connection for purchases and accounts, align project and cost centre coding, and define the fixed format for the timesheets."
+        "name": "Week 1",
+        "description": "Connect sources and align project codes. Agree the timesheet format and check how purchases and hours map to projects."
       },
       {
-        "name": "Week 2-3: build dashboard",
-        "description": "Build the Power BI dashboard with margin per project, the fixed 15% threshold, and the alert flag for projects below it."
-      },
-      {
-        "name": "Week 4: test and deliver",
-        "description": "Run one cycle with real data from running projects, adjust based on feedback from Lisa, and deliver before the next Monday-morning meeting."
+        "name": "Weeks 2–4",
+        "description": "Build, test and deliver the dashboard. Run a cycle with real project data and adjust the result with Lisa before handover."
       }
     ]
   },
-  "investment": "This project is scoped as one clearly defined problem - the margin-per-project overview - at a fixed price. We will confirm the exact investment after a short scoping call in which we go through the Exact Online setup, the timesheet format and the desired threshold together.",
-  "nextSteps": "Approval of this proposal, followed by a short scoping call (about 30 minutes) with Lisa and Erik to go through the Exact Online connection, the timesheet format and the 15% threshold. After that we start straight away in week 1."
+  "investment": "One fixed price for this scoped problem, confirmed after the scoping call. The call confirms the connection setup, timesheet format and agreed threshold before work starts.",
+  "nextSteps": "Approve the proposal, then schedule a 30-minute scoping call with Lisa and Erik. Use the call to inspect source data, agree the inputs and confirm when week one can begin."
 }

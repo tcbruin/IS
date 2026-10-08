@@ -59,7 +59,7 @@ export async function buildProposalDocx(input: {
 
   const sectionChildren: (Paragraph | Table)[] = [];
   for (const section of getProposalSections(locale)) {
-    sectionChildren.push(new Paragraph({ heading: HeadingLevel.HEADING_1, children: [new TextRun(section.label)] }));
+    if (section.heading) sectionChildren.push(new Paragraph({ heading: HeadingLevel.HEADING_1, children: [new TextRun(section.heading)] }));
 
     if (section.kind === "text") {
       sectionChildren.push(...bodyParagraphs(content[section.key]));
@@ -72,7 +72,7 @@ export async function buildProposalDocx(input: {
         sectionChildren.push(
           new Paragraph({
             keepNext: true,
-            spacing: { before: i === 0 ? 0 : 200, after: 60 },
+            spacing: { before: i === 0 ? 0 : 60, after: 40 },
             border: i === 0 ? undefined : { top: { style: BorderStyle.SINGLE, size: 4, color: COLORS.rule, space: 8 } },
             children: [new TextRun({ text: phase.name, font: FONTS.heading, size: hp(TYPE.phasePt) })],
           }),
@@ -93,7 +93,7 @@ export async function buildProposalDocx(input: {
                 new TableCell({
                   width: { size: CONTENT_WIDTH_TWIP, type: WidthType.DXA },
                   shading: { fill: COLORS.callout, type: ShadingType.CLEAR, color: "auto" },
-                  margins: { top: 200, bottom: 80, left: 280, right: 280 },
+                  margins: { top: 100, bottom: 100, left: 160, right: 160 },
                   children: bodyParagraphs(content.investment),
                 }),
               ],
@@ -120,13 +120,13 @@ export async function buildProposalDocx(input: {
       default: {
         document: {
           run: { font: FONTS.body, size: hp(TYPE.bodyPt), color: COLORS.text, language: { value: locale === "nl" ? "nl-NL" : "en-GB" } },
-          paragraph: { spacing: { after: 160, line: Math.round(240 * TYPE.lineHeight) } },
+          paragraph: { spacing: { after: 80, line: Math.round(240 * TYPE.lineHeight) } },
         },
         heading1: {
           run: { font: FONTS.heading, size: hp(TYPE.headingPt), color: COLORS.text, bold: false },
           paragraph: {
             keepNext: true,
-            spacing: { before: 360, after: 160 },
+            spacing: { before: 140, after: 80 },
             border: { bottom: { style: BorderStyle.SINGLE, size: 6, color: COLORS.rule, space: 4 } },
           },
         },
@@ -157,7 +157,7 @@ export async function buildProposalDocx(input: {
           page: {
             size: { width: convertMillimetersToTwip(PAGE.widthMm), height: convertMillimetersToTwip(PAGE.heightMm) },
             margin: {
-              top: convertMillimetersToTwip(PAGE.marginMm),
+              top: convertMillimetersToTwip(PAGE.topMarginMm),
               bottom: convertMillimetersToTwip(PAGE.marginMm),
               left: convertMillimetersToTwip(PAGE.marginMm),
               right: convertMillimetersToTwip(PAGE.marginMm),
@@ -210,7 +210,7 @@ export async function buildProposalDocx(input: {
             children: [new TextRun({ text: `${locale === "nl" ? "Voorstel voor" : "Proposal for"} ${companyName}`, font: FONTS.heading, size: hp(TYPE.titlePt) })],
           }),
           new Paragraph({
-            spacing: { after: 360 },
+            spacing: { after: 160 },
             children: [new TextRun({ text: input.dateLabel, size: hp(TYPE.datePt), color: COLORS.muted })],
           }),
           ...splitParagraphs(content.coverIntro).map(

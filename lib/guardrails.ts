@@ -1,5 +1,6 @@
 import { isAiEstimateAnswer, type Answer, type ProposalContent } from "./validation";
 import type { DashboardSpec } from "./dashboardSpec";
+import type { ProposalWarningCategory } from "./telemetryEvents";
 
 const BRAND_NAME_TYPO = /\bDataVance\b/g;
 // No `g` flag here on purpose — used only with .test(), and a shared global regex keeps
@@ -34,6 +35,7 @@ export function applyProposalGuardrails(
 ): {
   content: ProposalContent;
   warnings: string[];
+  warningCategories: ProposalWarningCategory[];
 } {
   const fixed = fixBrandNameDeep(content);
   const warnings: string[] = [];
@@ -42,7 +44,7 @@ export function applyProposalGuardrails(
       "The AI seems to mention a concrete amount in the investment section — that shouldn't be there. Check this before you share the proposal.",
     );
   }
-  return { content: fixed, warnings };
+  return { content: fixed, warnings, warningCategories: warnings.length ? ["pricing"] : [] };
 }
 
 // ---- Dashboard anchors: a number may only drive the dashboard if it was really said ----

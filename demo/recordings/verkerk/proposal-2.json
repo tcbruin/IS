@@ -1,38 +1,28 @@
 {
-  "coverIntro": "Verkerk Versdistributie B.V. supplies fruit and vegetables to restaurants and smaller supermarkets, delivered in blue returnable crates that have to come back. This proposal focuses on one concrete problem: Verkerk has no reliable, current crate balance per customer, so crates that stay behind at customers are only discovered afterwards and mostly written off.",
-  "situation": "Eleven drivers deliver the crates and are supposed to get a slip signed showing how many crates they drop off and how many they take back. In practice the accuracy varies: some fill it in neatly, others scribble on a scrap of paper that gets lost during the day. Every week Nienke and Sven type those slips into an Excel file per customer, which takes about five hours a week. Even then the balances do not add up. Last quarter the Excel showed roughly 1,800 crates outstanding across 93 customers, while the biggest customer - a supermarket chain with six branches - counted only 950. With a replacement cost of eight to ten euros per crate, that single gap is 6,800 to 8,500 euros, and similar discussions run with several customers. Because Verkerk's own data is not reliable enough to back up a claim, the difference is usually written off as a loss. Crate movements are not recorded digitally anywhere: invoicing runs through AFAS, but the crates live only on the paper slips and in the Excel file.",
+  "coverIntro": "Verkerk distributes produce in returnable crates. Paper slips and manual entry leave the balance per customer unreliable, so disputed crates are often written off. How can Verkerk intervene before balances become losses? Datavance turns the unchanged driver workflow and AFAS customer data into a current crate register. The register links deliveries and returns to the right customer while retaining the drivers' familiar paper slips. Nienke and Sven can review outstanding crates after Friday's input, and Kees can bring customer exports to the quarterly balance discussions.",
+  "situation": "Nienke and Sven spend five hours weekly entering slips, while customer balances still do not reconcile. Drivers record deliveries and returns on paper. AFAS holds customer and invoicing data, while crate movements currently exist only in slips and Excel.",
   "goals": [
-    "See the current crate balance per customer per week, instead of only finding out once a quarter that it is wrong",
-    "Step in early when a customer's balance runs up, instead of having a 'yes you did, no we didn't' argument afterwards",
-    "Have reliable figures to take to the customer in the quarterly meeting",
-    "Free up the five hours a week Nienke and Sven now spend typing slips into Excel",
-    "Keep it workable for the drivers on the floor, without an extra device or app they have to learn"
+    "See a weekly crate balance per customer",
+    "Identify rising balances before quarterly reviews"
   ],
-  "approach": "We build a crate register that turns the existing paper slips into a current balance per customer. The drivers keep working with paper slips - nothing changes for them, no scanner, no app. The slips are typed in as they are today (one row per slip with customer, date, delivered and returned crates), and we connect AFAS, which already holds the customer and invoicing data, so every crate movement lands on the right customer. From that we calculate the running balance per customer per week: delivered minus returned, accumulated from the start of the season. The result is a Power BI dashboard that Nienke and Sven open every week after the Friday input, showing per customer how many crates are still outstanding, with the customers whose balance is rising fastest at the top. For Kees's quarterly meetings there is an export per customer that can be shared standalone. This replaces the quarterly reconstruction in Excel with a weekly, defensible figure, so a customer discussion starts from Verkerk's own numbers instead of from a shrug.",
+  "approach": "Drivers keep using paper. We link the current slip input with AFAS, calculate delivered minus returned crates and show the running balance in Power BI. Drivers keep their existing paper workflow. Each entered slip provides customer, date, delivered and returned quantities; we align customer codes with AFAS and accumulate the balance from the season's start. Rising customer balances stand out in the weekly overview, and Kees receives customer exports for quarterly discussions.",
   "scopeDeliverables": [
-    "Connection to AFAS for customer and invoicing data, so every crate movement is linked to the right customer",
-    "Processing of the weekly Excel with crate slips (customer, date, delivered, returned) into a running crate balance per customer",
-    "Power BI dashboard with the current crate balance per customer, refreshed weekly after the Friday input",
-    "Ranking of customers by outstanding balance and by increase, so rising balances stand out immediately",
-    "Export per customer for Kees's quarterly meetings with large accounts",
-    "Short guide for Nienke and Sven on the weekly input so the balance stays current"
+    "AFAS customer-data connection. Matches customer codes in the existing input to the invoicing records.",
+    "Running crate-balance calculation. Processes each slip's date, deliveries and returns into an accumulated balance per customer.",
+    "Weekly dashboard and customer export. Highlights rising balances after Friday's input and supplies standalone exports for quarterly customer meetings."
   ],
   "timeline": {
     "phases": [
       {
-        "name": "Week 1: scoping and data connection",
-        "description": "Set up the AFAS connection for customer and invoicing data, align customer coding with the Excel file, and fix the format of the slip input."
+        "name": "Week 1",
+        "description": "Connect AFAS and validate one week of slips. Agree the slip format and customer codes, using one week of input as a validation sample."
       },
       {
-        "name": "Week 2-3: build the crate register",
-        "description": "Build the calculation of the running crate balance per customer and the Power BI dashboard with the weekly overview and the ranking by outstanding balance."
-      },
-      {
-        "name": "Week 4: test and deliver",
-        "description": "Run one weekly cycle with real slips, compare the outcome against the last quarterly balance, adjust with Nienke and Sven, and deliver the dashboard plus the per-customer export."
+        "name": "Weeks 2–4",
+        "description": "Build, test and deliver the register. Compare a weekly run with the last quarterly balance and adjust the result with Nienke and Sven."
       }
     ]
   },
-  "investment": "This project is scoped as one clearly defined problem - the current crate balance per customer - at a fixed price. We will confirm the exact investment after a short scoping call in which we go through the AFAS setup, the slip format and the weekly rhythm together.",
-  "nextSteps": "Approval of this proposal, followed by a short scoping call (about 30 minutes) with Nienke and Sven to go through the AFAS connection and the slip input. As a concrete first step, we will go through one week of slips together to map the input and validate the balance calculation. After that we start straight away in week 1, and we build a sample dashboard alongside it so you can see immediately what the crate overview would look like for Verkerk."
+  "investment": "One fixed price for this scoped problem, confirmed after the scoping call. The call confirms the AFAS setup, slip format and weekly rhythm before work starts.",
+  "nextSteps": "Approve the proposal, then validate one week of slips with Nienke and Sven. Check the opening balances and source format together, then confirm when week one can begin."
 }

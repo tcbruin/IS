@@ -33,6 +33,7 @@ export default async function ProposalPrintPage({
         dateLabel={formatDocumentDate(finalVersion.createdAt, locale)}
         doc={toEditorDoc(finalVersion.content)}
         editable={false}
+        fitToPage
       />
     </div>
   );

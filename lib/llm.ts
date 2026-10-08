@@ -13,7 +13,7 @@ import {
 } from "./validation";
 import { dashboardSpecSchema, dryRunDashboard, normalizeSpec, type DashboardSpec } from "./dashboardSpec";
 import { buildQuestions1Prompt, PROMPT_VERSION as QUESTIONS1_VERSION } from "./prompts/questions1";
-import { buildProposalPrompt, PROMPT_VERSION as PROPOSAL_VERSION } from "./prompts/proposal";
+import { buildProposalCompactionPrompt, buildProposalPrompt, PROMPT_VERSION as PROPOSAL_VERSION } from "./prompts/proposal";
 import { buildQuestions2Prompt, PROMPT_VERSION as QUESTIONS2_VERSION } from "./prompts/questions2";
 import { buildDashboardPrompt, PROMPT_VERSION as DASHBOARD_VERSION } from "./prompts/dashboard";
 import { buildCoverEmailPrompt, PROMPT_VERSION as COVER_EMAIL_VERSION } from "./prompts/send";
@@ -21,9 +21,10 @@ import { applyDashboardGuardrails, applyProposalGuardrails } from "./guardrails"
 import { logEvent, readEvents } from "./telemetry";
 import { getRecording } from "./demo";
 import { getSettings } from "./settings";
-import type { LLMStep } from "./telemetryEvents";
+import type { LLMStep, ProposalWarningCategory } from "./telemetryEvents";
 import type { ProposalExample } from "./exampleLibrary";
 import type { Locale } from "./i18n";
+import { compactProposalFallback, proposalCompactnessIssues } from "./proposalCompactness";
 
 export class LLMError extends Error {
   constructor(message: string) {
@@ -262,9 +263,9 @@ export async function generateProposal(
     locale?: Locale;
   },
   ctx: LLMContext,
-): Promise<{ content: ProposalContent; warnings: string[] }> {
+): Promise<{ content: ProposalContent; warnings: string[]; warningCategories: ProposalWarningCategory[] }> {
   const { system, user } = buildProposalPrompt(input);
-  const raw = await callLLM<ProposalContent>({
+  let raw = await callLLM<ProposalContent>({
     ctx,
     step: "proposal",
     promptVersion: PROPOSAL_VERSION,
@@ -272,7 +273,35 @@ export async function generateProposal(
     user,
     schema: proposalContentSchema,
   });
-  return applyProposalGuardrails(raw);
+  let issues = proposalCompactnessIssues(raw);
+  // Models count words approximately. Feed the measured violations back on each
+  // bounded retry instead of failing after a single near-miss.
+  for (let attempt = 0; issues.length && attempt < 3; attempt++) {
+    const compact = buildProposalCompactionPrompt(raw, issues, input.locale);
+    try {
+      raw = await callLLM<ProposalContent>({
+      ctx,
+      step: "proposal",
+      promptVersion: PROPOSAL_VERSION,
+      system: compact.system,
+      user: compact.user,
+      schema: proposalContentSchema,
+      });
+    } catch (err) {
+      // An initial valid draft already exists. A failed optional shortening
+      // call must not prevent the consultant from receiving it.
+      if (!(err instanceof LLMError)) throw err;
+      break;
+    }
+    issues = proposalCompactnessIssues(raw);
+  }
+  const usedFallback = issues.length > 0;
+  const result = applyProposalGuardrails(usedFallback ? compactProposalFallback(raw) : raw);
+  if (usedFallback) result.warningCategories.push("length");
+  if (usedFallback) result.warnings.push(input.locale === "nl"
+    ? "Dit concept bevat meer tekst dan het aanbevolen budget. De preview en PDF passen de tekstgrootte aan voor één pagina. Controleer de leesbaarheid voordat je het deelt."
+    : "This draft exceeds the recommended text budget. The preview and PDF adjust text size to fit one page. Check readability before sharing.");
+  return result;
 }
 
 export async function generateDashboardQuestions(

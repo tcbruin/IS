@@ -13,6 +13,7 @@ export const stepKeySchema = z.enum(STEP_KEYS);
 export type StepKey = z.infer<typeof stepKeySchema>;
 
 export type LLMStep = "questions1" | "proposal" | "questions2" | "dashboard" | "coverEmail" | "ping";
+export type ProposalWarningCategory = "pricing" | "length" | "general";
 
 export const RATED_ARTIFACTS = ["questions", "proposal", "dashboard", "email"] as const;
 
@@ -86,6 +87,7 @@ export type ServerEvent =
       withFeedback: boolean;
       commentedSections: string[];
       warnings: number;
+      warningCategories?: ProposalWarningCategory[];
       changedPct?: number;
       changedPctVsAi?: number | null;
     }

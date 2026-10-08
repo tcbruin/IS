@@ -83,7 +83,7 @@
 }
 
 .titleBlock {
-  padding-bottom: 16pt;
+  padding-bottom: 8pt;
 }
 
 .title {
@@ -103,17 +103,17 @@
 .intro {
   padding-bottom: 7pt;
   font-size: var(--intro-pt);
-  line-height: 1.5;
+  line-height: var(--body-lh);
 }
 
 .heading {
   position: relative;
-  padding: 14pt 0 7pt;
+  padding: 7pt 0 4pt;
 }
 
 .headingText {
   margin: 0;
-  padding-bottom: 4pt;
+  padding-bottom: 2pt;
   border-bottom: 0.75pt solid #e6ddd1;
   font-family: var(--font-heading);
   font-weight: 600;
@@ -136,7 +136,7 @@
 }
 
 .para {
-  padding-bottom: 7pt;
+  padding-bottom: 4pt;
 }
 
 .item {
@@ -157,7 +157,7 @@
 
 .phase {
   position: relative;
-  padding: 6pt 0 7pt;
+  padding: 3pt 0 4pt;
 }
 
 .phaseDivider {
@@ -176,7 +176,11 @@
 
 .callout {
   background: #faecd9;
-  padding: 10pt 12pt;
+  padding: 5pt 8pt;
+}
+
+.commentAnchor {
+  position: relative;
 }
 
 .calloutPara + .calloutPara {

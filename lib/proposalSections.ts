@@ -28,6 +28,13 @@ export function getProposalSections(locale: "en" | "nl" = "en") {
   return PROPOSAL_SECTIONS.map((section) => ({
     ...section,
     label: locale === "nl" ? DUTCH_LABELS[section.key] : section.label,
+    heading: section.key === "approach"
+      ? (locale === "nl" ? "Aanpak & op te leveren onderdelen" : "Approach & deliverables")
+      : section.key === "timeline"
+        ? (locale === "nl" ? "Planning & investering" : "Planning & investment")
+        : section.key === "nextSteps"
+          ? (locale === "nl" ? "Volgende stap" : "Next step")
+          : null,
   }));
 }
 
